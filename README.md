@@ -9,6 +9,8 @@ LM StudioのローカルAPIサーバーに対して、品質と速度（TTFT/E2E
 
 ## セットアップ
 
+以下のコマンドはプロジェクトルートで実行してください。
+
 1.  依存ライブラリのインストール:
     ```bash
     pip install -r bench/requirements.txt
