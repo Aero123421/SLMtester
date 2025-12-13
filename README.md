@@ -11,7 +11,9 @@ LM StudioのローカルAPIサーバーに対して、品質と速度（TTFT/E2E
 
 1.  依存ライブラリのインストール:
     ```bash
-    pip install -r bench/requirements.txt -r bench/requirements-dev.txt
+    pip install -r bench/requirements.txt
+    # テストや開発も行う場合は追加で:
+    pip install -r bench/requirements-dev.txt
     ```
 2.  テスト用アセットの生成（初回のみ）:
     ```bash
@@ -47,7 +49,7 @@ python -m bench.main --suite bench/suite.yaml [オプション]
 
 ```bash
 # Web UI起動 (ルートディレクトリで実行)
-uvicorn bench.server:app
+uvicorn bench.server:app --reload
 
 # CLIで全モデルを実行
 python -m bench.main --suite bench/suite.yaml --models ".*"
