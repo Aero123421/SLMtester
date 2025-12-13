@@ -1,0 +1,174 @@
+# ============================================
+# カテゴリ: 自動評価（明示辞書・翻訳/置換）
+# ============================================
+# - 辞書（対応表）をプロンプト内に明示
+# - 出力は1語のみなので自動評価が簡単
+# ============================================
+
+category:
+  id: auto_dictionary
+  name: 自動評価（明示辞書）
+  description: 提示した対応表に従って1語を置換（出力は1語）
+
+cases:
+  - id: adict_token_map_60
+    name: 明示辞書（人工トークン60）
+    description: 対応表に従って置換（1語だけ出力）
+    modality: text
+    weight: 5
+    pass_threshold: 0.95
+    system_prompt: |
+      次の対応表に従って、入力のキーを値に置換して出力せよ。
+      出力は値の1語のみ（説明・引用符・記号は禁止）。
+      対応表:
+        T001->V001
+        T002->V002
+        T003->V003
+        T004->V004
+        T005->V005
+        T006->V006
+        T007->V007
+        T008->V008
+        T009->V009
+        T010->V010
+        T011->V011
+        T012->V012
+        T013->V013
+        T014->V014
+        T015->V015
+        T016->V016
+        T017->V017
+        T018->V018
+        T019->V019
+        T020->V020
+        T021->V021
+        T022->V022
+        T023->V023
+        T024->V024
+        T025->V025
+        T026->V026
+        T027->V027
+        T028->V028
+        T029->V029
+        T030->V030
+        T031->V031
+        T032->V032
+        T033->V033
+        T034->V034
+        T035->V035
+        T036->V036
+        T037->V037
+        T038->V038
+        T039->V039
+        T040->V040
+        T041->V041
+        T042->V042
+        T043->V043
+        T044->V044
+        T045->V045
+        T046->V046
+        T047->V047
+        T048->V048
+        T049->V049
+        T050->V050
+        T051->V051
+        T052->V052
+        T053->V053
+        T054->V054
+        T055->V055
+        T056->V056
+        T057->V057
+        T058->V058
+        T059->V059
+        T060->V060
+    variants:
+      - { prompt: "KEY=T001", evaluation: { type: exact_match, expected: "V001" } }
+      - { prompt: "KEY=T002", evaluation: { type: exact_match, expected: "V002" } }
+      - { prompt: "KEY=T003", evaluation: { type: exact_match, expected: "V003" } }
+      - { prompt: "KEY=T004", evaluation: { type: exact_match, expected: "V004" } }
+      - { prompt: "KEY=T005", evaluation: { type: exact_match, expected: "V005" } }
+      - { prompt: "KEY=T006", evaluation: { type: exact_match, expected: "V006" } }
+      - { prompt: "KEY=T007", evaluation: { type: exact_match, expected: "V007" } }
+      - { prompt: "KEY=T008", evaluation: { type: exact_match, expected: "V008" } }
+      - { prompt: "KEY=T009", evaluation: { type: exact_match, expected: "V009" } }
+      - { prompt: "KEY=T010", evaluation: { type: exact_match, expected: "V010" } }
+      - { prompt: "KEY=T011", evaluation: { type: exact_match, expected: "V011" } }
+      - { prompt: "KEY=T012", evaluation: { type: exact_match, expected: "V012" } }
+      - { prompt: "KEY=T013", evaluation: { type: exact_match, expected: "V013" } }
+      - { prompt: "KEY=T014", evaluation: { type: exact_match, expected: "V014" } }
+      - { prompt: "KEY=T015", evaluation: { type: exact_match, expected: "V015" } }
+      - { prompt: "KEY=T016", evaluation: { type: exact_match, expected: "V016" } }
+      - { prompt: "KEY=T017", evaluation: { type: exact_match, expected: "V017" } }
+      - { prompt: "KEY=T018", evaluation: { type: exact_match, expected: "V018" } }
+      - { prompt: "KEY=T019", evaluation: { type: exact_match, expected: "V019" } }
+      - { prompt: "KEY=T020", evaluation: { type: exact_match, expected: "V020" } }
+      - { prompt: "KEY=T021", evaluation: { type: exact_match, expected: "V021" } }
+      - { prompt: "KEY=T022", evaluation: { type: exact_match, expected: "V022" } }
+      - { prompt: "KEY=T023", evaluation: { type: exact_match, expected: "V023" } }
+      - { prompt: "KEY=T024", evaluation: { type: exact_match, expected: "V024" } }
+      - { prompt: "KEY=T025", evaluation: { type: exact_match, expected: "V025" } }
+      - { prompt: "KEY=T026", evaluation: { type: exact_match, expected: "V026" } }
+      - { prompt: "KEY=T027", evaluation: { type: exact_match, expected: "V027" } }
+      - { prompt: "KEY=T028", evaluation: { type: exact_match, expected: "V028" } }
+      - { prompt: "KEY=T029", evaluation: { type: exact_match, expected: "V029" } }
+      - { prompt: "KEY=T030", evaluation: { type: exact_match, expected: "V030" } }
+      - { prompt: "KEY=T031", evaluation: { type: exact_match, expected: "V031" } }
+      - { prompt: "KEY=T032", evaluation: { type: exact_match, expected: "V032" } }
+      - { prompt: "KEY=T033", evaluation: { type: exact_match, expected: "V033" } }
+      - { prompt: "KEY=T034", evaluation: { type: exact_match, expected: "V034" } }
+      - { prompt: "KEY=T035", evaluation: { type: exact_match, expected: "V035" } }
+      - { prompt: "KEY=T036", evaluation: { type: exact_match, expected: "V036" } }
+      - { prompt: "KEY=T037", evaluation: { type: exact_match, expected: "V037" } }
+      - { prompt: "KEY=T038", evaluation: { type: exact_match, expected: "V038" } }
+      - { prompt: "KEY=T039", evaluation: { type: exact_match, expected: "V039" } }
+      - { prompt: "KEY=T040", evaluation: { type: exact_match, expected: "V040" } }
+      - { prompt: "KEY=T041", evaluation: { type: exact_match, expected: "V041" } }
+      - { prompt: "KEY=T042", evaluation: { type: exact_match, expected: "V042" } }
+      - { prompt: "KEY=T043", evaluation: { type: exact_match, expected: "V043" } }
+      - { prompt: "KEY=T044", evaluation: { type: exact_match, expected: "V044" } }
+      - { prompt: "KEY=T045", evaluation: { type: exact_match, expected: "V045" } }
+      - { prompt: "KEY=T046", evaluation: { type: exact_match, expected: "V046" } }
+      - { prompt: "KEY=T047", evaluation: { type: exact_match, expected: "V047" } }
+      - { prompt: "KEY=T048", evaluation: { type: exact_match, expected: "V048" } }
+      - { prompt: "KEY=T049", evaluation: { type: exact_match, expected: "V049" } }
+      - { prompt: "KEY=T050", evaluation: { type: exact_match, expected: "V050" } }
+      - { prompt: "KEY=T051", evaluation: { type: exact_match, expected: "V051" } }
+      - { prompt: "KEY=T052", evaluation: { type: exact_match, expected: "V052" } }
+      - { prompt: "KEY=T053", evaluation: { type: exact_match, expected: "V053" } }
+      - { prompt: "KEY=T054", evaluation: { type: exact_match, expected: "V054" } }
+      - { prompt: "KEY=T055", evaluation: { type: exact_match, expected: "V055" } }
+      - { prompt: "KEY=T056", evaluation: { type: exact_match, expected: "V056" } }
+      - { prompt: "KEY=T057", evaluation: { type: exact_match, expected: "V057" } }
+      - { prompt: "KEY=T058", evaluation: { type: exact_match, expected: "V058" } }
+      - { prompt: "KEY=T059", evaluation: { type: exact_match, expected: "V059" } }
+      - { prompt: "KEY=T060", evaluation: { type: exact_match, expected: "V060" } }
+
+  - id: adict_ja2en_20
+    name: 日→英（単語20）
+    description: 日本語1語→英語1語（説明なし）
+    modality: text
+    weight: 4
+    pass_threshold: 0.9
+    system_prompt: |
+      英語1語のみを出力。説明・句読点・補足は禁止。小文字で。
+    variants:
+      - { prompt: "英語1語に翻訳: 山", evaluation: { type: regex_fullmatch, pattern: "mountain", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 川", evaluation: { type: regex_fullmatch, pattern: "river", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 本", evaluation: { type: regex_fullmatch, pattern: "book", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 椅子", evaluation: { type: regex_fullmatch, pattern: "chair", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 水", evaluation: { type: regex_fullmatch, pattern: "water", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 火", evaluation: { type: regex_fullmatch, pattern: "fire", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 犬", evaluation: { type: regex_fullmatch, pattern: "dog", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 猫", evaluation: { type: regex_fullmatch, pattern: "cat", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 白", evaluation: { type: regex_fullmatch, pattern: "white", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 空", evaluation: { type: regex_fullmatch, pattern: "sky", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 紫", evaluation: { type: regex_fullmatch, pattern: "purple", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 緑", evaluation: { type: regex_fullmatch, pattern: "green", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 赤", evaluation: { type: regex_fullmatch, pattern: "red", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 雨", evaluation: { type: regex_fullmatch, pattern: "rain", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 雪", evaluation: { type: regex_fullmatch, pattern: "snow", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 青", evaluation: { type: regex_fullmatch, pattern: "blue", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 風", evaluation: { type: regex_fullmatch, pattern: "wind", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 魚", evaluation: { type: regex_fullmatch, pattern: "fish", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 鳥", evaluation: { type: regex_fullmatch, pattern: "bird", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 黒", evaluation: { type: regex_fullmatch, pattern: "black", flags: ["IGNORECASE"] } }

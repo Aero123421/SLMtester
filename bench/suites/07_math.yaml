@@ -1,0 +1,194 @@
+# ============================================
+# カテゴリ: 計算・数学 (Math)
+# ============================================
+# 四則演算、割合計算、文章題など
+# 数学的思考能力を評価
+# 各テストは10問のバリエーションで構成
+# ============================================
+
+category:
+  id: math
+  name: 計算・数学
+  description: 四則演算、割合計算、文章題などの数学能力を評価
+
+cases:
+  # ========================================
+  # テスト1: 四則演算（10問）
+  # ========================================
+  - id: math_arithmetic
+    name: 四則演算
+    description: 基本的な計算を正確に行えるか
+    modality: text
+    weight: 3
+    pass_threshold: 0.8
+    system_prompt: |
+      数値計算の問題です。
+      計算結果の数字のみを回答してください。
+      途中式や説明は不要です。
+    variants:
+      - prompt: "123 + 456 = ?"
+        evaluation:
+          type: numeric
+          expected: 579
+      - prompt: "1000 - 347 = ?"
+        evaluation:
+          type: numeric
+          expected: 653
+      - prompt: "25 × 4 = ?"
+        evaluation:
+          type: numeric
+          expected: 100
+      - prompt: "144 ÷ 12 = ?"
+        evaluation:
+          type: numeric
+          expected: 12
+      - prompt: "17 + 28 + 55 = ?"
+        evaluation:
+          type: numeric
+          expected: 100
+      - prompt: "500 - 123 - 77 = ?"
+        evaluation:
+          type: numeric
+          expected: 300
+      - prompt: "15 × 15 = ?"
+        evaluation:
+          type: numeric
+          expected: 225
+      - prompt: "1000 ÷ 8 = ?"
+        evaluation:
+          type: numeric
+          expected: 125
+      - prompt: "(10 + 5) × 3 = ?"
+        evaluation:
+          type: numeric
+          expected: 45
+      - prompt: "100 - (25 + 35) = ?"
+        evaluation:
+          type: numeric
+          expected: 40
+
+  # ========================================
+  # テスト2: 割合・パーセント（10問）
+  # ========================================
+  - id: math_percentage
+    name: 割合・パーセント計算
+    description: 割合やパーセントの計算を正確に行えるか
+    modality: text
+    weight: 4
+    pass_threshold: 0.8
+    system_prompt: |
+      割合・パーセントに関する問題です。
+      計算結果の数字のみを回答してください。
+    variants:
+      - prompt: "200の20%は？"
+        evaluation:
+          type: numeric
+          expected: 40
+      - prompt: "50は200の何%？"
+        evaluation:
+          type: numeric
+          expected: 25
+      - prompt: "300円の商品を15%割引するといくら？"
+        evaluation:
+          type: numeric
+          expected: 255
+      - prompt: "80点満点のテストで64点を取った。何%？"
+        evaluation:
+          type: numeric
+          expected: 80
+      - prompt: "1000円の10%の消費税を加えると合計いくら？"
+        evaluation:
+          type: numeric
+          expected: 1100
+      - prompt: "120人のうち30人が欠席。出席率は何%？"
+        evaluation:
+          type: numeric
+          expected: 75
+      - prompt: "500円の商品が20%値上げ。新価格は？"
+        evaluation:
+          type: numeric
+          expected: 600
+      - prompt: "400の25%は？"
+        evaluation:
+          type: numeric
+          expected: 100
+      - prompt: "60は何の75%？"
+        evaluation:
+          type: numeric
+          expected: 80
+      - prompt: "1200円を3人で等分。1人いくら？"
+        evaluation:
+          type: numeric
+          expected: 400
+
+  # ========================================
+  # テスト3: 文章題（10問）
+  # ========================================
+  - id: math_word_problem
+    name: 文章題
+    description: 文章から問題を理解し計算できるか
+    modality: text
+    weight: 5
+    pass_threshold: 0.8
+    system_prompt: |
+      文章題です。問題を読んで計算してください。
+      答えの数字のみを回答してください。
+    variants:
+      - prompt: |
+          りんごが5個、みかんが3個あります。
+          合計で何個の果物がありますか？
+        evaluation:
+          type: numeric
+          expected: 8
+      - prompt: |
+          1箱に12個入りのチョコレートが5箱あります。
+          全部で何個ですか？
+        evaluation:
+          type: numeric
+          expected: 60
+      - prompt: |
+          100円のお菓子を3つ買いました。
+          500円払ったらおつりはいくら？
+        evaluation:
+          type: numeric
+          expected: 200
+      - prompt: |
+          時速60kmで2時間走ると何km進みますか？
+        evaluation:
+          type: numeric
+          expected: 120
+      - prompt: |
+          8人で48枚のクッキーを等分します。
+          1人何枚もらえますか？
+        evaluation:
+          type: numeric
+          expected: 6
+      - prompt: |
+          本を1日に20ページ読みます。
+          300ページの本を読み終えるのに何日かかりますか？
+        evaluation:
+          type: numeric
+          expected: 15
+      - prompt: |
+          りんご1個150円、みかん1個80円です。
+          りんご2個とみかん3個でいくらですか？
+        evaluation:
+          type: numeric
+          expected: 540
+      - prompt: |
+          10人乗りのバスに8人乗っています。
+          あと何人乗れますか？
+        evaluation:
+          type: numeric
+          expected: 2
+      - prompt: |
+          1mのリボンを25cmずつ切ります。
+          何本切れますか？
+        evaluation:
+          type: numeric
+          expected: 4
+      - prompt: |
+          80点、70点、90点の3回のテストの平均は？
+        evaluation:
+          type: numeric
+          expected: 80

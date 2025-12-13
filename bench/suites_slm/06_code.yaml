@@ -1,0 +1,116 @@
+# ============================================
+# カテゴリ: コード (Code)
+# ============================================
+# ローカルSLMで扱いやすい短いコード片を中心に
+# ============================================
+
+category:
+  id: code_slm
+  name: コード（SLM）
+  description: 短いコードの理解・変換・出力予測（採点可能）
+
+cases:
+  - id: code_py_output
+    name: Python出力予測
+    description: 小さなPythonコードの出力（1行）
+    modality: text
+    weight: 4
+    pass_threshold: 0.8
+    system_prompt: |
+      出力結果のみを1行で答える（説明禁止）。
+    variants:
+      - prompt: "Python:\nprint(1+2)"
+        evaluation: { type: regex_fullmatch, pattern: "3" }
+      - prompt: "Python:\nprint('a'*3)"
+        evaluation: { type: regex_fullmatch, pattern: "aaa" }
+      - prompt: "Python:\nprint(len([1,2,3]))"
+        evaluation: { type: regex_fullmatch, pattern: "3" }
+      - prompt: "Python:\nprint(sum([1,2,3]))"
+        evaluation: { type: regex_fullmatch, pattern: "6" }
+      - prompt: "Python:\nprint('x'.upper())"
+        evaluation: { type: regex_fullmatch, pattern: "X" }
+      - prompt: "Python:\nprint('ab'.replace('a','z'))"
+        evaluation: { type: regex_fullmatch, pattern: "zb" }
+      - prompt: "Python:\nprint(10//3)"
+        evaluation: { type: regex_fullmatch, pattern: "3" }
+      - prompt: "Python:\nprint(10%3)"
+        evaluation: { type: regex_fullmatch, pattern: "1" }
+
+  - id: code_regex_match
+    name: 正規表現の結果
+    description: 与えられた正規表現がマッチするか（YES/NO）
+    modality: text
+    weight: 4
+    pass_threshold: 0.8
+    system_prompt: |
+      回答は YES または NO の1語のみ。
+    variants:
+      - prompt: '文字列="abc123", 正規表現="^abc\\d+$" はマッチする？'
+        evaluation: { type: regex_fullmatch, pattern: "YES" }
+      - prompt: '文字列="abc", 正規表現="^abc\\d+$" はマッチする？'
+        evaluation: { type: regex_fullmatch, pattern: "NO" }
+      - prompt: '文字列="A1", 正規表現="^[A-Z]\\d$" はマッチする？'
+        evaluation: { type: regex_fullmatch, pattern: "YES" }
+      - prompt: '文字列="AA1", 正規表現="^[A-Z]\\d$" はマッチする？'
+        evaluation: { type: regex_fullmatch, pattern: "NO" }
+      - prompt: '文字列="test@example.com", 正規表現="^\\S+@\\S+\\.\\S+$" はマッチする？'
+        evaluation: { type: regex_fullmatch, pattern: "YES" }
+      - prompt: '文字列="test@", 正規表現="^\\S+@\\S+\\.\\S+$" はマッチする？'
+        evaluation: { type: regex_fullmatch, pattern: "NO" }
+      - prompt: '文字列="2025-12-31", 正規表現="^\\d{4}-\\d{2}-\\d{2}$" はマッチする？'
+        evaluation: { type: regex_fullmatch, pattern: "YES" }
+      - prompt: '文字列="2025/12/31", 正規表現="^\\d{4}-\\d{2}-\\d{2}$" はマッチする？'
+        evaluation: { type: regex_fullmatch, pattern: "NO" }
+
+  - id: code_json_fix
+    name: JSON修正（最小）
+    description: 壊れたJSONを修正してJSONだけ返す
+    modality: text
+    weight: 5
+    pass_threshold: 0.8
+    system_prompt: |
+      壊れたJSONを修正して、JSONだけを出力。説明禁止。
+    variants:
+      - prompt: "修正して: {name:\"a\", age:1}"
+        evaluation: { type: json_parse, must_have_keys: ["name","age"] }
+      - prompt: "修正して: {\"a\":1,}"
+        evaluation: { type: json_parse, must_have_keys: ["a"] }
+      - prompt: "修正して: {'x': 1}"
+        evaluation: { type: json_parse, must_have_keys: ["x"] }
+      - prompt: "修正して: {\"ok\":true \"n\":2}"
+        evaluation: { type: json_parse, must_have_keys: ["ok","n"] }
+      - prompt: "修正して: {\"items\":[1,2,3,]}"
+        evaluation: { type: json_parse, must_have_keys: ["items"] }
+      - prompt: "修正して: {\"nested\":{a:1}}"
+        evaluation: { type: json_parse, must_have_keys: ["nested"] }
+      - prompt: "修正して: [1,2,3,]"
+        evaluation: { type: json_parse }
+      - prompt: "修正して: {\"s\":\"x\"  }"
+        evaluation: { type: json_parse, must_have_keys: ["s"] }
+
+  - id: code_transform
+    name: 変換（関数名→snake_case）
+    description: 指定文字列をsnake_caseにする（1語）
+    modality: text
+    weight: 3
+    pass_threshold: 0.8
+    system_prompt: |
+      変換後の文字列のみを出力（説明禁止）。
+    variants:
+      - prompt: "CamelCase を snake_case に: HelloWorld"
+        evaluation: { type: regex_fullmatch, pattern: "hello_world" }
+      - prompt: "CamelCase を snake_case に: HTTPServer"
+        evaluation: { type: regex_fullmatch, pattern: "http_server" }
+      - prompt: "CamelCase を snake_case に: MyURLParser"
+        evaluation: { type: regex_fullmatch, pattern: "my_url_parser" }
+      - prompt: "CamelCase を snake_case に: SimpleTest"
+        evaluation: { type: regex_fullmatch, pattern: "simple_test" }
+      - prompt: "CamelCase を snake_case に: JSONValue"
+        evaluation: { type: regex_fullmatch, pattern: "json_value" }
+      - prompt: "CamelCase を snake_case に: ParseXML"
+        evaluation: { type: regex_fullmatch, pattern: "parse_xml" }
+      - prompt: "CamelCase を snake_case に: Foo"
+        evaluation: { type: regex_fullmatch, pattern: "foo" }
+      - prompt: "CamelCase を snake_case に: FooBarBaz"
+        evaluation: { type: regex_fullmatch, pattern: "foo_bar_baz" }
+

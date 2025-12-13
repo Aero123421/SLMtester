@@ -1,0 +1,132 @@
+# ============================================
+# カテゴリ: 推論 (Reasoning)
+# ============================================
+# 短い条件からの確実な推論（YES/NO、単語、数字）
+# ============================================
+
+category:
+  id: reasoning
+  name: 推論
+  description: 外部知識に頼らず、与えられた条件だけで正しく推論できるか
+
+cases:
+  - id: rzn_if_then
+    name: 条件推論（if-then）
+    description: 条件文から結論を導く（YES/NO）
+    modality: text
+    weight: 5
+    pass_threshold: 0.8
+    system_prompt: |
+      回答は YES または NO の1語のみ。
+    variants:
+      - prompt: "前提: もし雨なら地面は濡れる。 雨である。 結論: 地面は濡れる。YES/NO?"
+        evaluation: { type: regex_fullmatch, pattern: "YES" }
+      - prompt: "前提: もし雨なら地面は濡れる。 地面が濡れている。 結論: 雨である。YES/NO?"
+        evaluation: { type: regex_fullmatch, pattern: "NO" }
+      - prompt: "前提: もしAならB。 Aでない。 結論: Bでない。YES/NO?"
+        evaluation: { type: regex_fullmatch, pattern: "NO" }
+      - prompt: "前提: もしAならB。 A。 結論: B。YES/NO?"
+        evaluation: { type: regex_fullmatch, pattern: "YES" }
+      - prompt: "前提: もし猫なら動物。 ミケは猫。 結論: ミケは動物。YES/NO?"
+        evaluation: { type: regex_fullmatch, pattern: "YES" }
+      - prompt: "前提: もし学生なら在学。 花子は在学。 結論: 花子は学生。YES/NO?"
+        evaluation: { type: regex_fullmatch, pattern: "NO" }
+      - prompt: "前提: もしXならY。 X。 結論: Y。YES/NO?"
+        evaluation: { type: regex_fullmatch, pattern: "YES" }
+      - prompt: "前提: もしXならY。 Yでない。 結論: Xでない。YES/NO?"
+        evaluation: { type: regex_fullmatch, pattern: "YES" }
+      - prompt: "前提: もしPならQ。 Q。 結論: P。YES/NO?"
+        evaluation: { type: regex_fullmatch, pattern: "NO" }
+      - prompt: "前提: もし赤なら色。 これは赤。 結論: これは色。YES/NO?"
+        evaluation: { type: regex_fullmatch, pattern: "YES" }
+
+  - id: rzn_set_logic
+    name: 集合/包含
+    description: 含意関係の理解（AはBに含まれるか等）
+    modality: text
+    weight: 4
+    pass_threshold: 0.8
+    system_prompt: |
+      回答は TRUE または FALSE の1語のみ。
+    variants:
+      - prompt: "前提: すべてのAはB。 結論: あるAはB。TRUE/FALSE?"
+        evaluation: { type: regex_fullmatch, pattern: "TRUE" }
+      - prompt: "前提: すべてのAはB。 結論: すべてのBはA。TRUE/FALSE?"
+        evaluation: { type: regex_fullmatch, pattern: "FALSE" }
+      - prompt: "前提: すべての犬は動物。 結論: すべての動物は犬。TRUE/FALSE?"
+        evaluation: { type: regex_fullmatch, pattern: "FALSE" }
+      - prompt: "前提: すべての犬は動物。 結論: ある犬は動物。TRUE/FALSE?"
+        evaluation: { type: regex_fullmatch, pattern: "TRUE" }
+      - prompt: "前提: Aの一部はB。 結論: AとBは交わる。TRUE/FALSE?"
+        evaluation: { type: regex_fullmatch, pattern: "TRUE" }
+      - prompt: "前提: AとBは交わらない。 結論: Aの一部はB。TRUE/FALSE?"
+        evaluation: { type: regex_fullmatch, pattern: "FALSE" }
+      - prompt: "前提: あるXはY。 結論: すべてのXはY。TRUE/FALSE?"
+        evaluation: { type: regex_fullmatch, pattern: "FALSE" }
+      - prompt: "前提: すべてのXはY。 結論: あるYはX。TRUE/FALSE?"
+        evaluation: { type: regex_fullmatch, pattern: "TRUE" }
+      - prompt: "前提: すべてのXはY。 結論: XでないならYでない。TRUE/FALSE?"
+        evaluation: { type: regex_fullmatch, pattern: "FALSE" }
+      - prompt: "前提: すべてのXはY。 結論: YでないならXでない。TRUE/FALSE?"
+        evaluation: { type: regex_fullmatch, pattern: "TRUE" }
+
+  - id: rzn_ordering
+    name: 順序推論
+    description: 比較関係（A>B>C）から結論（最大/最小）を出す
+    modality: text
+    weight: 4
+    pass_threshold: 0.8
+    system_prompt: |
+      回答は指定された語のみ（例: A/B/C）。
+    variants:
+      - prompt: "関係: A>B, B>C。最大は？A/B/C"
+        evaluation: { type: regex_fullmatch, pattern: "A" }
+      - prompt: "関係: A<B, B<C。最小は？A/B/C"
+        evaluation: { type: regex_fullmatch, pattern: "A" }
+      - prompt: "関係: X>Y, Y>Z。最小は？X/Y/Z"
+        evaluation: { type: regex_fullmatch, pattern: "Z" }
+      - prompt: "関係: P<Q, Q<R。最大は？P/Q/R"
+        evaluation: { type: regex_fullmatch, pattern: "R" }
+      - prompt: "関係: 1<2, 2<3。最大は？1/2/3"
+        evaluation: { type: regex_fullmatch, pattern: "3" }
+      - prompt: "関係: 赤>青, 青>緑。最小は？赤/青/緑"
+        evaluation: { type: regex_fullmatch, pattern: "緑" }
+      - prompt: "関係: 猫<犬, 犬<象。最小は？猫/犬/象"
+        evaluation: { type: regex_fullmatch, pattern: "猫" }
+      - prompt: "関係: A<C, B<C。最大は？A/B/C"
+        evaluation: { type: regex_fullmatch, pattern: "C" }
+      - prompt: "関係: A>B, A>C。最大は？A/B/C"
+        evaluation: { type: regex_fullmatch, pattern: "A" }
+      - prompt: "関係: B<A, C<A。最大は？A/B/C"
+        evaluation: { type: regex_fullmatch, pattern: "A" }
+
+  - id: rzn_constraint_satisfy
+    name: 制約充足
+    description: 条件を満たす文字列を生成（採点は正規表現）
+    modality: text
+    weight: 5
+    pass_threshold: 0.8
+    system_prompt: |
+      回答は指定条件を満たす文字列を1つだけ返してください。他の文章は禁止。
+    variants:
+      - prompt: "条件: 英小文字3文字 + 数字2桁（例: abc12）。条件を満たす文字列を1つ。"
+        evaluation: { type: regex_fullmatch, pattern: "[a-z]{3}\\d{2}" }
+      - prompt: "条件: 先頭がXで終端がZ、間は数字3桁（例: X123Z）。"
+        evaluation: { type: regex_fullmatch, pattern: "X\\d{3}Z" }
+      - prompt: "条件: 16進2桁（0-9A-F）を1つ（例: 1A）。"
+        evaluation: { type: regex_fullmatch, pattern: "[0-9A-F]{2}" }
+      - prompt: "条件: 'id-' + 数字4桁（例: id-0001）。"
+        evaluation: { type: regex_fullmatch, pattern: "id-\\d{4}" }
+      - prompt: "条件: 'k'で始まり'k'で終わる（長さ3）例: kak。"
+        evaluation: { type: regex_fullmatch, pattern: "k.k" }
+      - prompt: "条件: ひらがな2文字（例: あい）。"
+        evaluation: { type: regex_fullmatch, pattern: "[ぁ-ゖ]{2}" }
+      - prompt: "条件: 先頭がA、続けて大文字2文字、最後に数字1桁（例: ABC3）。"
+        evaluation: { type: regex_fullmatch, pattern: "A[A-Z]{2}\\d" }
+      - prompt: "条件: 3文字の回文（例: aba）。"
+        evaluation: { type: regex_fullmatch, pattern: "([a-z])[a-z]\\1" }
+      - prompt: "条件: 'v' + 数字1桁 + 'v'（例: v7v）。"
+        evaluation: { type: regex_fullmatch, pattern: "v\\dv" }
+      - prompt: "条件: 0または1の2桁（例: 01）。"
+        evaluation: { type: regex_fullmatch, pattern: "[01]{2}" }
+

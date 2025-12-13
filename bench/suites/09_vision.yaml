@@ -1,0 +1,88 @@
+# ============================================
+# カテゴリ: VLMテスト (Vision)
+# ============================================
+# 画像認識能力（OCR、物体カウント）を評価
+# ※ Visionタグを持つモデルのみ実行
+# ============================================
+
+category:
+  id: vision
+  name: VLMテスト
+  description: 画像からのテキスト抽出（OCR）、物体カウントなど視覚認識能力を評価
+
+cases:
+  - id: vision_ocr
+    name: OCR（テキスト読み取り）
+    description: 画像内のテキストを正確に読み取れるか
+    modality: vision
+    endpoint: chat_completions
+    required_tags: ["vision"]
+    weight: 4
+    pass_threshold: 0.8
+    system_prompt: |
+      画像を見て、質問に答えてください。
+      簡潔に回答してください。
+    variants:
+      - prompt: "この画像に書かれているテキストは何ですか？"
+        image_path: "images/ocr_code.png"
+        evaluation:
+          type: contains_any
+          keywords: ["CODE"]
+      - prompt: "画像内の文字を読み取ってください"
+        image_path: "images/ocr_data.png"
+        evaluation:
+          type: contains_any
+          keywords: ["DATA"]
+      - prompt: "何と書いてありますか？"
+        image_path: "images/ocr_test.png"
+        evaluation:
+          type: contains_any
+          keywords: ["TEST"]
+      - prompt: "テキストを抽出してください"
+        image_path: "images/ocr_bench.png"
+        evaluation:
+          type: contains_any
+          keywords: ["BENCH"]
+      - prompt: "書かれている単語は？"
+        image_path: "images/ocr_ai.png"
+        evaluation:
+          type: contains_any
+          keywords: ["AI"]
+
+  - id: vision_count
+    name: 物体カウント
+    description: 画像内のオブジェクトの数を正確に数えられるか
+    modality: vision
+    endpoint: chat_completions
+    required_tags: ["vision"]
+    weight: 4
+    pass_threshold: 0.8
+    system_prompt: |
+      画像内のオブジェクトを数えてください。
+      数字のみを回答してください。
+    variants:
+      - prompt: "りんごはいくつありますか？"
+        image_path: "images/count_apples.png"
+        evaluation:
+          type: numeric
+          expected: 3
+      - prompt: "猫は何匹いますか？"
+        image_path: "images/count_cats.png"
+        evaluation:
+          type: numeric
+          expected: 2
+      - prompt: "本は何冊積まれていますか？"
+        image_path: "images/count_books.png"
+        evaluation:
+          type: numeric
+          expected: 4
+      - prompt: "ペンの本数は？"
+        image_path: "images/count_pens.png"
+        evaluation:
+          type: numeric
+          expected: 5
+      - prompt: "車は何台写っていますか？"
+        image_path: "images/count_car.png"
+        evaluation:
+          type: numeric
+          expected: 1

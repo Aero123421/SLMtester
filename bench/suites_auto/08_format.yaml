@@ -1,0 +1,65 @@
+# ============================================
+# カテゴリ: 自動評価（形式順守・厳密出力）
+# ============================================
+# - 出力形式を厳密に固定し、regex_fullmatch で機械判定
+# ============================================
+
+category:
+  id: auto_format_strict
+  name: 自動評価（形式順守・厳密）
+  description: 単一行CSV、固定JSON、固定テンプレートなど（厳密一致）
+
+cases:
+  - id: aformat_single_token
+    name: 単一トークンのみ
+    description: 出力が1トークンに収まっているか（余計な文字禁止）
+    modality: text
+    weight: 5
+    pass_threshold: 0.95
+    system_prompt: |
+      指定された“答え1つだけ”を出力。改行・説明・引用符は禁止。
+    variants:
+      - { prompt: "答えは 42。42 だけ出力。", evaluation: { type: regex_fullmatch, pattern: "42" } }
+      - { prompt: "答えは YES。YES だけ出力。", evaluation: { type: regex_fullmatch, pattern: "YES" } }
+      - { prompt: "答えは NO。NO だけ出力。", evaluation: { type: regex_fullmatch, pattern: "NO" } }
+      - { prompt: "答えは abcDEF。abcDEF だけ出力。", evaluation: { type: regex_fullmatch, pattern: "abcDEF" } }
+
+  - id: aformat_fixed_csv
+    name: 固定CSV
+    description: 指定の値を指定のCSV形式で（空白なし）
+    modality: text
+    weight: 5
+    pass_threshold: 0.9
+    system_prompt: |
+      形式を厳密に守る。空白なし、1行のみ、説明禁止。
+    variants:
+      - { prompt: "CSVで出力: a=1 b=2 c=3 → \"a,b,c\" の順で値だけ", evaluation: { type: regex_fullmatch, pattern: "1,2,3" } }
+      - { prompt: "CSVで出力: x=10 y=20 → \"y,x\" の順で値だけ", evaluation: { type: regex_fullmatch, pattern: "20,10" } }
+      - { prompt: "CSVで出力: name=alice id=007 → \"name,id\" の順で値だけ", evaluation: { type: regex_fullmatch, pattern: "alice,007" } }
+
+  - id: aformat_fixed_json_two_keys
+    name: 固定JSON（2キー）
+    description: キー順固定、空白なしでJSONを厳密出力
+    modality: text
+    weight: 5
+    pass_threshold: 0.85
+    system_prompt: |
+      1行のJSONだけを出力。空白なし。キー順は指示通り。説明禁止。
+    variants:
+      - { prompt: "JSONで出力: a=1, b=2。キー順は a,b。空白なし。", evaluation: { type: regex_fullmatch, pattern: "\\{\"a\":1,\"b\":2\\}" } }
+      - { prompt: "JSONで出力: ok=true, n=0。キー順は ok,n。空白なし。", evaluation: { type: regex_fullmatch, pattern: "\\{\"ok\":true,\"n\":0\\}" } }
+      - { prompt: "JSONで出力: x=\"hi\", y=\"yo\"。キー順は x,y。空白なし。", evaluation: { type: regex_fullmatch, pattern: "\\{\"x\":\"hi\",\"y\":\"yo\"\\}" } }
+
+  - id: aformat_fixed_template
+    name: 固定テンプレート
+    description: テンプレート通りに1行で出力
+    modality: text
+    weight: 5
+    pass_threshold: 0.9
+    system_prompt: |
+      指定テンプレートに完全一致するように1行で出力。説明禁止。
+    variants:
+      - { prompt: "テンプレ: \"ID=<id>;OK=<ok>\"。id=7 ok=YES で出力。", evaluation: { type: regex_fullmatch, pattern: "ID=7;OK=YES" } }
+      - { prompt: "テンプレ: \"X=<x>|Y=<y>\"。x=10 y=20 で出力。", evaluation: { type: regex_fullmatch, pattern: "X=10\\|Y=20" } }
+      - { prompt: "テンプレ: \"name:<name>#n:<n>\"。name=alice n=3 で出力。", evaluation: { type: regex_fullmatch, pattern: "name:alice#n:3" } }
+

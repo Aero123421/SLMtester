@@ -1,0 +1,173 @@
+# ============================================
+# カテゴリ: 知識・常識 (Knowledge)
+# ============================================
+# 地理、科学、一般常識などの知識を評価
+# 各テストは10問のバリエーションで構成
+# ============================================
+
+category:
+  id: knowledge
+  name: 知識・常識
+  description: 地理、科学、一般常識などの知識を評価
+
+cases:
+  # ========================================
+  # テスト1: 地理知識（10問）
+  # ========================================
+  - id: know_geography
+    name: 地理知識
+    description: 世界・日本の地理に関する基礎知識を持っているか
+    modality: text
+    weight: 3
+    pass_threshold: 0.8
+    system_prompt: |
+      地理に関する質問に簡潔に答えてください。
+      回答は短く、要点のみを答えてください。
+    variants:
+      - prompt: "日本で一番高い山は？"
+        evaluation:
+          type: contains_any
+          keywords: ["富士山", "富士", "ふじさん"]
+      - prompt: "世界で一番長い川は？"
+        evaluation:
+          type: contains_any
+          keywords: ["ナイル", "Nile"]
+      - prompt: "フランスの首都は？"
+        evaluation:
+          type: contains_any
+          keywords: ["パリ", "Paris"]
+      - prompt: "日本で一番大きい湖は？"
+        evaluation:
+          type: contains_any
+          keywords: ["琵琶湖", "びわ湖", "ビワ湖"]
+      - prompt: "エベレストがある山脈は？"
+        evaluation:
+          type: contains_any
+          keywords: ["ヒマラヤ", "Himalaya"]
+      - prompt: "アメリカ合衆国の首都は？"
+        evaluation:
+          type: contains_any
+          keywords: ["ワシントン", "Washington"]
+      - prompt: "日本で一番面積が大きい都道府県は？"
+        evaluation:
+          type: contains_any
+          keywords: ["北海道"]
+      - prompt: "世界で一番面積が大きい国は？"
+        evaluation:
+          type: contains_any
+          keywords: ["ロシア", "Russia"]
+      - prompt: "太平洋側に面していない日本の都道府県を1つ挙げてください"
+        evaluation:
+          type: contains_any
+          keywords: ["埼玉", "群馬", "栃木", "長野", "岐阜", "滋賀", "奈良"]
+      - prompt: "オーストラリアの首都は？"
+        evaluation:
+          type: contains_any
+          keywords: ["キャンベラ", "Canberra"]
+
+  # ========================================
+  # テスト2: 科学知識（10問）
+  # ========================================
+  - id: know_science
+    name: 科学知識
+    description: 基礎的な科学に関する知識を持っているか
+    modality: text
+    weight: 4
+    pass_threshold: 0.8
+    system_prompt: |
+      科学に関する質問に簡潔に答えてください。
+    variants:
+      - prompt: "水の化学式は？"
+        evaluation:
+          type: contains_any
+          keywords: ["H2O", "H₂O"]
+      - prompt: "光の速度は秒速約何km？"
+        evaluation:
+          type: contains_any
+          keywords: ["30万", "300000", "3×10^8", "3x10^8"]
+      - prompt: "元素記号「Fe」は何の元素？"
+        evaluation:
+          type: contains_any
+          keywords: ["鉄", "Iron"]
+      - prompt: "地球から太陽までの距離は約何km？"
+        evaluation:
+          type: contains_any
+          keywords: ["1億5000万", "1.5億", "150000000"]
+      - prompt: "DNAの正式名称は？"
+        evaluation:
+          type: contains_any
+          keywords: ["デオキシリボ核酸", "deoxyribonucleic"]
+      - prompt: "絶対零度は摂氏何度？"
+        evaluation:
+          type: contains_any
+          keywords: ["-273", "マイナス273"]
+      - prompt: "地球の衛星は？"
+        evaluation:
+          type: contains_any
+          keywords: ["月"]
+      - prompt: "酸素の元素記号は？"
+        evaluation:
+          type: exact_match
+          expected: "O"
+          alternatives: ["O", "o"]
+      - prompt: "太陽系で最も大きい惑星は？"
+        evaluation:
+          type: contains_any
+          keywords: ["木星", "Jupiter"]
+      - prompt: "音は何を伝わるか？"
+        evaluation:
+          type: contains_any
+          keywords: ["空気", "媒質", "振動", "波"]
+
+  # ========================================
+  # テスト3: 一般常識（10問）
+  # ========================================
+  - id: know_common
+    name: 一般常識
+    description: 社会・文化に関する一般常識を持っているか
+    modality: text
+    weight: 3
+    pass_threshold: 0.8
+    system_prompt: |
+      一般常識に関する質問に簡潔に答えてください。
+    variants:
+      - prompt: "うるう年が4年に1度ある理由は？"
+        evaluation:
+          type: contains_any
+          keywords: ["365.25", "365日と6時間", "1年", "地球の公転"]
+      - prompt: "一週間が7日である理由として有力な説は？"
+        evaluation:
+          type: contains_any
+          keywords: ["天体", "惑星", "古代", "宗教", "聖書"]
+      - prompt: "オリンピックは何年ごとに開催される？"
+        evaluation:
+          type: contains_any
+          keywords: ["4年", "四年"]
+      - prompt: "日本の国歌は？"
+        evaluation:
+          type: contains_any
+          keywords: ["君が代"]
+      - prompt: "ノーベル賞を創設した人物は？"
+        evaluation:
+          type: contains_any
+          keywords: ["ノーベル", "Nobel", "アルフレッド"]
+      - prompt: "「万有引力の法則」を発見した科学者は？"
+        evaluation:
+          type: contains_any
+          keywords: ["ニュートン", "Newton"]
+      - prompt: "日本の現在の元号は？"
+        evaluation:
+          type: contains_any
+          keywords: ["令和"]
+      - prompt: "「ピカソ」は何世紀の芸術家？"
+        evaluation:
+          type: contains_any
+          keywords: ["20世紀", "19世紀", "二十世紀"]
+      - prompt: "インターネットのWWWは何の略？"
+        evaluation:
+          type: contains_any
+          keywords: ["World Wide Web", "ワールドワイドウェブ"]
+      - prompt: "日本の通貨単位は？"
+        evaluation:
+          type: contains_any
+          keywords: ["円", "Yen"]

@@ -1,0 +1,35 @@
+# ============================================
+# ローカルSLM最適化ベンチマーク スイート v1
+# ============================================
+# ねらい:
+# - ローカルSLMでも「採点可能」かつ「再現性が高い」テストを増やす
+# - 外部知識依存を避け、形式順守/抽出/分類/推論/コード/計算を重視
+# - 不明時の適切な不確実性表明（ハルシネ抑制）も評価
+# ============================================
+
+meta:
+  base_url: "http://localhost:1234/v1"
+  runs: 1
+  warmup: 0
+  timeout_sec: 90
+  default_params:
+    temperature: 0
+    max_tokens: 512
+    stream: true
+
+models:
+  include: ["*"]
+  exclude: []
+
+includes:
+  - suites_slm/01_format.yaml
+  - suites_slm/02_extraction.yaml
+  - suites_slm/03_classification.yaml
+  - suites_slm/04_reasoning.yaml
+  - suites_slm/05_summarization.yaml
+  - suites_slm/06_code.yaml
+  - suites_slm/07_math.yaml
+  - suites_slm/08_calibration.yaml
+  - suites_slm/09_safety.yaml
+  - suites/09_vision.yaml
+

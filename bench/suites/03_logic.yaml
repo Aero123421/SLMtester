@@ -1,0 +1,223 @@
+# ============================================
+# カテゴリ: 論理的推論 (Logical Reasoning)
+# ============================================
+# 対偶、三段論法、数列パターン認識など
+# 論理的思考能力を評価
+# 各テストは10問のバリエーションで構成
+# ============================================
+
+category:
+  id: logic
+  name: 論理的推論
+  description: 対偶、三段論法、パターン認識などの論理的思考を評価
+
+cases:
+  # ========================================
+  # テスト1: 対偶の理解（10問）
+  # ========================================
+  - id: logic_contrapositive
+    name: 対偶の理解
+    description: 命題の対偶を正しく理解し適用できるか
+    modality: text
+    weight: 4
+    pass_threshold: 0.8
+    system_prompt: |
+      論理学の対偶に関する問題です。
+      「AならばB」の対偶は「BでないならばAでない」です。
+      与えられた命題から正しく推論してください。
+    variants:
+      - prompt: |
+          命題「雨が降れば地面が濡れる」が真のとき、
+          「地面が濡れていない」場合、何が言えますか？
+        evaluation:
+          type: contains_any
+          keywords: ["雨が降っていない", "雨は降らなかった", "降っていない"]
+      - prompt: |
+          命題「学生なら図書館が使える」が真のとき、
+          「図書館が使えない」場合、何が言えますか？
+        evaluation:
+          type: contains_any
+          keywords: ["学生ではない", "学生でない"]
+      - prompt: |
+          命題「犬ならば哺乳類」が真のとき、
+          「哺乳類でない」場合、何が言えますか？
+        evaluation:
+          type: contains_any
+          keywords: ["犬ではない", "犬でない"]
+      - prompt: |
+          命題「試験に合格したなら卒業できる」が真のとき、
+          「卒業できなかった」場合、何が言えますか？
+        evaluation:
+          type: contains_any
+          keywords: ["合格していない", "合格しなかった", "不合格"]
+      - prompt: |
+          命題「努力すれば成功する」の対偶を述べてください。
+        evaluation:
+          type: contains_any
+          keywords: ["成功しないなら努力していない", "成功しなければ努力していない"]
+      - prompt: |
+          命題「正直者は信頼される」が真のとき、
+          「信頼されていない」場合、何が言えますか？
+        evaluation:
+          type: contains_any
+          keywords: ["正直者ではない", "正直でない"]
+      - prompt: |
+          命題「運動すれば健康になる」の対偶を述べてください。
+        evaluation:
+          type: contains_any
+          keywords: ["健康でないなら運動していない", "健康でなければ運動していない"]
+      - prompt: |
+          命題「メンバーならば入場無料」が真のとき、
+          「入場料を払った」場合、何が言えますか？
+        evaluation:
+          type: contains_any
+          keywords: ["メンバーではない", "メンバーでない"]
+      - prompt: |
+          命題「18歳以上なら投票できる」が真のとき、
+          「投票できない」場合、何が言えますか？
+        evaluation:
+          type: contains_any
+          keywords: ["18歳未満", "18歳以上ではない"]
+      - prompt: |
+          命題「日本人なら箸が使える」の対偶は？
+        evaluation:
+          type: contains_any
+          keywords: ["箸が使えないなら日本人ではない", "箸が使えなければ日本人ではない"]
+
+  # ========================================
+  # テスト2: 三段論法（10問）
+  # ========================================
+  - id: logic_syllogism
+    name: 三段論法
+    description: 複数の前提から正しい結論を導けるか
+    modality: text
+    weight: 5
+    pass_threshold: 0.8
+    system_prompt: |
+      三段論法の問題です。
+      与えられた前提から論理的に導ける結論を答えてください。
+    variants:
+      - prompt: |
+          前提1：すべての人間は死ぬ
+          前提2：ソクラテスは人間である
+          結論は？
+        evaluation:
+          type: contains_any
+          keywords: ["ソクラテスは死ぬ", "ソクラテスも死ぬ"]
+      - prompt: |
+          前提1：すべての鳥は飛べる
+          前提2：ペンギンは鳥である
+          この論法は正しいですか？
+        evaluation:
+          type: contains_any
+          keywords: ["正しくない", "誤り", "間違い", "誤っている", "ペンギンは飛べない"]
+      - prompt: |
+          前提1：すべてのAはBである
+          前提2：すべてのBはCである
+          結論は？
+        evaluation:
+          type: contains_any
+          keywords: ["AはCである", "すべてのAはC"]
+      - prompt: |
+          前提1：すべての医者は大学を卒業している
+          前提2：田中さんは医者である
+          結論は？
+        evaluation:
+          type: contains_any
+          keywords: ["田中さんは大学を卒業", "大学卒業"]
+      - prompt: |
+          前提1：すべての哺乳類は温血動物である
+          前提2：すべての犬は哺乳類である
+          結論は？
+        evaluation:
+          type: contains_any
+          keywords: ["犬は温血動物", "すべての犬は温血動物"]
+      - prompt: |
+          前提1：すべての日本人は日本語を話す
+          前提2：彼は日本人である
+          結論は？
+        evaluation:
+          type: contains_any
+          keywords: ["彼は日本語を話す", "日本語を話せる"]
+      - prompt: |
+          前提1：すべての正方形は長方形である
+          前提2：すべての長方形は四角形である
+          結論は？
+        evaluation:
+          type: contains_any
+          keywords: ["正方形は四角形", "すべての正方形は四角形"]
+      - prompt: |
+          前提1：すべての魚は水中で呼吸する
+          前提2：鯛は魚である
+          結論は？
+        evaluation:
+          type: contains_any
+          keywords: ["鯛は水中で呼吸", "呼吸する"]
+      - prompt: |
+          前提1：一部の学生は優等生である
+          前提2：すべての優等生は勤勉である
+          結論は？
+        evaluation:
+          type: contains_any
+          keywords: ["一部の学生は勤勉", "学生は勤勉"]
+      - prompt: |
+          前提1：すべての弁護士は法律を学んだ
+          前提2：彼女は弁護士である
+          結論は？
+        evaluation:
+          type: contains_any
+          keywords: ["彼女は法律を学んだ", "法律を学んでいる"]
+
+  # ========================================
+  # テスト3: 数列パターン認識（10問）
+  # ========================================
+  - id: logic_pattern
+    name: 数列パターン認識
+    description: 数列のパターンを認識し次の数を予測できるか
+    modality: text
+    weight: 4
+    pass_threshold: 0.8
+    system_prompt: |
+      数列のパターンを見つけて、次に来る数を答えてください。
+      回答は数字のみを出力してください。
+    variants:
+      - prompt: "2, 4, 6, 8, ? 次の数は？"
+        evaluation:
+          type: numeric
+          expected: 10
+      - prompt: "1, 4, 9, 16, 25, ? 次の数は？"
+        evaluation:
+          type: numeric
+          expected: 36
+      - prompt: "1, 1, 2, 3, 5, 8, ? 次の数は？"
+        evaluation:
+          type: numeric
+          expected: 13
+      - prompt: "3, 6, 12, 24, ? 次の数は？"
+        evaluation:
+          type: numeric
+          expected: 48
+      - prompt: "1, 3, 5, 7, 9, ? 次の数は？"
+        evaluation:
+          type: numeric
+          expected: 11
+      - prompt: "2, 3, 5, 7, 11, ? 次の数は？"
+        evaluation:
+          type: numeric
+          expected: 13
+      - prompt: "1, 2, 4, 7, 11, ? 次の数は？"
+        evaluation:
+          type: numeric
+          expected: 16
+      - prompt: "100, 90, 81, 73, 66, ? 次の数は？"
+        evaluation:
+          type: numeric
+          expected: 60
+      - prompt: "0, 1, 4, 9, 16, ? 次の数は？"
+        evaluation:
+          type: numeric
+          expected: 25
+      - prompt: "1, 8, 27, 64, ? 次の数は？"
+        evaluation:
+          type: numeric
+          expected: 125

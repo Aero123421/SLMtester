@@ -1,0 +1,94 @@
+# ============================================
+# カテゴリ: 要約/整形 (Summarization)
+# ============================================
+# 文字数厳密は難しいため、構造と必須要素で採点
+# ============================================
+
+category:
+  id: summarization
+  name: 要約・整形
+  description: 指定構造で要点をまとめられるか（採点可能な制約付き）
+
+cases:
+  - id: sum_three_bullets
+    name: 3点要約（箇条書き）
+    description: 必須語を含む3行の箇条書きで要約
+    modality: text
+    weight: 4
+    pass_threshold: 0.8
+    system_prompt: |
+      回答は次の形式のみ:
+      - ...
+      - ...
+      - ...
+      3行固定。余計な文章禁止。
+    variants:
+      - prompt: "文: プロジェクトAは遅延。原因は要件変更。対策は優先度見直し。"
+        evaluation: { type: contains_all, normalize: loose, keywords: ["-","遅延","要件","優先"] }
+      - prompt: "文: 目的は品質改善。手段は自動テスト。期限は来週。"
+        evaluation: { type: contains_all, normalize: loose, keywords: ["-","品質","自動","来週"] }
+      - prompt: "文: 変更点はUI刷新。理由は可読性。影響は学習コスト。"
+        evaluation: { type: contains_all, normalize: loose, keywords: ["-","UI","可読","影響"] }
+      - prompt: "文: 障害発生。原因はDB接続。対応は再起動。"
+        evaluation: { type: contains_all, normalize: loose, keywords: ["-","障害","DB","再起動"] }
+      - prompt: "文: 施策はキャッシュ導入。狙いは高速化。注意は整合性。"
+        evaluation: { type: contains_all, normalize: loose, keywords: ["-","キャッシュ","高速","整合"] }
+      - prompt: "文: 会議は延期。理由は参加者不足。次回は金曜。"
+        evaluation: { type: contains_all, normalize: loose, keywords: ["-","延期","参加","金曜"] }
+      - prompt: "文: リリースは成功。課題は監視。次はアラート改善。"
+        evaluation: { type: contains_all, normalize: loose, keywords: ["-","成功","監視","アラート"] }
+      - prompt: "文: 新機能は検索。要望は速度。対応はインデックス。"
+        evaluation: { type: contains_all, normalize: loose, keywords: ["-","検索","速度","インデックス"] }
+
+  - id: sum_action_items_json
+    name: アクション抽出（JSON）
+    description: 文から action_items をJSONで抽出
+    modality: text
+    weight: 5
+    pass_threshold: 0.8
+    system_prompt: |
+      JSONで返してください。キーは action_items（配列）。
+    variants:
+      - prompt: "議事: 1) テスト追加 2) UI改善 3) README更新"
+        evaluation: { type: json_parse, must_have_keys: ["action_items"] }
+      - prompt: "議事: バグ修正、リファクタ、ベンチ追加"
+        evaluation: { type: json_parse, must_have_keys: ["action_items"] }
+      - prompt: "議事: 速度計測を追加。スイートを整理。"
+        evaluation: { type: json_parse, must_have_keys: ["action_items"] }
+      - prompt: "議事: 依存更新、テスト安定化、UI見直し"
+        evaluation: { type: json_parse, must_have_keys: ["action_items"] }
+      - prompt: "議事: ログ改善、キャンセル対応、表示整理"
+        evaluation: { type: json_parse, must_have_keys: ["action_items"] }
+      - prompt: "議事: エラー分類、レポート改善、検索改善"
+        evaluation: { type: json_parse, must_have_keys: ["action_items"] }
+      - prompt: "議事: 追加データ作成、ケース増量、重複排除"
+        evaluation: { type: json_parse, must_have_keys: ["action_items"] }
+      - prompt: "議事: 仕様明確化、採点厳密化、カテゴリ再編"
+        evaluation: { type: json_parse, must_have_keys: ["action_items"] }
+
+  - id: sum_rewrite_style
+    name: 文章整形（敬体→常体）
+    description: 指定スタイルに変換（含む/含まないで採点）
+    modality: text
+    weight: 3
+    pass_threshold: 0.8
+    system_prompt: |
+      常体（だ・である）に統一して書き直す。内容は変えない。
+    variants:
+      - prompt: "文: これは重要です。確認してください。"
+        evaluation: { type: contains_all, normalize: loose, keywords: ["重要","確認"] }
+      - prompt: "文: 問題が発生しました。対応します。"
+        evaluation: { type: contains_all, normalize: loose, keywords: ["問題","対応"] }
+      - prompt: "文: 仕様を更新しました。共有します。"
+        evaluation: { type: contains_all, normalize: loose, keywords: ["仕様","更新","共有"] }
+      - prompt: "文: 明日までに提出してください。"
+        evaluation: { type: contains_all, normalize: loose, keywords: ["明日","提出"] }
+      - prompt: "文: 変更はありません。"
+        evaluation: { type: contains_all, normalize: loose, keywords: ["変更","ない"] }
+      - prompt: "文: 結果を報告します。"
+        evaluation: { type: contains_all, normalize: loose, keywords: ["結果","報告"] }
+      - prompt: "文: 資料を確認しました。"
+        evaluation: { type: contains_all, normalize: loose, keywords: ["資料","確認"] }
+      - prompt: "文: 予定を変更しました。"
+        evaluation: { type: contains_all, normalize: loose, keywords: ["予定","変更"] }
+

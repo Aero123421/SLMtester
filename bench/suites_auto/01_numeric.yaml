@@ -1,0 +1,174 @@
+# ============================================
+# カテゴリ: 自動評価（数値のみ）
+# ============================================
+# - 数字のみ出力（単位/説明は禁止）
+# - 範囲や誤差を明示して自動評価しやすくする
+# ============================================
+
+category:
+  id: auto_numeric
+  name: 自動評価（数値のみ）
+  description: 四則演算、割合、基数変換、丸めなど（数字のみ出力）
+
+cases:
+  - id: anum_arithmetic_add_sub
+    name: 四則演算（加減）
+    description: 足し算・引き算（負数あり）
+    modality: text
+    weight: 4
+    pass_threshold: 0.95
+    system_prompt: |
+      数字のみを回答。説明・単位・記号は禁止。
+    variants:
+      - { prompt: "37+58=?", evaluation: { type: numeric, expected: 95 } }
+      - { prompt: "120-45=?", evaluation: { type: numeric, expected: 75 } }
+      - { prompt: "999-1000=?", evaluation: { type: numeric, expected: -1 } }
+      - { prompt: "-12+5=?", evaluation: { type: numeric, expected: -7 } }
+      - { prompt: "-12-5=?", evaluation: { type: numeric, expected: -17 } }
+      - { prompt: "10000-1=?", evaluation: { type: numeric, expected: 9999 } }
+      - { prompt: "250+750=?", evaluation: { type: numeric, expected: 1000 } }
+      - { prompt: "6+(-9)=?", evaluation: { type: numeric, expected: -3 } }
+      - { prompt: "0-0=?", evaluation: { type: numeric, expected: 0 } }
+      - { prompt: "1-2-3=?", evaluation: { type: numeric, expected: -4 } }
+      - { prompt: "(50-20)+7=?", evaluation: { type: numeric, expected: 37 } }
+      - { prompt: "(10+20)-40=?", evaluation: { type: numeric, expected: -10 } }
+      - { prompt: "(-5)+(-8)=?", evaluation: { type: numeric, expected: -13 } }
+      - { prompt: "1234+4321=?", evaluation: { type: numeric, expected: 5555 } }
+      - { prompt: "8080-909=?", evaluation: { type: numeric, expected: 7171 } }
+      - { prompt: "7+7+7+7=?", evaluation: { type: numeric, expected: 28 } }
+      - { prompt: "500-250-125=?", evaluation: { type: numeric, expected: 125 } }
+      - { prompt: "-100+250=?", evaluation: { type: numeric, expected: 150 } }
+      - { prompt: "3-(10)=?", evaluation: { type: numeric, expected: -7 } }
+      - { prompt: "2000-(1999)=?", evaluation: { type: numeric, expected: 1 } }
+
+  - id: anum_arithmetic_mul_div
+    name: 四則演算（乗除）
+    description: 掛け算・割り算（割り切れる）
+    modality: text
+    weight: 4
+    pass_threshold: 0.95
+    system_prompt: |
+      数字のみを回答。説明・単位は禁止。
+    variants:
+      - { prompt: "12*12=?", evaluation: { type: numeric, expected: 144 } }
+      - { prompt: "25*4=?", evaluation: { type: numeric, expected: 100 } }
+      - { prompt: "7*9=?", evaluation: { type: numeric, expected: 63 } }
+      - { prompt: "-8*6=?", evaluation: { type: numeric, expected: -48 } }
+      - { prompt: "-8*(-6)=?", evaluation: { type: numeric, expected: 48 } }
+      - { prompt: "144/12=?", evaluation: { type: numeric, expected: 12 } }
+      - { prompt: "81/9=?", evaluation: { type: numeric, expected: 9 } }
+      - { prompt: "100/25=?", evaluation: { type: numeric, expected: 4 } }
+      - { prompt: "0/7=?", evaluation: { type: numeric, expected: 0 } }
+      - { prompt: "72/(8)=?", evaluation: { type: numeric, expected: 9 } }
+      - { prompt: "(6*7)+1=?", evaluation: { type: numeric, expected: 43 } }
+      - { prompt: "9*(10-3)=?", evaluation: { type: numeric, expected: 63 } }
+      - { prompt: "(100/5)/4=?", evaluation: { type: numeric, expected: 5 } }
+      - { prompt: "100/(2*5)=?", evaluation: { type: numeric, expected: 10 } }
+      - { prompt: "18*0=?", evaluation: { type: numeric, expected: 0 } }
+      - { prompt: "50*(-2)=?", evaluation: { type: numeric, expected: -100 } }
+      - { prompt: "360/9=?", evaluation: { type: numeric, expected: 40 } }
+      - { prompt: "48/3/4=?", evaluation: { type: numeric, expected: 4 } }
+      - { prompt: "11*11=?", evaluation: { type: numeric, expected: 121 } }
+      - { prompt: "96/12=?", evaluation: { type: numeric, expected: 8 } }
+
+  - id: anum_parentheses_mix
+    name: 括弧つき計算
+    description: 括弧と優先順位（答えは整数）
+    modality: text
+    weight: 5
+    pass_threshold: 0.9
+    system_prompt: |
+      数字のみを回答。途中式や説明は禁止。
+    variants:
+      - { prompt: "(10+5)*3=?", evaluation: { type: numeric, expected: 45 } }
+      - { prompt: "10+(5*3)=?", evaluation: { type: numeric, expected: 25 } }
+      - { prompt: "(100-40)/(2)=?", evaluation: { type: numeric, expected: 30 } }
+      - { prompt: "(8-3)*(7-2)=?", evaluation: { type: numeric, expected: 25 } }
+      - { prompt: "2*(3*(4*(5)))=?", evaluation: { type: numeric, expected: 120 } }
+      - { prompt: "(50-(5*6))+1=?", evaluation: { type: numeric, expected: 21 } }
+      - { prompt: "((9+1)/5)*10=?", evaluation: { type: numeric, expected: 20 } }
+      - { prompt: "(7*7)-(6*6)=?", evaluation: { type: numeric, expected: 13 } }
+      - { prompt: "(3+4+5)*(2)=?", evaluation: { type: numeric, expected: 24 } }
+      - { prompt: "100-(10*(3+2))=?", evaluation: { type: numeric, expected: 50 } }
+      - { prompt: "((20-8)/3)*6=?", evaluation: { type: numeric, expected: 24 } }
+      - { prompt: "(12/3)+(12/4)=?", evaluation: { type: numeric, expected: 7 } }
+      - { prompt: "(6*(6-1))-(5*5)=?", evaluation: { type: numeric, expected: 5 } }
+      - { prompt: "((2+3)*(4+1))=?", evaluation: { type: numeric, expected: 25 } }
+      - { prompt: "((100/4)-5)*2=?", evaluation: { type: numeric, expected: 40 } }
+
+  - id: anum_decimal_round
+    name: 小数・丸め
+    description: 小数計算と丸め（指定桁）
+    modality: text
+    weight: 5
+    pass_threshold: 0.9
+    system_prompt: |
+      指示された形式で数字のみ出力。説明は禁止。
+    variants:
+      - { prompt: "0.5+0.25=?", evaluation: { type: numeric, expected: 0.75, tolerance: 0.0001 } }
+      - { prompt: "3.2*10=?", evaluation: { type: numeric, expected: 32, tolerance: 0.0001 } }
+      - { prompt: "10/8=?（小数で）", evaluation: { type: numeric, expected: 1.25, tolerance: 0.0001 } }
+      - { prompt: "1/4=?（小数で）", evaluation: { type: numeric, expected: 0.25, tolerance: 0.0001 } }
+      - { prompt: "2.5+2.05=?", evaluation: { type: numeric, expected: 4.55, tolerance: 0.0001 } }
+      - { prompt: "0.1+0.2=?", evaluation: { type: numeric, expected: 0.3, tolerance: 0.0001 } }
+      - { prompt: "丸め: 3.14159 を小数第2位で四捨五入して（例: 3.14）", evaluation: { type: numeric, expected: 3.14, tolerance: 0.0001 } }
+      - { prompt: "丸め: 1.995 を小数第2位で四捨五入して", evaluation: { type: numeric, expected: 2.0, tolerance: 0.0001 } }
+      - { prompt: "丸め: 9.999 を小数第1位で四捨五入して", evaluation: { type: numeric, expected: 10.0, tolerance: 0.0001 } }
+      - { prompt: "丸め: 12.345 を小数第1位で四捨五入して", evaluation: { type: numeric, expected: 12.3, tolerance: 0.0001 } }
+      - { prompt: "7.5-2.25=?", evaluation: { type: numeric, expected: 5.25, tolerance: 0.0001 } }
+      - { prompt: "6.6/3=?", evaluation: { type: numeric, expected: 2.2, tolerance: 0.0001 } }
+      - { prompt: "0.04*25=?", evaluation: { type: numeric, expected: 1.0, tolerance: 0.0001 } }
+      - { prompt: "2.25*4=?", evaluation: { type: numeric, expected: 9.0, tolerance: 0.0001 } }
+      - { prompt: "0.125*8=?", evaluation: { type: numeric, expected: 1.0, tolerance: 0.0001 } }
+
+  - id: anum_percent_tax_discount
+    name: 割合（税/割引）
+    description: 税・割引など（整数になるよう設計）
+    modality: text
+    weight: 5
+    pass_threshold: 0.9
+    system_prompt: |
+      数字のみを回答（%や円は付けない）。説明は禁止。
+    variants:
+      - { prompt: "200の20%は？", evaluation: { type: numeric, expected: 40 } }
+      - { prompt: "400の12.5%は？", evaluation: { type: numeric, expected: 50 } }
+      - { prompt: "1000円に10%の税を加えると？", evaluation: { type: numeric, expected: 1100 } }
+      - { prompt: "300円を15%割引すると？", evaluation: { type: numeric, expected: 255 } }
+      - { prompt: "500円が20%値上げ。新価格は？", evaluation: { type: numeric, expected: 600 } }
+      - { prompt: "800円を25%割引。価格は？", evaluation: { type: numeric, expected: 600 } }
+      - { prompt: "1200円に8%の税。合計は？", evaluation: { type: numeric, expected: 1296 } }
+      - { prompt: "640は80の何倍？", evaluation: { type: numeric, expected: 8 } }
+      - { prompt: "80点満点で64点は何%？", evaluation: { type: numeric, expected: 80 } }
+      - { prompt: "120人中30人欠席。出席率(%)は？", evaluation: { type: numeric, expected: 75 } }
+      - { prompt: "100の0.5%は？", evaluation: { type: numeric, expected: 0.5, tolerance: 0.0001 } }
+      - { prompt: "250の4%は？", evaluation: { type: numeric, expected: 10 } }
+      - { prompt: "900円に11%の税。合計は？", evaluation: { type: numeric, expected: 999 } }
+      - { prompt: "1000円を30%割引。価格は？", evaluation: { type: numeric, expected: 700 } }
+      - { prompt: "600円を50%割引。価格は？", evaluation: { type: numeric, expected: 300 } }
+
+  - id: anum_base_convert
+    name: 基数変換（2/16進）
+    description: 10進→2進/16進（プレフィックス無し、英小文字）
+    modality: text
+    weight: 5
+    pass_threshold: 0.9
+    system_prompt: |
+      指定の形式で“答えだけ”を出力。説明禁止。
+      - 2進数: 0と1のみ
+      - 16進数: 0-9a-f（小文字）、0xは付けない
+    variants:
+      - { prompt: "10進数 5 を2進数で", evaluation: { type: regex_fullmatch, pattern: "101" } }
+      - { prompt: "10進数 8 を2進数で", evaluation: { type: regex_fullmatch, pattern: "1000" } }
+      - { prompt: "10進数 10 を2進数で", evaluation: { type: regex_fullmatch, pattern: "1010" } }
+      - { prompt: "10進数 15 を2進数で", evaluation: { type: regex_fullmatch, pattern: "1111" } }
+      - { prompt: "10進数 16 を2進数で", evaluation: { type: regex_fullmatch, pattern: "10000" } }
+      - { prompt: "10進数 31 を2進数で", evaluation: { type: regex_fullmatch, pattern: "11111" } }
+      - { prompt: "10進数 32 を2進数で", evaluation: { type: regex_fullmatch, pattern: "100000" } }
+      - { prompt: "10進数 64 を2進数で", evaluation: { type: regex_fullmatch, pattern: "1000000" } }
+      - { prompt: "10進数 255 を16進数で", evaluation: { type: regex_fullmatch, pattern: "ff" } }
+      - { prompt: "10進数 16 を16進数で", evaluation: { type: regex_fullmatch, pattern: "10" } }
+      - { prompt: "10進数 26 を16進数で", evaluation: { type: regex_fullmatch, pattern: "1a" } }
+      - { prompt: "10進数 42 を16進数で", evaluation: { type: regex_fullmatch, pattern: "2a" } }
+      - { prompt: "10進数 128 を16進数で", evaluation: { type: regex_fullmatch, pattern: "80" } }
+      - { prompt: "10進数 4095 を16進数で", evaluation: { type: regex_fullmatch, pattern: "fff" } }
+

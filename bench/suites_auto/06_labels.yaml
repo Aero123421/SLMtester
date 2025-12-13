@@ -1,0 +1,133 @@
+# ============================================
+# カテゴリ: 自動評価（固定ラベル）
+# ============================================
+# - 出力が 1 文字/1単語の固定ラベルになるようにする
+# - ルールをプロンプト内で明示し、外部知識依存を避ける
+# ============================================
+
+category:
+  id: auto_labels
+  name: 自動評価（固定ラベル）
+  description: A/B/C や YES/NO など、単一ラベル出力
+
+cases:
+  - id: alab_div_rule_abc
+    name: ラベル分類（倍数ルール）
+    description: nが3の倍数ならA、5の倍数ならB、それ以外はC（3と5両方はA優先）
+    modality: text
+    weight: 5
+    pass_threshold: 0.9
+    system_prompt: |
+      出力は A/B/C の1文字のみ。説明禁止。
+      ルール:
+      - 3の倍数ならA
+      - そうでなく5の倍数ならB
+      - それ以外はC
+    variants:
+      - { prompt: "n=3", evaluation: { type: regex_fullmatch, pattern: "A" } }
+      - { prompt: "n=5", evaluation: { type: regex_fullmatch, pattern: "B" } }
+      - { prompt: "n=15", evaluation: { type: regex_fullmatch, pattern: "A" } }
+      - { prompt: "n=7", evaluation: { type: regex_fullmatch, pattern: "C" } }
+      - { prompt: "n=30", evaluation: { type: regex_fullmatch, pattern: "A" } }
+      - { prompt: "n=20", evaluation: { type: regex_fullmatch, pattern: "B" } }
+      - { prompt: "n=9", evaluation: { type: regex_fullmatch, pattern: "A" } }
+      - { prompt: "n=10", evaluation: { type: regex_fullmatch, pattern: "B" } }
+      - { prompt: "n=11", evaluation: { type: regex_fullmatch, pattern: "C" } }
+      - { prompt: "n=25", evaluation: { type: regex_fullmatch, pattern: "B" } }
+
+  - id: alab_truth_table
+    name: 真理値（AND/OR）
+    description: AND/ORの結果を0/1で
+    modality: text
+    weight: 5
+    pass_threshold: 0.95
+    system_prompt: |
+      出力は 0 または 1 のみ。説明禁止。
+      ルール:
+      - AND: 両方1のときだけ1
+      - OR: どちらか1なら1
+    variants:
+      - { prompt: "AND 1 1", evaluation: { type: regex_fullmatch, pattern: "1" } }
+      - { prompt: "AND 1 0", evaluation: { type: regex_fullmatch, pattern: "0" } }
+      - { prompt: "AND 0 1", evaluation: { type: regex_fullmatch, pattern: "0" } }
+      - { prompt: "AND 0 0", evaluation: { type: regex_fullmatch, pattern: "0" } }
+      - { prompt: "OR 1 1", evaluation: { type: regex_fullmatch, pattern: "1" } }
+      - { prompt: "OR 1 0", evaluation: { type: regex_fullmatch, pattern: "1" } }
+      - { prompt: "OR 0 1", evaluation: { type: regex_fullmatch, pattern: "1" } }
+      - { prompt: "OR 0 0", evaluation: { type: regex_fullmatch, pattern: "0" } }
+
+  - id: alab_compare
+    name: 比較（<,>,=）
+    description: xとyを比較して LT/GT/EQ のいずれか
+    modality: text
+    weight: 5
+    pass_threshold: 0.95
+    system_prompt: |
+      出力は LT/GT/EQ のいずれか1つだけ。説明禁止。
+      ルール:
+      - x<y → LT
+      - x>y → GT
+      - x=y → EQ
+    variants:
+      - { prompt: "x=1 y=2", evaluation: { type: regex_fullmatch, pattern: "LT" } }
+      - { prompt: "x=2 y=1", evaluation: { type: regex_fullmatch, pattern: "GT" } }
+      - { prompt: "x=5 y=5", evaluation: { type: regex_fullmatch, pattern: "EQ" } }
+      - { prompt: "x=-1 y=0", evaluation: { type: regex_fullmatch, pattern: "LT" } }
+      - { prompt: "x=0 y=-1", evaluation: { type: regex_fullmatch, pattern: "GT" } }
+      - { prompt: "x=100 y=99", evaluation: { type: regex_fullmatch, pattern: "GT" } }
+      - { prompt: "x=42 y=100", evaluation: { type: regex_fullmatch, pattern: "LT" } }
+
+  - id: alab_yesno_rule
+    name: YES/NO（規則）
+    description: 文字列が回文ならYES、そうでなければNO（英小文字のみ）
+    modality: text
+    weight: 5
+    pass_threshold: 0.9
+    system_prompt: |
+      出力は YES または NO のみ。説明禁止。
+      ルール: 文字列が回文（逆順にして同じ）ならYES、それ以外はNO。
+    variants:
+      - { prompt: "s=racecar", evaluation: { type: regex_fullmatch, pattern: "YES" } }
+      - { prompt: "s=level", evaluation: { type: regex_fullmatch, pattern: "YES" } }
+      - { prompt: "s=abc", evaluation: { type: regex_fullmatch, pattern: "NO" } }
+      - { prompt: "s=abba", evaluation: { type: regex_fullmatch, pattern: "YES" } }
+      - { prompt: "s=abca", evaluation: { type: regex_fullmatch, pattern: "NO" } }
+
+  - id: alab_bucket
+    name: 範囲バケット
+    description: nが0..9ならS、10..99ならM、100以上ならL
+    modality: text
+    weight: 4
+    pass_threshold: 0.95
+    system_prompt: |
+      出力は S/M/L の1文字のみ。説明禁止。
+      ルール:
+      - 0..9 → S
+      - 10..99 → M
+      - 100以上 → L
+    variants:
+      - { prompt: "n=0", evaluation: { type: regex_fullmatch, pattern: "S" } }
+      - { prompt: "n=9", evaluation: { type: regex_fullmatch, pattern: "S" } }
+      - { prompt: "n=10", evaluation: { type: regex_fullmatch, pattern: "M" } }
+      - { prompt: "n=42", evaluation: { type: regex_fullmatch, pattern: "M" } }
+      - { prompt: "n=99", evaluation: { type: regex_fullmatch, pattern: "M" } }
+      - { prompt: "n=100", evaluation: { type: regex_fullmatch, pattern: "L" } }
+      - { prompt: "n=1000", evaluation: { type: regex_fullmatch, pattern: "L" } }
+
+  - id: alab_parity
+    name: 偶奇
+    description: 偶数ならE、奇数ならO
+    modality: text
+    weight: 4
+    pass_threshold: 0.95
+    system_prompt: |
+      出力は E または O のみ。説明禁止。
+      ルール: 偶数→E、奇数→O
+    variants:
+      - { prompt: "n=1", evaluation: { type: regex_fullmatch, pattern: "O" } }
+      - { prompt: "n=2", evaluation: { type: regex_fullmatch, pattern: "E" } }
+      - { prompt: "n=3", evaluation: { type: regex_fullmatch, pattern: "O" } }
+      - { prompt: "n=4", evaluation: { type: regex_fullmatch, pattern: "E" } }
+      - { prompt: "n=99", evaluation: { type: regex_fullmatch, pattern: "O" } }
+      - { prompt: "n=100", evaluation: { type: regex_fullmatch, pattern: "E" } }
+

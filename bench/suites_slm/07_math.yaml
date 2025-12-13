@@ -1,0 +1,132 @@
+# ============================================
+# カテゴリ: 計算（SLM） (Math)
+# ============================================
+# 既存よりバリエーションを増やし、単位/小数/負数も追加
+# ============================================
+
+category:
+  id: math_slm
+  name: 計算（SLM）
+  description: 四則演算、割合、小数、単位変換など（数字のみ回答）
+
+cases:
+  - id: mslm_arithmetic_mix
+    name: 四則演算（拡張）
+    description: 基本+負数+小数を含む計算
+    modality: text
+    weight: 4
+    pass_threshold: 0.8
+    system_prompt: |
+      数字のみを回答。単位や説明は禁止。
+    variants:
+      - prompt: "123+456=?"
+        evaluation: { type: numeric, expected: 579 }
+      - prompt: "1000-347=?"
+        evaluation: { type: numeric, expected: 653 }
+      - prompt: "25*4=?"
+        evaluation: { type: numeric, expected: 100 }
+      - prompt: "144/12=?"
+        evaluation: { type: numeric, expected: 12 }
+      - prompt: "0.5+0.25=?"
+        evaluation: { type: numeric, expected: 0.75, tolerance: 0.0001 }
+      - prompt: "-3+10=?"
+        evaluation: { type: numeric, expected: 7 }
+      - prompt: "7-12=?"
+        evaluation: { type: numeric, expected: -5 }
+      - prompt: "3.2*10=?"
+        evaluation: { type: numeric, expected: 32, tolerance: 0.0001 }
+      - prompt: "10/8=?（小数で）"
+        evaluation: { type: numeric, expected: 1.25, tolerance: 0.0001 }
+      - prompt: "(10+5)*3=?"
+        evaluation: { type: numeric, expected: 45 }
+
+  - id: mslm_percentage
+    name: 割合・パーセント（拡張）
+    description: パーセント計算＋税込/割引
+    modality: text
+    weight: 4
+    pass_threshold: 0.8
+    system_prompt: |
+      数字のみを回答。必要なら小数で。
+    variants:
+      - prompt: "200の20%は？"
+        evaluation: { type: numeric, expected: 40 }
+      - prompt: "50は200の何%？"
+        evaluation: { type: numeric, expected: 25 }
+      - prompt: "300円を15%割引すると？"
+        evaluation: { type: numeric, expected: 255 }
+      - prompt: "80点満点で64点は何%？"
+        evaluation: { type: numeric, expected: 80 }
+      - prompt: "1000円に10%の税を加えると？"
+        evaluation: { type: numeric, expected: 1100 }
+      - prompt: "500円が20%値上げ。新価格は？"
+        evaluation: { type: numeric, expected: 600 }
+      - prompt: "400の12.5%は？"
+        evaluation: { type: numeric, expected: 50 }
+      - prompt: "120人中30人欠席。出席率(%)は？"
+        evaluation: { type: numeric, expected: 75 }
+      - prompt: "100の1%は？"
+        evaluation: { type: numeric, expected: 1 }
+      - prompt: "100の0.5%は？"
+        evaluation: { type: numeric, expected: 0.5, tolerance: 0.0001 }
+
+  - id: mslm_units
+    name: 単位変換
+    description: 長さ/重さ/時間の変換
+    modality: text
+    weight: 5
+    pass_threshold: 0.8
+    system_prompt: |
+      数字のみを回答（単位は付けない）。
+    variants:
+      - prompt: "1.5km は何m？"
+        evaluation: { type: numeric, expected: 1500 }
+      - prompt: "2500m は何km？（小数で）"
+        evaluation: { type: numeric, expected: 2.5, tolerance: 0.0001 }
+      - prompt: "120分は何時間？"
+        evaluation: { type: numeric, expected: 2 }
+      - prompt: "90秒は何分？（小数で）"
+        evaluation: { type: numeric, expected: 1.5, tolerance: 0.0001 }
+      - prompt: "3000g は何kg？"
+        evaluation: { type: numeric, expected: 3 }
+      - prompt: "0.75kg は何g？"
+        evaluation: { type: numeric, expected: 750 }
+      - prompt: "2時間30分は何分？"
+        evaluation: { type: numeric, expected: 150 }
+      - prompt: "1日(24時間)は何分？"
+        evaluation: { type: numeric, expected: 1440 }
+      - prompt: "3.5L は何mL？"
+        evaluation: { type: numeric, expected: 3500 }
+      - prompt: "500mL は何L？"
+        evaluation: { type: numeric, expected: 0.5, tolerance: 0.0001 }
+
+  - id: mslm_word_problems
+    name: 文章題（拡張）
+    description: 文章から必要情報を読み取り計算
+    modality: text
+    weight: 5
+    pass_threshold: 0.8
+    system_prompt: |
+      答えの数字のみを回答。説明は禁止。
+    variants:
+      - prompt: "りんご5個、みかん3個。合計は？"
+        evaluation: { type: numeric, expected: 8 }
+      - prompt: "12個入りが5箱。合計は？"
+        evaluation: { type: numeric, expected: 60 }
+      - prompt: "100円を3つ。500円払う。おつりは？"
+        evaluation: { type: numeric, expected: 200 }
+      - prompt: "時速60kmで2時間。距離は？"
+        evaluation: { type: numeric, expected: 120 }
+      - prompt: "48枚を8人で等分。1人は？"
+        evaluation: { type: numeric, expected: 6 }
+      - prompt: "1日20ページ。300ページ読むのに日数は？"
+        evaluation: { type: numeric, expected: 15 }
+      - prompt: "りんご150円×2、みかん80円×3。合計は？"
+        evaluation: { type: numeric, expected: 540 }
+      - prompt: "10人乗りバスに8人。残りは？"
+        evaluation: { type: numeric, expected: 2 }
+      - prompt: "1m=100cm。25cmずつ切る。何本？"
+        evaluation: { type: numeric, expected: 4 }
+      - prompt: "80,70,90 の平均は？"
+        evaluation: { type: numeric, expected: 80 }
+

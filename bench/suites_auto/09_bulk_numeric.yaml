@@ -1,0 +1,654 @@
+# ============================================
+# カテゴリ: 自動評価（大量・数値）
+# ============================================
+# - 大量の数値タスク（数字のみ出力）
+# - 外部知識不要: 計算ルールは自明/明示
+# ============================================
+
+category:
+  id: auto_numeric_bulk
+  name: 自動評価（大量・数値）
+  description: 大量の四則演算/剰余/べき（数字のみ）
+
+cases:
+  - id: abulk_add_100
+    name: 足し算（100問）
+    description: a+b（数字のみ）
+    modality: text
+    weight: 4
+    pass_threshold: 0.9
+    system_prompt: |
+      数字のみを回答。説明・単位・記号は禁止。
+    variants:
+      - { prompt: "13+815=?", evaluation: { type: numeric, expected: 828 } }
+      - { prompt: "45+74=?", evaluation: { type: numeric, expected: 119 } }
+      - { prompt: "47+795=?", evaluation: { type: numeric, expected: 842 } }
+      - { prompt: "52+765=?", evaluation: { type: numeric, expected: 817 } }
+      - { prompt: "61+926=?", evaluation: { type: numeric, expected: 987 } }
+      - { prompt: "67+518=?", evaluation: { type: numeric, expected: 585 } }
+      - { prompt: "69+654=?", evaluation: { type: numeric, expected: 723 } }
+      - { prompt: "69+726=?", evaluation: { type: numeric, expected: 795 } }
+      - { prompt: "71+214=?", evaluation: { type: numeric, expected: 285 } }
+      - { prompt: "112+436=?", evaluation: { type: numeric, expected: 548 } }
+      - { prompt: "134+971=?", evaluation: { type: numeric, expected: 1105 } }
+      - { prompt: "160+58=?", evaluation: { type: numeric, expected: 218 } }
+      - { prompt: "170+794=?", evaluation: { type: numeric, expected: 964 } }
+      - { prompt: "175+324=?", evaluation: { type: numeric, expected: 499 } }
+      - { prompt: "197+451=?", evaluation: { type: numeric, expected: 648 } }
+      - { prompt: "202+108=?", evaluation: { type: numeric, expected: 310 } }
+      - { prompt: "206+561=?", evaluation: { type: numeric, expected: 767 } }
+      - { prompt: "210+780=?", evaluation: { type: numeric, expected: 990 } }
+      - { prompt: "219+627=?", evaluation: { type: numeric, expected: 846 } }
+      - { prompt: "235+563=?", evaluation: { type: numeric, expected: 798 } }
+      - { prompt: "264+269=?", evaluation: { type: numeric, expected: 533 } }
+      - { prompt: "272+824=?", evaluation: { type: numeric, expected: 1096 } }
+      - { prompt: "292+202=?", evaluation: { type: numeric, expected: 494 } }
+      - { prompt: "322+696=?", evaluation: { type: numeric, expected: 1018 } }
+      - { prompt: "342+443=?", evaluation: { type: numeric, expected: 785 } }
+      - { prompt: "356+390=?", evaluation: { type: numeric, expected: 746 } }
+      - { prompt: "357+910=?", evaluation: { type: numeric, expected: 1267 } }
+      - { prompt: "361+673=?", evaluation: { type: numeric, expected: 1034 } }
+      - { prompt: "362+753=?", evaluation: { type: numeric, expected: 1115 } }
+      - { prompt: "375+585=?", evaluation: { type: numeric, expected: 960 } }
+      - { prompt: "393+651=?", evaluation: { type: numeric, expected: 1044 } }
+      - { prompt: "401+714=?", evaluation: { type: numeric, expected: 1115 } }
+      - { prompt: "409+922=?", evaluation: { type: numeric, expected: 1331 } }
+      - { prompt: "414+414=?", evaluation: { type: numeric, expected: 828 } }
+      - { prompt: "418+986=?", evaluation: { type: numeric, expected: 1404 } }
+      - { prompt: "438+358=?", evaluation: { type: numeric, expected: 796 } }
+      - { prompt: "441+295=?", evaluation: { type: numeric, expected: 736 } }
+      - { prompt: "464+768=?", evaluation: { type: numeric, expected: 1232 } }
+      - { prompt: "467+997=?", evaluation: { type: numeric, expected: 1464 } }
+      - { prompt: "469+618=?", evaluation: { type: numeric, expected: 1087 } }
+      - { prompt: "472+253=?", evaluation: { type: numeric, expected: 725 } }
+      - { prompt: "500+556=?", evaluation: { type: numeric, expected: 1056 } }
+      - { prompt: "507+721=?", evaluation: { type: numeric, expected: 1228 } }
+      - { prompt: "539+993=?", evaluation: { type: numeric, expected: 1532 } }
+      - { prompt: "542+190=?", evaluation: { type: numeric, expected: 732 } }
+      - { prompt: "542+540=?", evaluation: { type: numeric, expected: 1082 } }
+      - { prompt: "547+727=?", evaluation: { type: numeric, expected: 1274 } }
+      - { prompt: "568+154=?", evaluation: { type: numeric, expected: 722 } }
+      - { prompt: "569+744=?", evaluation: { type: numeric, expected: 1313 } }
+      - { prompt: "572+818=?", evaluation: { type: numeric, expected: 1390 } }
+      - { prompt: "583+322=?", evaluation: { type: numeric, expected: 905 } }
+      - { prompt: "583+661=?", evaluation: { type: numeric, expected: 1244 } }
+      - { prompt: "586+810=?", evaluation: { type: numeric, expected: 1396 } }
+      - { prompt: "592+793=?", evaluation: { type: numeric, expected: 1385 } }
+      - { prompt: "600+750=?", evaluation: { type: numeric, expected: 1350 } }
+      - { prompt: "609+122=?", evaluation: { type: numeric, expected: 731 } }
+      - { prompt: "616+270=?", evaluation: { type: numeric, expected: 886 } }
+      - { prompt: "621+735=?", evaluation: { type: numeric, expected: 1356 } }
+      - { prompt: "633+948=?", evaluation: { type: numeric, expected: 1581 } }
+      - { prompt: "634+994=?", evaluation: { type: numeric, expected: 1628 } }
+      - { prompt: "635+56=?", evaluation: { type: numeric, expected: 691 } }
+      - { prompt: "650+473=?", evaluation: { type: numeric, expected: 1123 } }
+      - { prompt: "651+202=?", evaluation: { type: numeric, expected: 853 } }
+      - { prompt: "662+315=?", evaluation: { type: numeric, expected: 977 } }
+      - { prompt: "669+924=?", evaluation: { type: numeric, expected: 1593 } }
+      - { prompt: "673+885=?", evaluation: { type: numeric, expected: 1558 } }
+      - { prompt: "680+19=?", evaluation: { type: numeric, expected: 699 } }
+      - { prompt: "692+18=?", evaluation: { type: numeric, expected: 710 } }
+      - { prompt: "694+660=?", evaluation: { type: numeric, expected: 1354 } }
+      - { prompt: "708+944=?", evaluation: { type: numeric, expected: 1652 } }
+      - { prompt: "716+685=?", evaluation: { type: numeric, expected: 1401 } }
+      - { prompt: "735+219=?", evaluation: { type: numeric, expected: 954 } }
+      - { prompt: "747+956=?", evaluation: { type: numeric, expected: 1703 } }
+      - { prompt: "755+598=?", evaluation: { type: numeric, expected: 1353 } }
+      - { prompt: "759+995=?", evaluation: { type: numeric, expected: 1754 } }
+      - { prompt: "771+670=?", evaluation: { type: numeric, expected: 1441 } }
+      - { prompt: "794+679=?", evaluation: { type: numeric, expected: 1473 } }
+      - { prompt: "809+369=?", evaluation: { type: numeric, expected: 1178 } }
+      - { prompt: "815+873=?", evaluation: { type: numeric, expected: 1688 } }
+      - { prompt: "820+319=?", evaluation: { type: numeric, expected: 1139 } }
+      - { prompt: "821+756=?", evaluation: { type: numeric, expected: 1577 } }
+      - { prompt: "825+535=?", evaluation: { type: numeric, expected: 1360 } }
+      - { prompt: "840+81=?", evaluation: { type: numeric, expected: 921 } }
+      - { prompt: "841+651=?", evaluation: { type: numeric, expected: 1492 } }
+      - { prompt: "845+341=?", evaluation: { type: numeric, expected: 1186 } }
+      - { prompt: "853+362=?", evaluation: { type: numeric, expected: 1215 } }
+      - { prompt: "854+260=?", evaluation: { type: numeric, expected: 1114 } }
+      - { prompt: "869+913=?", evaluation: { type: numeric, expected: 1782 } }
+      - { prompt: "899+55=?", evaluation: { type: numeric, expected: 954 } }
+      - { prompt: "903+929=?", evaluation: { type: numeric, expected: 1832 } }
+      - { prompt: "921+26=?", evaluation: { type: numeric, expected: 947 } }
+      - { prompt: "935+374=?", evaluation: { type: numeric, expected: 1309 } }
+      - { prompt: "938+620=?", evaluation: { type: numeric, expected: 1558 } }
+      - { prompt: "939+818=?", evaluation: { type: numeric, expected: 1757 } }
+      - { prompt: "944+316=?", evaluation: { type: numeric, expected: 1260 } }
+      - { prompt: "954+44=?", evaluation: { type: numeric, expected: 998 } }
+      - { prompt: "960+626=?", evaluation: { type: numeric, expected: 1586 } }
+      - { prompt: "976+554=?", evaluation: { type: numeric, expected: 1530 } }
+      - { prompt: "981+176=?", evaluation: { type: numeric, expected: 1157 } }
+      - { prompt: "998+186=?", evaluation: { type: numeric, expected: 1184 } }
+
+  - id: abulk_sub_100
+    name: 引き算（100問）
+    description: a-b（負数あり、数字のみ）
+    modality: text
+    weight: 4
+    pass_threshold: 0.9
+    system_prompt: |
+      数字のみを回答。説明・単位・記号は禁止。
+    variants:
+      - { prompt: "-498--150=?", evaluation: { type: numeric, expected: -348 } }
+      - { prompt: "-485-429=?", evaluation: { type: numeric, expected: -914 } }
+      - { prompt: "-484--348=?", evaluation: { type: numeric, expected: -136 } }
+      - { prompt: "-460--470=?", evaluation: { type: numeric, expected: 10 } }
+      - { prompt: "-457-227=?", evaluation: { type: numeric, expected: -684 } }
+      - { prompt: "-447-3=?", evaluation: { type: numeric, expected: -450 } }
+      - { prompt: "-418-437=?", evaluation: { type: numeric, expected: -855 } }
+      - { prompt: "-417-234=?", evaluation: { type: numeric, expected: -651 } }
+      - { prompt: "-413-361=?", evaluation: { type: numeric, expected: -774 } }
+      - { prompt: "-395-197=?", evaluation: { type: numeric, expected: -592 } }
+      - { prompt: "-391--420=?", evaluation: { type: numeric, expected: 29 } }
+      - { prompt: "-384-183=?", evaluation: { type: numeric, expected: -567 } }
+      - { prompt: "-358--462=?", evaluation: { type: numeric, expected: 104 } }
+      - { prompt: "-349--23=?", evaluation: { type: numeric, expected: -326 } }
+      - { prompt: "-337--274=?", evaluation: { type: numeric, expected: -63 } }
+      - { prompt: "-337-63=?", evaluation: { type: numeric, expected: -400 } }
+      - { prompt: "-321-309=?", evaluation: { type: numeric, expected: -630 } }
+      - { prompt: "-304--361=?", evaluation: { type: numeric, expected: 57 } }
+      - { prompt: "-304-156=?", evaluation: { type: numeric, expected: -460 } }
+      - { prompt: "-303--334=?", evaluation: { type: numeric, expected: 31 } }
+      - { prompt: "-302--340=?", evaluation: { type: numeric, expected: 38 } }
+      - { prompt: "-283--136=?", evaluation: { type: numeric, expected: -147 } }
+      - { prompt: "-272-163=?", evaluation: { type: numeric, expected: -435 } }
+      - { prompt: "-258-269=?", evaluation: { type: numeric, expected: -527 } }
+      - { prompt: "-252--192=?", evaluation: { type: numeric, expected: -60 } }
+      - { prompt: "-218-280=?", evaluation: { type: numeric, expected: -498 } }
+      - { prompt: "-194-145=?", evaluation: { type: numeric, expected: -339 } }
+      - { prompt: "-186-270=?", evaluation: { type: numeric, expected: -456 } }
+      - { prompt: "-180--475=?", evaluation: { type: numeric, expected: 295 } }
+      - { prompt: "-178-299=?", evaluation: { type: numeric, expected: -477 } }
+      - { prompt: "-159--98=?", evaluation: { type: numeric, expected: -61 } }
+      - { prompt: "-139-311=?", evaluation: { type: numeric, expected: -450 } }
+      - { prompt: "-133--270=?", evaluation: { type: numeric, expected: 137 } }
+      - { prompt: "-113--300=?", evaluation: { type: numeric, expected: 187 } }
+      - { prompt: "-111--353=?", evaluation: { type: numeric, expected: 242 } }
+      - { prompt: "-106-332=?", evaluation: { type: numeric, expected: -438 } }
+      - { prompt: "-88-394=?", evaluation: { type: numeric, expected: -482 } }
+      - { prompt: "-86-91=?", evaluation: { type: numeric, expected: -177 } }
+      - { prompt: "-85-189=?", evaluation: { type: numeric, expected: -274 } }
+      - { prompt: "-60--268=?", evaluation: { type: numeric, expected: 208 } }
+      - { prompt: "-53--186=?", evaluation: { type: numeric, expected: 133 } }
+      - { prompt: "-49--28=?", evaluation: { type: numeric, expected: -21 } }
+      - { prompt: "-32-252=?", evaluation: { type: numeric, expected: -284 } }
+      - { prompt: "-29-210=?", evaluation: { type: numeric, expected: -239 } }
+      - { prompt: "-5--99=?", evaluation: { type: numeric, expected: 94 } }
+      - { prompt: "0-452=?", evaluation: { type: numeric, expected: -452 } }
+      - { prompt: "3-39=?", evaluation: { type: numeric, expected: -36 } }
+      - { prompt: "8--197=?", evaluation: { type: numeric, expected: 205 } }
+      - { prompt: "16-95=?", evaluation: { type: numeric, expected: -79 } }
+      - { prompt: "17-288=?", evaluation: { type: numeric, expected: -271 } }
+      - { prompt: "47--164=?", evaluation: { type: numeric, expected: 211 } }
+      - { prompt: "52-114=?", evaluation: { type: numeric, expected: -62 } }
+      - { prompt: "66--242=?", evaluation: { type: numeric, expected: 308 } }
+      - { prompt: "93-492=?", evaluation: { type: numeric, expected: -399 } }
+      - { prompt: "94--112=?", evaluation: { type: numeric, expected: 206 } }
+      - { prompt: "105-187=?", evaluation: { type: numeric, expected: -82 } }
+      - { prompt: "109--249=?", evaluation: { type: numeric, expected: 358 } }
+      - { prompt: "127--61=?", evaluation: { type: numeric, expected: 188 } }
+      - { prompt: "136-214=?", evaluation: { type: numeric, expected: -78 } }
+      - { prompt: "138-340=?", evaluation: { type: numeric, expected: -202 } }
+      - { prompt: "139--301=?", evaluation: { type: numeric, expected: 440 } }
+      - { prompt: "144--171=?", evaluation: { type: numeric, expected: 315 } }
+      - { prompt: "145--396=?", evaluation: { type: numeric, expected: 541 } }
+      - { prompt: "147-318=?", evaluation: { type: numeric, expected: -171 } }
+      - { prompt: "154--46=?", evaluation: { type: numeric, expected: 200 } }
+      - { prompt: "156-73=?", evaluation: { type: numeric, expected: 83 } }
+      - { prompt: "157-433=?", evaluation: { type: numeric, expected: -276 } }
+      - { prompt: "159--456=?", evaluation: { type: numeric, expected: 615 } }
+      - { prompt: "175-379=?", evaluation: { type: numeric, expected: -204 } }
+      - { prompt: "196-307=?", evaluation: { type: numeric, expected: -111 } }
+      - { prompt: "200--299=?", evaluation: { type: numeric, expected: 499 } }
+      - { prompt: "207--64=?", evaluation: { type: numeric, expected: 271 } }
+      - { prompt: "225--413=?", evaluation: { type: numeric, expected: 638 } }
+      - { prompt: "228-362=?", evaluation: { type: numeric, expected: -134 } }
+      - { prompt: "229-324=?", evaluation: { type: numeric, expected: -95 } }
+      - { prompt: "235--20=?", evaluation: { type: numeric, expected: 255 } }
+      - { prompt: "239--479=?", evaluation: { type: numeric, expected: 718 } }
+      - { prompt: "250-130=?", evaluation: { type: numeric, expected: 120 } }
+      - { prompt: "264--258=?", evaluation: { type: numeric, expected: 522 } }
+      - { prompt: "281-465=?", evaluation: { type: numeric, expected: -184 } }
+      - { prompt: "303--327=?", evaluation: { type: numeric, expected: 630 } }
+      - { prompt: "309-234=?", evaluation: { type: numeric, expected: 75 } }
+      - { prompt: "321-281=?", evaluation: { type: numeric, expected: 40 } }
+      - { prompt: "339-108=?", evaluation: { type: numeric, expected: 231 } }
+      - { prompt: "376-189=?", evaluation: { type: numeric, expected: 187 } }
+      - { prompt: "379-465=?", evaluation: { type: numeric, expected: -86 } }
+      - { prompt: "394-164=?", evaluation: { type: numeric, expected: 230 } }
+      - { prompt: "413--50=?", evaluation: { type: numeric, expected: 463 } }
+      - { prompt: "416--440=?", evaluation: { type: numeric, expected: 856 } }
+      - { prompt: "430--102=?", evaluation: { type: numeric, expected: 532 } }
+      - { prompt: "439--188=?", evaluation: { type: numeric, expected: 627 } }
+      - { prompt: "445-436=?", evaluation: { type: numeric, expected: 9 } }
+      - { prompt: "451--217=?", evaluation: { type: numeric, expected: 668 } }
+      - { prompt: "451--73=?", evaluation: { type: numeric, expected: 524 } }
+      - { prompt: "454--219=?", evaluation: { type: numeric, expected: 673 } }
+      - { prompt: "456--338=?", evaluation: { type: numeric, expected: 794 } }
+      - { prompt: "473--344=?", evaluation: { type: numeric, expected: 817 } }
+      - { prompt: "480-139=?", evaluation: { type: numeric, expected: 341 } }
+      - { prompt: "482-59=?", evaluation: { type: numeric, expected: 423 } }
+      - { prompt: "488-151=?", evaluation: { type: numeric, expected: 337 } }
+
+  - id: abulk_mul_100
+    name: 掛け算（100問）
+    description: a*b（数字のみ）
+    modality: text
+    weight: 4
+    pass_threshold: 0.9
+    system_prompt: |
+      数字のみを回答。説明・単位・記号は禁止。
+    variants:
+      - { prompt: "-99*74=?", evaluation: { type: numeric, expected: -7326 } }
+      - { prompt: "-96*94=?", evaluation: { type: numeric, expected: -9024 } }
+      - { prompt: "-94*9=?", evaluation: { type: numeric, expected: -846 } }
+      - { prompt: "-93*79=?", evaluation: { type: numeric, expected: -7347 } }
+      - { prompt: "-93*99=?", evaluation: { type: numeric, expected: -9207 } }
+      - { prompt: "-91*-62=?", evaluation: { type: numeric, expected: 5642 } }
+      - { prompt: "-90*97=?", evaluation: { type: numeric, expected: -8730 } }
+      - { prompt: "-86*96=?", evaluation: { type: numeric, expected: -8256 } }
+      - { prompt: "-85*-39=?", evaluation: { type: numeric, expected: 3315 } }
+      - { prompt: "-84*3=?", evaluation: { type: numeric, expected: -252 } }
+      - { prompt: "-81*-82=?", evaluation: { type: numeric, expected: 6642 } }
+      - { prompt: "-81*9=?", evaluation: { type: numeric, expected: -729 } }
+      - { prompt: "-78*73=?", evaluation: { type: numeric, expected: -5694 } }
+      - { prompt: "-77*18=?", evaluation: { type: numeric, expected: -1386 } }
+      - { prompt: "-77*95=?", evaluation: { type: numeric, expected: -7315 } }
+      - { prompt: "-73*38=?", evaluation: { type: numeric, expected: -2774 } }
+      - { prompt: "-73*83=?", evaluation: { type: numeric, expected: -6059 } }
+      - { prompt: "-70*67=?", evaluation: { type: numeric, expected: -4690 } }
+      - { prompt: "-65*-48=?", evaluation: { type: numeric, expected: 3120 } }
+      - { prompt: "-65*-7=?", evaluation: { type: numeric, expected: 455 } }
+      - { prompt: "-62*-72=?", evaluation: { type: numeric, expected: 4464 } }
+      - { prompt: "-62*81=?", evaluation: { type: numeric, expected: -5022 } }
+      - { prompt: "-61*-88=?", evaluation: { type: numeric, expected: 5368 } }
+      - { prompt: "-55*-96=?", evaluation: { type: numeric, expected: 5280 } }
+      - { prompt: "-52*-51=?", evaluation: { type: numeric, expected: 2652 } }
+      - { prompt: "-52*12=?", evaluation: { type: numeric, expected: -624 } }
+      - { prompt: "-51*-77=?", evaluation: { type: numeric, expected: 3927 } }
+      - { prompt: "-50*-81=?", evaluation: { type: numeric, expected: 4050 } }
+      - { prompt: "-48*-52=?", evaluation: { type: numeric, expected: 2496 } }
+      - { prompt: "-44*-58=?", evaluation: { type: numeric, expected: 2552 } }
+      - { prompt: "-42*29=?", evaluation: { type: numeric, expected: -1218 } }
+      - { prompt: "-41*59=?", evaluation: { type: numeric, expected: -2419 } }
+      - { prompt: "-37*-84=?", evaluation: { type: numeric, expected: 3108 } }
+      - { prompt: "-34*-61=?", evaluation: { type: numeric, expected: 2074 } }
+      - { prompt: "-31*39=?", evaluation: { type: numeric, expected: -1209 } }
+      - { prompt: "-30*49=?", evaluation: { type: numeric, expected: -1470 } }
+      - { prompt: "-28*24=?", evaluation: { type: numeric, expected: -672 } }
+      - { prompt: "-27*-86=?", evaluation: { type: numeric, expected: 2322 } }
+      - { prompt: "-26*-60=?", evaluation: { type: numeric, expected: 1560 } }
+      - { prompt: "-20*-48=?", evaluation: { type: numeric, expected: 960 } }
+      - { prompt: "-17*53=?", evaluation: { type: numeric, expected: -901 } }
+      - { prompt: "-13*-82=?", evaluation: { type: numeric, expected: 1066 } }
+      - { prompt: "-9*-68=?", evaluation: { type: numeric, expected: 612 } }
+      - { prompt: "-7*50=?", evaluation: { type: numeric, expected: -350 } }
+      - { prompt: "-6*-16=?", evaluation: { type: numeric, expected: 96 } }
+      - { prompt: "-4*12=?", evaluation: { type: numeric, expected: -48 } }
+      - { prompt: "-4*59=?", evaluation: { type: numeric, expected: -236 } }
+      - { prompt: "-3*-92=?", evaluation: { type: numeric, expected: 276 } }
+      - { prompt: "-3*88=?", evaluation: { type: numeric, expected: -264 } }
+      - { prompt: "-1*24=?", evaluation: { type: numeric, expected: -24 } }
+      - { prompt: "2*-90=?", evaluation: { type: numeric, expected: -180 } }
+      - { prompt: "2*-28=?", evaluation: { type: numeric, expected: -56 } }
+      - { prompt: "2*22=?", evaluation: { type: numeric, expected: 44 } }
+      - { prompt: "3*-99=?", evaluation: { type: numeric, expected: -297 } }
+      - { prompt: "4*-76=?", evaluation: { type: numeric, expected: -304 } }
+      - { prompt: "5*-58=?", evaluation: { type: numeric, expected: -290 } }
+      - { prompt: "7*-43=?", evaluation: { type: numeric, expected: -301 } }
+      - { prompt: "7*-23=?", evaluation: { type: numeric, expected: -161 } }
+      - { prompt: "7*-15=?", evaluation: { type: numeric, expected: -105 } }
+      - { prompt: "9*60=?", evaluation: { type: numeric, expected: 540 } }
+      - { prompt: "12*85=?", evaluation: { type: numeric, expected: 1020 } }
+      - { prompt: "15*44=?", evaluation: { type: numeric, expected: 660 } }
+      - { prompt: "17*-78=?", evaluation: { type: numeric, expected: -1326 } }
+      - { prompt: "22*91=?", evaluation: { type: numeric, expected: 2002 } }
+      - { prompt: "25*-4=?", evaluation: { type: numeric, expected: -100 } }
+      - { prompt: "28*73=?", evaluation: { type: numeric, expected: 2044 } }
+      - { prompt: "31*-45=?", evaluation: { type: numeric, expected: -1395 } }
+      - { prompt: "34*-59=?", evaluation: { type: numeric, expected: -2006 } }
+      - { prompt: "34*40=?", evaluation: { type: numeric, expected: 1360 } }
+      - { prompt: "34*44=?", evaluation: { type: numeric, expected: 1496 } }
+      - { prompt: "35*47=?", evaluation: { type: numeric, expected: 1645 } }
+      - { prompt: "35*58=?", evaluation: { type: numeric, expected: 2030 } }
+      - { prompt: "39*41=?", evaluation: { type: numeric, expected: 1599 } }
+      - { prompt: "41*64=?", evaluation: { type: numeric, expected: 2624 } }
+      - { prompt: "42*19=?", evaluation: { type: numeric, expected: 798 } }
+      - { prompt: "50*73=?", evaluation: { type: numeric, expected: 3650 } }
+      - { prompt: "52*-15=?", evaluation: { type: numeric, expected: -780 } }
+      - { prompt: "54*21=?", evaluation: { type: numeric, expected: 1134 } }
+      - { prompt: "55*-85=?", evaluation: { type: numeric, expected: -4675 } }
+      - { prompt: "55*-79=?", evaluation: { type: numeric, expected: -4345 } }
+      - { prompt: "60*8=?", evaluation: { type: numeric, expected: 480 } }
+      - { prompt: "63*-17=?", evaluation: { type: numeric, expected: -1071 } }
+      - { prompt: "65*-89=?", evaluation: { type: numeric, expected: -5785 } }
+      - { prompt: "67*70=?", evaluation: { type: numeric, expected: 4690 } }
+      - { prompt: "69*-83=?", evaluation: { type: numeric, expected: -5727 } }
+      - { prompt: "70*-99=?", evaluation: { type: numeric, expected: -6930 } }
+      - { prompt: "70*-32=?", evaluation: { type: numeric, expected: -2240 } }
+      - { prompt: "71*-17=?", evaluation: { type: numeric, expected: -1207 } }
+      - { prompt: "74*58=?", evaluation: { type: numeric, expected: 4292 } }
+      - { prompt: "77*-98=?", evaluation: { type: numeric, expected: -7546 } }
+      - { prompt: "77*36=?", evaluation: { type: numeric, expected: 2772 } }
+      - { prompt: "79*-58=?", evaluation: { type: numeric, expected: -4582 } }
+      - { prompt: "79*-44=?", evaluation: { type: numeric, expected: -3476 } }
+      - { prompt: "82*26=?", evaluation: { type: numeric, expected: 2132 } }
+      - { prompt: "88*-72=?", evaluation: { type: numeric, expected: -6336 } }
+      - { prompt: "88*32=?", evaluation: { type: numeric, expected: 2816 } }
+      - { prompt: "91*-4=?", evaluation: { type: numeric, expected: -364 } }
+      - { prompt: "94*-21=?", evaluation: { type: numeric, expected: -1974 } }
+      - { prompt: "96*-47=?", evaluation: { type: numeric, expected: -4512 } }
+      - { prompt: "98*-7=?", evaluation: { type: numeric, expected: -686 } }
+
+  - id: abulk_div_100
+    name: 割り算（100問）
+    description: a/b（割り切れる、数字のみ）
+    modality: text
+    weight: 5
+    pass_threshold: 0.9
+    system_prompt: |
+      数字のみを回答。小数や説明は禁止。
+    variants:
+      - { prompt: "2145/13=?", evaluation: { type: numeric, expected: 165 } }
+      - { prompt: "1272/8=?", evaluation: { type: numeric, expected: 159 } }
+      - { prompt: "2484/18=?", evaluation: { type: numeric, expected: 138 } }
+      - { prompt: "510/3=?", evaluation: { type: numeric, expected: 170 } }
+      - { prompt: "-1341/9=?", evaluation: { type: numeric, expected: -149 } }
+      - { prompt: "924/11=?", evaluation: { type: numeric, expected: 84 } }
+      - { prompt: "-648/12=?", evaluation: { type: numeric, expected: -54 } }
+      - { prompt: "-624/12=?", evaluation: { type: numeric, expected: -52 } }
+      - { prompt: "-210/3=?", evaluation: { type: numeric, expected: -70 } }
+      - { prompt: "-540/15=?", evaluation: { type: numeric, expected: -36 } }
+      - { prompt: "1824/12=?", evaluation: { type: numeric, expected: 152 } }
+      - { prompt: "512/4=?", evaluation: { type: numeric, expected: 128 } }
+      - { prompt: "3572/19=?", evaluation: { type: numeric, expected: 188 } }
+      - { prompt: "-1260/20=?", evaluation: { type: numeric, expected: -63 } }
+      - { prompt: "-1121/19=?", evaluation: { type: numeric, expected: -59 } }
+      - { prompt: "-105/3=?", evaluation: { type: numeric, expected: -35 } }
+      - { prompt: "-387/3=?", evaluation: { type: numeric, expected: -129 } }
+      - { prompt: "810/15=?", evaluation: { type: numeric, expected: 54 } }
+      - { prompt: "2193/17=?", evaluation: { type: numeric, expected: 129 } }
+      - { prompt: "-500/20=?", evaluation: { type: numeric, expected: -25 } }
+      - { prompt: "749/7=?", evaluation: { type: numeric, expected: 107 } }
+      - { prompt: "896/14=?", evaluation: { type: numeric, expected: 64 } }
+      - { prompt: "50/2=?", evaluation: { type: numeric, expected: 25 } }
+      - { prompt: "396/4=?", evaluation: { type: numeric, expected: 99 } }
+      - { prompt: "1240/8=?", evaluation: { type: numeric, expected: 155 } }
+      - { prompt: "-76/19=?", evaluation: { type: numeric, expected: -4 } }
+      - { prompt: "-1034/11=?", evaluation: { type: numeric, expected: -94 } }
+      - { prompt: "900/18=?", evaluation: { type: numeric, expected: 50 } }
+      - { prompt: "1320/15=?", evaluation: { type: numeric, expected: 88 } }
+      - { prompt: "2656/16=?", evaluation: { type: numeric, expected: 166 } }
+      - { prompt: "-2700/20=?", evaluation: { type: numeric, expected: -135 } }
+      - { prompt: "-98/14=?", evaluation: { type: numeric, expected: -7 } }
+      - { prompt: "-1526/14=?", evaluation: { type: numeric, expected: -109 } }
+      - { prompt: "-268/4=?", evaluation: { type: numeric, expected: -67 } }
+      - { prompt: "-1608/12=?", evaluation: { type: numeric, expected: -134 } }
+      - { prompt: "1290/10=?", evaluation: { type: numeric, expected: 129 } }
+      - { prompt: "-1240/20=?", evaluation: { type: numeric, expected: -62 } }
+      - { prompt: "-1296/18=?", evaluation: { type: numeric, expected: -72 } }
+      - { prompt: "-745/5=?", evaluation: { type: numeric, expected: -149 } }
+      - { prompt: "-938/7=?", evaluation: { type: numeric, expected: -134 } }
+      - { prompt: "1911/13=?", evaluation: { type: numeric, expected: 147 } }
+      - { prompt: "-2010/15=?", evaluation: { type: numeric, expected: -134 } }
+      - { prompt: "-2484/18=?", evaluation: { type: numeric, expected: -138 } }
+      - { prompt: "348/6=?", evaluation: { type: numeric, expected: 58 } }
+      - { prompt: "2198/14=?", evaluation: { type: numeric, expected: 157 } }
+      - { prompt: "1846/13=?", evaluation: { type: numeric, expected: 142 } }
+      - { prompt: "1230/15=?", evaluation: { type: numeric, expected: 82 } }
+      - { prompt: "394/2=?", evaluation: { type: numeric, expected: 197 } }
+      - { prompt: "-1683/11=?", evaluation: { type: numeric, expected: -153 } }
+      - { prompt: "2394/14=?", evaluation: { type: numeric, expected: 171 } }
+      - { prompt: "1666/14=?", evaluation: { type: numeric, expected: 119 } }
+      - { prompt: "612/18=?", evaluation: { type: numeric, expected: 34 } }
+      - { prompt: "-296/2=?", evaluation: { type: numeric, expected: -148 } }
+      - { prompt: "276/3=?", evaluation: { type: numeric, expected: 92 } }
+      - { prompt: "1764/9=?", evaluation: { type: numeric, expected: 196 } }
+      - { prompt: "-492/6=?", evaluation: { type: numeric, expected: -82 } }
+      - { prompt: "648/4=?", evaluation: { type: numeric, expected: 162 } }
+      - { prompt: "352/2=?", evaluation: { type: numeric, expected: 176 } }
+      - { prompt: "354/3=?", evaluation: { type: numeric, expected: 118 } }
+      - { prompt: "297/3=?", evaluation: { type: numeric, expected: 99 } }
+      - { prompt: "2070/18=?", evaluation: { type: numeric, expected: 115 } }
+      - { prompt: "186/2=?", evaluation: { type: numeric, expected: 93 } }
+      - { prompt: "2352/12=?", evaluation: { type: numeric, expected: 196 } }
+      - { prompt: "690/6=?", evaluation: { type: numeric, expected: 115 } }
+      - { prompt: "-888/12=?", evaluation: { type: numeric, expected: -74 } }
+      - { prompt: "1144/11=?", evaluation: { type: numeric, expected: 104 } }
+      - { prompt: "-275/11=?", evaluation: { type: numeric, expected: -25 } }
+      - { prompt: "1232/11=?", evaluation: { type: numeric, expected: 112 } }
+      - { prompt: "2646/14=?", evaluation: { type: numeric, expected: 189 } }
+      - { prompt: "1980/12=?", evaluation: { type: numeric, expected: 165 } }
+      - { prompt: "-1288/7=?", evaluation: { type: numeric, expected: -184 } }
+      - { prompt: "2166/19=?", evaluation: { type: numeric, expected: 114 } }
+      - { prompt: "-2086/14=?", evaluation: { type: numeric, expected: -149 } }
+      - { prompt: "240/15=?", evaluation: { type: numeric, expected: 16 } }
+      - { prompt: "-1162/14=?", evaluation: { type: numeric, expected: -83 } }
+      - { prompt: "3056/16=?", evaluation: { type: numeric, expected: 191 } }
+      - { prompt: "-324/4=?", evaluation: { type: numeric, expected: -81 } }
+      - { prompt: "322/2=?", evaluation: { type: numeric, expected: 161 } }
+      - { prompt: "-1926/18=?", evaluation: { type: numeric, expected: -107 } }
+      - { prompt: "-896/14=?", evaluation: { type: numeric, expected: -64 } }
+      - { prompt: "-520/20=?", evaluation: { type: numeric, expected: -26 } }
+      - { prompt: "310/10=?", evaluation: { type: numeric, expected: 31 } }
+      - { prompt: "-1155/7=?", evaluation: { type: numeric, expected: -165 } }
+      - { prompt: "148/2=?", evaluation: { type: numeric, expected: 74 } }
+      - { prompt: "-400/10=?", evaluation: { type: numeric, expected: -40 } }
+      - { prompt: "-2976/16=?", evaluation: { type: numeric, expected: -186 } }
+      - { prompt: "990/11=?", evaluation: { type: numeric, expected: 90 } }
+      - { prompt: "612/9=?", evaluation: { type: numeric, expected: 68 } }
+      - { prompt: "17/17=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "-105/5=?", evaluation: { type: numeric, expected: -21 } }
+      - { prompt: "576/3=?", evaluation: { type: numeric, expected: 192 } }
+      - { prompt: "396/2=?", evaluation: { type: numeric, expected: 198 } }
+      - { prompt: "522/9=?", evaluation: { type: numeric, expected: 58 } }
+      - { prompt: "970/10=?", evaluation: { type: numeric, expected: 97 } }
+      - { prompt: "-896/16=?", evaluation: { type: numeric, expected: -56 } }
+      - { prompt: "-1696/16=?", evaluation: { type: numeric, expected: -106 } }
+      - { prompt: "2664/18=?", evaluation: { type: numeric, expected: 148 } }
+      - { prompt: "286/2=?", evaluation: { type: numeric, expected: 143 } }
+      - { prompt: "1728/12=?", evaluation: { type: numeric, expected: 144 } }
+      - { prompt: "96/16=?", evaluation: { type: numeric, expected: 6 } }
+
+  - id: abulk_mod_100
+    name: 剰余（100問）
+    description: a mod b（0<=b<=20, b>0）
+    modality: text
+    weight: 5
+    pass_threshold: 0.9
+    system_prompt: |
+      数字のみを回答。説明禁止。
+      ルール: a mod b は、aをbで割った余り。
+    variants:
+      - { prompt: "611 mod 19=?", evaluation: { type: numeric, expected: 3 } }
+      - { prompt: "593 mod 3=?", evaluation: { type: numeric, expected: 2 } }
+      - { prompt: "856 mod 9=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "641 mod 17=?", evaluation: { type: numeric, expected: 12 } }
+      - { prompt: "651 mod 19=?", evaluation: { type: numeric, expected: 5 } }
+      - { prompt: "191 mod 17=?", evaluation: { type: numeric, expected: 4 } }
+      - { prompt: "874 mod 10=?", evaluation: { type: numeric, expected: 4 } }
+      - { prompt: "304 mod 20=?", evaluation: { type: numeric, expected: 4 } }
+      - { prompt: "167 mod 17=?", evaluation: { type: numeric, expected: 14 } }
+      - { prompt: "545 mod 11=?", evaluation: { type: numeric, expected: 6 } }
+      - { prompt: "866 mod 14=?", evaluation: { type: numeric, expected: 12 } }
+      - { prompt: "553 mod 16=?", evaluation: { type: numeric, expected: 9 } }
+      - { prompt: "604 mod 19=?", evaluation: { type: numeric, expected: 15 } }
+      - { prompt: "539 mod 15=?", evaluation: { type: numeric, expected: 14 } }
+      - { prompt: "445 mod 3=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "148 mod 12=?", evaluation: { type: numeric, expected: 4 } }
+      - { prompt: "698 mod 5=?", evaluation: { type: numeric, expected: 3 } }
+      - { prompt: "993 mod 14=?", evaluation: { type: numeric, expected: 13 } }
+      - { prompt: "351 mod 5=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "867 mod 19=?", evaluation: { type: numeric, expected: 12 } }
+      - { prompt: "958 mod 9=?", evaluation: { type: numeric, expected: 4 } }
+      - { prompt: "232 mod 13=?", evaluation: { type: numeric, expected: 11 } }
+      - { prompt: "271 mod 7=?", evaluation: { type: numeric, expected: 5 } }
+      - { prompt: "642 mod 16=?", evaluation: { type: numeric, expected: 2 } }
+      - { prompt: "932 mod 9=?", evaluation: { type: numeric, expected: 5 } }
+      - { prompt: "866 mod 12=?", evaluation: { type: numeric, expected: 2 } }
+      - { prompt: "110 mod 17=?", evaluation: { type: numeric, expected: 8 } }
+      - { prompt: "319 mod 4=?", evaluation: { type: numeric, expected: 3 } }
+      - { prompt: "644 mod 3=?", evaluation: { type: numeric, expected: 2 } }
+      - { prompt: "573 mod 5=?", evaluation: { type: numeric, expected: 3 } }
+      - { prompt: "219 mod 9=?", evaluation: { type: numeric, expected: 3 } }
+      - { prompt: "197 mod 18=?", evaluation: { type: numeric, expected: 17 } }
+      - { prompt: "806 mod 15=?", evaluation: { type: numeric, expected: 11 } }
+      - { prompt: "597 mod 15=?", evaluation: { type: numeric, expected: 12 } }
+      - { prompt: "697 mod 5=?", evaluation: { type: numeric, expected: 2 } }
+      - { prompt: "892 mod 3=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "827 mod 2=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "142 mod 9=?", evaluation: { type: numeric, expected: 7 } }
+      - { prompt: "582 mod 2=?", evaluation: { type: numeric, expected: 0 } }
+      - { prompt: "366 mod 19=?", evaluation: { type: numeric, expected: 5 } }
+      - { prompt: "913 mod 17=?", evaluation: { type: numeric, expected: 12 } }
+      - { prompt: "534 mod 3=?", evaluation: { type: numeric, expected: 0 } }
+      - { prompt: "204 mod 4=?", evaluation: { type: numeric, expected: 0 } }
+      - { prompt: "999 mod 18=?", evaluation: { type: numeric, expected: 9 } }
+      - { prompt: "332 mod 18=?", evaluation: { type: numeric, expected: 8 } }
+      - { prompt: "135 mod 12=?", evaluation: { type: numeric, expected: 3 } }
+      - { prompt: "550 mod 19=?", evaluation: { type: numeric, expected: 18 } }
+      - { prompt: "975 mod 10=?", evaluation: { type: numeric, expected: 5 } }
+      - { prompt: "320 mod 19=?", evaluation: { type: numeric, expected: 16 } }
+      - { prompt: "850 mod 16=?", evaluation: { type: numeric, expected: 2 } }
+      - { prompt: "262 mod 5=?", evaluation: { type: numeric, expected: 2 } }
+      - { prompt: "453 mod 11=?", evaluation: { type: numeric, expected: 2 } }
+      - { prompt: "117 mod 3=?", evaluation: { type: numeric, expected: 0 } }
+      - { prompt: "32 mod 8=?", evaluation: { type: numeric, expected: 0 } }
+      - { prompt: "775 mod 10=?", evaluation: { type: numeric, expected: 5 } }
+      - { prompt: "754 mod 10=?", evaluation: { type: numeric, expected: 4 } }
+      - { prompt: "86 mod 6=?", evaluation: { type: numeric, expected: 2 } }
+      - { prompt: "232 mod 6=?", evaluation: { type: numeric, expected: 4 } }
+      - { prompt: "749 mod 7=?", evaluation: { type: numeric, expected: 0 } }
+      - { prompt: "99 mod 18=?", evaluation: { type: numeric, expected: 9 } }
+      - { prompt: "143 mod 13=?", evaluation: { type: numeric, expected: 0 } }
+      - { prompt: "738 mod 10=?", evaluation: { type: numeric, expected: 8 } }
+      - { prompt: "772 mod 4=?", evaluation: { type: numeric, expected: 0 } }
+      - { prompt: "171 mod 10=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "987 mod 18=?", evaluation: { type: numeric, expected: 15 } }
+      - { prompt: "418 mod 10=?", evaluation: { type: numeric, expected: 8 } }
+      - { prompt: "439 mod 2=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "440 mod 8=?", evaluation: { type: numeric, expected: 0 } }
+      - { prompt: "891 mod 10=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "510 mod 11=?", evaluation: { type: numeric, expected: 4 } }
+      - { prompt: "704 mod 10=?", evaluation: { type: numeric, expected: 4 } }
+      - { prompt: "927 mod 14=?", evaluation: { type: numeric, expected: 3 } }
+      - { prompt: "120 mod 19=?", evaluation: { type: numeric, expected: 6 } }
+      - { prompt: "889 mod 18=?", evaluation: { type: numeric, expected: 7 } }
+      - { prompt: "263 mod 7=?", evaluation: { type: numeric, expected: 4 } }
+      - { prompt: "323 mod 18=?", evaluation: { type: numeric, expected: 17 } }
+      - { prompt: "536 mod 12=?", evaluation: { type: numeric, expected: 8 } }
+      - { prompt: "940 mod 17=?", evaluation: { type: numeric, expected: 5 } }
+      - { prompt: "871 mod 16=?", evaluation: { type: numeric, expected: 7 } }
+      - { prompt: "132 mod 15=?", evaluation: { type: numeric, expected: 12 } }
+      - { prompt: "763 mod 10=?", evaluation: { type: numeric, expected: 3 } }
+      - { prompt: "449 mod 20=?", evaluation: { type: numeric, expected: 9 } }
+      - { prompt: "134 mod 18=?", evaluation: { type: numeric, expected: 8 } }
+      - { prompt: "293 mod 13=?", evaluation: { type: numeric, expected: 7 } }
+      - { prompt: "805 mod 3=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "655 mod 20=?", evaluation: { type: numeric, expected: 15 } }
+      - { prompt: "625 mod 12=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "496 mod 4=?", evaluation: { type: numeric, expected: 0 } }
+      - { prompt: "273 mod 19=?", evaluation: { type: numeric, expected: 7 } }
+      - { prompt: "631 mod 6=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "775 mod 11=?", evaluation: { type: numeric, expected: 5 } }
+      - { prompt: "856 mod 11=?", evaluation: { type: numeric, expected: 9 } }
+      - { prompt: "789 mod 7=?", evaluation: { type: numeric, expected: 5 } }
+      - { prompt: "877 mod 10=?", evaluation: { type: numeric, expected: 7 } }
+      - { prompt: "387 mod 19=?", evaluation: { type: numeric, expected: 7 } }
+      - { prompt: "736 mod 7=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "850 mod 12=?", evaluation: { type: numeric, expected: 10 } }
+      - { prompt: "247 mod 13=?", evaluation: { type: numeric, expected: 0 } }
+      - { prompt: "878 mod 12=?", evaluation: { type: numeric, expected: 2 } }
+      - { prompt: "547 mod 2=?", evaluation: { type: numeric, expected: 1 } }
+
+  - id: abulk_pow_80
+    name: べき乗（80問）
+    description: a^b（小さめ、整数、数字のみ）
+    modality: text
+    weight: 5
+    pass_threshold: 0.85
+    system_prompt: |
+      数字のみを回答。説明禁止。
+      記法: a^b は a の b 乗。
+    variants:
+      - { prompt: "12^2=?", evaluation: { type: numeric, expected: 144 } }
+      - { prompt: "7^6=?", evaluation: { type: numeric, expected: 117649 } }
+      - { prompt: "3^6=?", evaluation: { type: numeric, expected: 729 } }
+      - { prompt: "12^5=?", evaluation: { type: numeric, expected: 248832 } }
+      - { prompt: "8^2=?", evaluation: { type: numeric, expected: 64 } }
+      - { prompt: "10^3=?", evaluation: { type: numeric, expected: 1000 } }
+      - { prompt: "9^3=?", evaluation: { type: numeric, expected: 729 } }
+      - { prompt: "3^1=?", evaluation: { type: numeric, expected: 3 } }
+      - { prompt: "11^1=?", evaluation: { type: numeric, expected: 11 } }
+      - { prompt: "5^2=?", evaluation: { type: numeric, expected: 25 } }
+      - { prompt: "10^2=?", evaluation: { type: numeric, expected: 100 } }
+      - { prompt: "10^4=?", evaluation: { type: numeric, expected: 10000 } }
+      - { prompt: "7^5=?", evaluation: { type: numeric, expected: 16807 } }
+      - { prompt: "6^5=?", evaluation: { type: numeric, expected: 7776 } }
+      - { prompt: "12^0=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "4^5=?", evaluation: { type: numeric, expected: 1024 } }
+      - { prompt: "5^0=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "2^4=?", evaluation: { type: numeric, expected: 16 } }
+      - { prompt: "5^6=?", evaluation: { type: numeric, expected: 15625 } }
+      - { prompt: "1^2=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "11^0=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "10^1=?", evaluation: { type: numeric, expected: 10 } }
+      - { prompt: "1^5=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "8^1=?", evaluation: { type: numeric, expected: 8 } }
+      - { prompt: "12^3=?", evaluation: { type: numeric, expected: 1728 } }
+      - { prompt: "3^5=?", evaluation: { type: numeric, expected: 243 } }
+      - { prompt: "6^1=?", evaluation: { type: numeric, expected: 6 } }
+      - { prompt: "3^0=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "9^4=?", evaluation: { type: numeric, expected: 6561 } }
+      - { prompt: "4^0=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "9^2=?", evaluation: { type: numeric, expected: 81 } }
+      - { prompt: "6^6=?", evaluation: { type: numeric, expected: 46656 } }
+      - { prompt: "0^3=?", evaluation: { type: numeric, expected: 0 } }
+      - { prompt: "4^3=?", evaluation: { type: numeric, expected: 64 } }
+      - { prompt: "6^2=?", evaluation: { type: numeric, expected: 36 } }
+      - { prompt: "7^2=?", evaluation: { type: numeric, expected: 49 } }
+      - { prompt: "8^0=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "11^5=?", evaluation: { type: numeric, expected: 161051 } }
+      - { prompt: "1^3=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "11^2=?", evaluation: { type: numeric, expected: 121 } }
+      - { prompt: "5^4=?", evaluation: { type: numeric, expected: 625 } }
+      - { prompt: "3^3=?", evaluation: { type: numeric, expected: 27 } }
+      - { prompt: "6^0=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "8^5=?", evaluation: { type: numeric, expected: 32768 } }
+      - { prompt: "1^0=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "1^4=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "5^1=?", evaluation: { type: numeric, expected: 5 } }
+      - { prompt: "4^6=?", evaluation: { type: numeric, expected: 4096 } }
+      - { prompt: "5^3=?", evaluation: { type: numeric, expected: 125 } }
+      - { prompt: "3^4=?", evaluation: { type: numeric, expected: 81 } }
+      - { prompt: "12^6=?", evaluation: { type: numeric, expected: 2985984 } }
+      - { prompt: "0^0=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "2^0=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "9^5=?", evaluation: { type: numeric, expected: 59049 } }
+      - { prompt: "4^4=?", evaluation: { type: numeric, expected: 256 } }
+      - { prompt: "5^5=?", evaluation: { type: numeric, expected: 3125 } }
+      - { prompt: "6^4=?", evaluation: { type: numeric, expected: 1296 } }
+      - { prompt: "7^3=?", evaluation: { type: numeric, expected: 343 } }
+      - { prompt: "3^2=?", evaluation: { type: numeric, expected: 9 } }
+      - { prompt: "8^3=?", evaluation: { type: numeric, expected: 512 } }
+      - { prompt: "2^1=?", evaluation: { type: numeric, expected: 2 } }
+      - { prompt: "10^0=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "1^1=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "10^6=?", evaluation: { type: numeric, expected: 1000000 } }
+      - { prompt: "0^6=?", evaluation: { type: numeric, expected: 0 } }
+      - { prompt: "11^3=?", evaluation: { type: numeric, expected: 1331 } }
+      - { prompt: "8^6=?", evaluation: { type: numeric, expected: 262144 } }
+      - { prompt: "11^4=?", evaluation: { type: numeric, expected: 14641 } }
+      - { prompt: "7^1=?", evaluation: { type: numeric, expected: 7 } }
+      - { prompt: "2^2=?", evaluation: { type: numeric, expected: 4 } }
+      - { prompt: "2^3=?", evaluation: { type: numeric, expected: 8 } }
+      - { prompt: "1^6=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "2^6=?", evaluation: { type: numeric, expected: 64 } }
+      - { prompt: "0^1=?", evaluation: { type: numeric, expected: 0 } }
+      - { prompt: "7^0=?", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "6^3=?", evaluation: { type: numeric, expected: 216 } }
+      - { prompt: "0^5=?", evaluation: { type: numeric, expected: 0 } }
+      - { prompt: "4^2=?", evaluation: { type: numeric, expected: 16 } }
+      - { prompt: "11^6=?", evaluation: { type: numeric, expected: 1771561 } }
+      - { prompt: "9^0=?", evaluation: { type: numeric, expected: 1 } }

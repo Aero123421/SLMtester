@@ -1,0 +1,179 @@
+# ============================================
+# カテゴリ: 指示追従 (Instruction Following)
+# ============================================
+# 特定の形式での出力、制約条件の遵守など
+# 指示に正確に従う能力を評価
+# 各テストは10問のバリエーションで構成
+# ============================================
+
+category:
+  id: instruction
+  name: 指示追従
+  description: JSON出力、番号付きリスト、文字数制限など指示への追従能力を評価
+
+cases:
+  # ========================================
+  # テスト1: JSON形式出力（10問）
+  # ========================================
+  - id: inst_json
+    name: JSON形式出力
+    description: 指定された形式でJSONを出力できるか
+    modality: text
+    weight: 5
+    pass_threshold: 0.8
+    system_prompt: |
+      あなたはJSON形式でデータを出力するアシスタントです。
+      必ず有効なJSON形式で回答してください。
+      追加の説明は不要です。
+    variants:
+      - prompt: |
+          以下の情報をJSONで出力してください：
+          - 名前: 田中太郎
+          - 年齢: 30
+          - 職業: エンジニア
+        evaluation:
+          type: json_parse
+      - prompt: |
+          以下をJSONで：商品「りんご」価格100円、在庫50個
+        evaluation:
+          type: json_parse
+      - prompt: |
+          JSON形式で：名前=佐藤花子、メール=hanako@example.com
+        evaluation:
+          type: json_parse
+      - prompt: |
+          以下をJSON配列で出力：赤、青、緑、黄
+        evaluation:
+          type: json_parse
+      - prompt: |
+          JSONで表現：都市=東京、人口=1400万、面積=2194km2
+        evaluation:
+          type: json_parse
+      - prompt: |
+          以下のタスクをJSONで：タイトル「買い物」優先度「高」期限「2024-01-15」
+        evaluation:
+          type: json_parse
+      - prompt: |
+          JSONで：本「吾輩は猫である」著者「夏目漱石」ページ数「300」
+        evaluation:
+          type: json_parse
+      - prompt: |
+          以下をJSONオブジェクトで：言語リスト=[Python, JavaScript, Go]
+        evaluation:
+          type: json_parse
+      - prompt: |
+          JSONで表現：イベント名「会議」日時「2024-03-01 10:00」参加者数「5」
+        evaluation:
+          type: json_parse
+      - prompt: |
+          以下をJSONで：status=success, code=200, message="OK"
+        evaluation:
+          type: json_parse
+
+  # ========================================
+  # テスト2: 番号付きリスト（10問）
+  # ========================================
+  - id: inst_numbered_list
+    name: 番号付きリスト
+    description: 指定された数の項目を番号付きで出力できるか
+    modality: text
+    weight: 3
+    pass_threshold: 0.8
+    system_prompt: |
+      指示に従って、番号付きリストで回答してください。
+      各項目は「1. 」「2. 」のように番号を付けてください。
+    variants:
+      - prompt: "プログラミング言語を3つ挙げてください"
+        evaluation:
+          type: contains_all
+          keywords: ["1.", "2.", "3."]
+      - prompt: "日本の都道府県を5つ挙げてください"
+        evaluation:
+          type: contains_all
+          keywords: ["1.", "2.", "3.", "4.", "5."]
+      - prompt: "果物を4つ挙げてください"
+        evaluation:
+          type: contains_all
+          keywords: ["1.", "2.", "3.", "4."]
+      - prompt: "週末にできる趣味を3つ挙げてください"
+        evaluation:
+          type: contains_all
+          keywords: ["1.", "2.", "3."]
+      - prompt: "健康に良い習慣を5つ挙げてください"
+        evaluation:
+          type: contains_all
+          keywords: ["1.", "2.", "3.", "4.", "5."]
+      - prompt: "有名な科学者を3人挙げてください"
+        evaluation:
+          type: contains_all
+          keywords: ["1.", "2.", "3."]
+      - prompt: "動物を6種類挙げてください"
+        evaluation:
+          type: contains_all
+          keywords: ["1.", "2.", "3.", "4.", "5.", "6."]
+      - prompt: "色を4つ挙げてください"
+        evaluation:
+          type: contains_all
+          keywords: ["1.", "2.", "3.", "4."]
+      - prompt: "日本料理を5つ挙げてください"
+        evaluation:
+          type: contains_all
+          keywords: ["1.", "2.", "3.", "4.", "5."]
+      - prompt: "スポーツを3つ挙げてください"
+        evaluation:
+          type: contains_all
+          keywords: ["1.", "2.", "3."]
+
+  # ========================================
+  # テスト3: 制約付き生成（10問）
+  # ========================================
+  - id: inst_constraints
+    name: 制約付き生成
+    description: 文字数・形式などの制約を守って生成できるか
+    modality: text
+    weight: 4
+    pass_threshold: 0.8
+    system_prompt: |
+      指示された制約を必ず守って回答してください。
+      制約違反は評価に影響します。
+    variants:
+      - prompt: "「猫」という漢字を使って、10文字以内の文を作ってください"
+        evaluation:
+          type: contains_any
+          keywords: ["猫"]
+      - prompt: "「あ」で始まる単語を5つ挙げてください（カンマ区切り）"
+        evaluation:
+          type: regex_match
+          pattern: "あ.*,.*あ.*,.*あ.*,.*あ.*,.*あ"
+      - prompt: "すべて平仮名で「おはようございます」と書いてください"
+        evaluation:
+          type: contains_any
+          keywords: ["おはようございます"]
+      - prompt: "英語で「thank you」と言い換えを3つ書いてください"
+        evaluation:
+          type: contains_any
+          keywords: ["thanks", "Thank", "grateful", "appreciate"]
+      - prompt: "「春」をテーマにした俳句を1つ作ってください（5-7-5形式）"
+        evaluation:
+          type: contains_any
+          keywords: ["春", "花", "桜", "蝶", "風"]
+      - prompt: "回文（前から読んでも後ろから読んでも同じ）を1つ作ってください"
+        evaluation:
+          type: contains_any
+          keywords: ["たけやぶやけた", "しんぶんし", "トマト", "level"]
+      - prompt: "「AI」という略語を使わずに人工知能を説明してください"
+        evaluation:
+          type: contains_any
+          keywords: ["人工知能", "コンピュータ", "機械"]
+      - prompt: "全て大文字のアルファベットで「HELLO」と書いてください"
+        evaluation:
+          type: contains_any
+          keywords: ["HELLO"]
+      - prompt: "漢字を使わずに「ありがとう」の気持ちを伝えてください"
+        evaluation:
+          type: contains_any
+          keywords: ["ありがとう", "感謝", "サンキュー"]
+      - prompt: "3行で自己紹介を書いてください"
+        evaluation:
+          type: regex_match
+          pattern: ".*\\n.*\\n.*"

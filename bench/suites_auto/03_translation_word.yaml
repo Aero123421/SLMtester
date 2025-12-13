@@ -1,0 +1,99 @@
+# ============================================
+# カテゴリ: 自動評価（単語翻訳）
+# ============================================
+# - 1語だけ翻訳（説明禁止）
+# - 曖昧な多義語は避け、代替表記（ひらがな/漢字など）は alternatives で許容
+# ============================================
+
+category:
+  id: auto_translation_word
+  name: 自動評価（単語翻訳）
+  description: 英⇄日（1語のみ、説明なし）
+
+cases:
+  - id: aword_en2ja_colors
+    name: 英→日（色）
+    description: 英単語を日本語1語で（漢字/カタカナ/ひらがなは alternatives で許容）
+    modality: text
+    weight: 4
+    pass_threshold: 0.95
+    system_prompt: |
+      日本語の単語1つだけを出力。説明・句読点・補足は禁止。
+    variants:
+      - { prompt: "Translate to Japanese (one word): red", evaluation: { type: exact_match, expected: "赤", alternatives: ["赤", "あか"] } }
+      - { prompt: "Translate to Japanese (one word): blue", evaluation: { type: exact_match, expected: "青", alternatives: ["青", "あお"] } }
+      - { prompt: "Translate to Japanese (one word): green", evaluation: { type: exact_match, expected: "緑", alternatives: ["緑", "みどり"] } }
+      - { prompt: "Translate to Japanese (one word): white", evaluation: { type: exact_match, expected: "白", alternatives: ["白", "しろ"] } }
+      - { prompt: "Translate to Japanese (one word): black", evaluation: { type: exact_match, expected: "黒", alternatives: ["黒", "くろ"] } }
+      - { prompt: "Translate to Japanese (one word): yellow", evaluation: { type: exact_match, expected: "黄", alternatives: ["黄", "き"] } }
+      - { prompt: "Translate to Japanese (one word): pink", evaluation: { type: exact_match, expected: "ピンク", alternatives: ["ピンク"] } }
+      - { prompt: "Translate to Japanese (one word): orange", evaluation: { type: exact_match, expected: "オレンジ", alternatives: ["オレンジ"] } }
+      - { prompt: "Translate to Japanese (one word): purple", evaluation: { type: exact_match, expected: "紫", alternatives: ["紫", "むらさき"] } }
+      - { prompt: "Translate to Japanese (one word): gray", evaluation: { type: exact_match, expected: "灰色", alternatives: ["灰色", "はいいろ", "グレー"] } }
+
+  - id: aword_en2ja_basic_nouns
+    name: 英→日（基本名詞）
+    description: よくある名詞（1語翻訳）
+    modality: text
+    weight: 4
+    pass_threshold: 0.95
+    system_prompt: |
+      日本語の単語1つだけを出力。説明・句読点・補足は禁止。
+    variants:
+      - { prompt: "Translate to Japanese (one word): cat", evaluation: { type: exact_match, expected: "猫", alternatives: ["猫", "ねこ"] } }
+      - { prompt: "Translate to Japanese (one word): dog", evaluation: { type: exact_match, expected: "犬", alternatives: ["犬", "いぬ"] } }
+      - { prompt: "Translate to Japanese (one word): bird", evaluation: { type: exact_match, expected: "鳥", alternatives: ["鳥", "とり"] } }
+      - { prompt: "Translate to Japanese (one word): fish", evaluation: { type: exact_match, expected: "魚", alternatives: ["魚", "さかな"] } }
+      - { prompt: "Translate to Japanese (one word): book", evaluation: { type: exact_match, expected: "本", alternatives: ["本", "ほん"] } }
+      - { prompt: "Translate to Japanese (one word): pen", evaluation: { type: exact_match, expected: "ペン", alternatives: ["ペン"] } }
+      - { prompt: "Translate to Japanese (one word): chair", evaluation: { type: exact_match, expected: "椅子", alternatives: ["椅子", "いす"] } }
+      - { prompt: "Translate to Japanese (one word): water", evaluation: { type: exact_match, expected: "水", alternatives: ["水", "みず"] } }
+      - { prompt: "Translate to Japanese (one word): fire", evaluation: { type: exact_match, expected: "火", alternatives: ["火", "ひ"] } }
+      - { prompt: "Translate to Japanese (one word): mountain", evaluation: { type: exact_match, expected: "山", alternatives: ["山", "やま"] } }
+      - { prompt: "Translate to Japanese (one word): river", evaluation: { type: exact_match, expected: "川", alternatives: ["川", "かわ"] } }
+      - { prompt: "Translate to Japanese (one word): sun", evaluation: { type: exact_match, expected: "太陽", alternatives: ["太陽", "たいよう"] } }
+      - { prompt: "Translate to Japanese (one word): moon", evaluation: { type: exact_match, expected: "月", alternatives: ["月", "つき"] } }
+      - { prompt: "Translate to Japanese (one word): phone", evaluation: { type: exact_match, expected: "電話", alternatives: ["電話", "でんわ"] } }
+      - { prompt: "Translate to Japanese (one word): computer", evaluation: { type: exact_match, expected: "コンピュータ", alternatives: ["コンピュータ", "コンピューター"] } }
+
+  - id: aword_ja2en_colors
+    name: 日→英（色）
+    description: 日本語を英語1語で（小文字推奨）
+    modality: text
+    weight: 4
+    pass_threshold: 0.95
+    system_prompt: |
+      英単語1つだけを出力。説明・句読点・補足は禁止。小文字で。
+    variants:
+      - { prompt: "英語1語に翻訳: 赤", evaluation: { type: regex_fullmatch, pattern: "red", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 青", evaluation: { type: regex_fullmatch, pattern: "blue", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 緑", evaluation: { type: regex_fullmatch, pattern: "green", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 白", evaluation: { type: regex_fullmatch, pattern: "white", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 黒", evaluation: { type: regex_fullmatch, pattern: "black", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 紫", evaluation: { type: regex_fullmatch, pattern: "purple", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: ピンク", evaluation: { type: regex_fullmatch, pattern: "pink", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: オレンジ", evaluation: { type: regex_fullmatch, pattern: "orange", flags: ["IGNORECASE"] } }
+
+  - id: aword_ja2en_basic
+    name: 日→英（基本語）
+    description: 日本語を英語1語で（小文字推奨）
+    modality: text
+    weight: 4
+    pass_threshold: 0.95
+    system_prompt: |
+      英単語1つだけを出力。説明・句読点・補足は禁止。小文字で。
+    variants:
+      - { prompt: "英語1語に翻訳: 猫", evaluation: { type: regex_fullmatch, pattern: "cat", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 犬", evaluation: { type: regex_fullmatch, pattern: "dog", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 鳥", evaluation: { type: regex_fullmatch, pattern: "bird", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 魚", evaluation: { type: regex_fullmatch, pattern: "fish", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 本", evaluation: { type: regex_fullmatch, pattern: "book", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 水", evaluation: { type: regex_fullmatch, pattern: "water", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 火", evaluation: { type: regex_fullmatch, pattern: "fire", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 山", evaluation: { type: regex_fullmatch, pattern: "mountain", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 川", evaluation: { type: regex_fullmatch, pattern: "river", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 月", evaluation: { type: regex_fullmatch, pattern: "moon", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 太陽", evaluation: { type: regex_fullmatch, pattern: "sun", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 電話", evaluation: { type: regex_fullmatch, pattern: "phone", flags: ["IGNORECASE"] } }
+      - { prompt: "英語1語に翻訳: 椅子", evaluation: { type: regex_fullmatch, pattern: "chair", flags: ["IGNORECASE"] } }
+

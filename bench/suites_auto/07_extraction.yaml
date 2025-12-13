@@ -1,0 +1,90 @@
+# ============================================
+# カテゴリ: 自動評価（抽出）
+# ============================================
+# - 与えられたテキストから「指定された要素だけ」を抜き出す
+# - 出力を一意にして自動評価しやすくする
+# ============================================
+
+category:
+  id: auto_extraction
+  name: 自動評価（抽出）
+  description: 位置指定抽出、区切り抽出、キー=値抽出（結果のみ）
+
+cases:
+  - id: aext_between_markers
+    name: マーカー間抽出
+    description: "[BEGIN] と [END] の間だけを出力"
+    modality: text
+    weight: 5
+    pass_threshold: 0.9
+    system_prompt: |
+      [BEGIN] と [END] の間の文字列だけをそのまま出力。説明禁止。
+    variants:
+      - { prompt: "TEXT: aaa [BEGIN] hello [END] bbb", evaluation: { type: exact_match, expected: "hello" } }
+      - { prompt: "TEXT: [BEGIN]12345[END]", evaluation: { type: exact_match, expected: "12345" } }
+      - { prompt: "TEXT: xx[BEGIN]a_b_c[END]yy", evaluation: { type: exact_match, expected: "a_b_c" } }
+      - { prompt: "TEXT: pre [BEGIN] OpenAI [END] post", evaluation: { type: exact_match, expected: "OpenAI" } }
+      - { prompt: "TEXT: pre [BEGIN]  spaced  [END] post（空白も含めて）", evaluation: { type: exact_match, expected: "  spaced  " } }
+
+  - id: aext_kv_pair
+    name: key=value 抽出
+    description: 指定されたキーの値だけ
+    modality: text
+    weight: 5
+    pass_threshold: 0.9
+    system_prompt: |
+      指定キーの値だけを出力。説明禁止。
+      形式は key=value がスペース区切りで並ぶ。
+    variants:
+      - { prompt: "DATA: a=1 b=2 c=3 ; key=b", evaluation: { type: exact_match, expected: "2" } }
+      - { prompt: "DATA: name=alice id=007 city=tokyo ; key=id", evaluation: { type: exact_match, expected: "007" } }
+      - { prompt: "DATA: x=hello y=world z=!! ; key=y", evaluation: { type: exact_match, expected: "world" } }
+      - { prompt: "DATA: foo=bar baz=qux ; key=foo", evaluation: { type: exact_match, expected: "bar" } }
+      - { prompt: "DATA: p=3.14 q=2.72 ; key=p", evaluation: { type: exact_match, expected: "3.14" } }
+
+  - id: aext_nth_token
+    name: N番目トークン抽出
+    description: スペース区切りでn番目（1-index）
+    modality: text
+    weight: 5
+    pass_threshold: 0.9
+    system_prompt: |
+      指定されたn番目(1-index)のトークンだけを出力。説明禁止。
+      トークンは半角スペースで分割。
+    variants:
+      - { prompt: "TOKENS: one two three four ; n=3", evaluation: { type: exact_match, expected: "three" } }
+      - { prompt: "TOKENS: a bb ccc dddd ; n=4", evaluation: { type: exact_match, expected: "dddd" } }
+      - { prompt: "TOKENS: 10 20 30 40 50 ; n=1", evaluation: { type: exact_match, expected: "10" } }
+      - { prompt: "TOKENS: red green blue ; n=2", evaluation: { type: exact_match, expected: "green" } }
+      - { prompt: "TOKENS: x_y z-w q ; n=1", evaluation: { type: exact_match, expected: "x_y" } }
+
+  - id: aext_index_slice
+    name: インデックス抽出
+    description: 文字列sの i..j を抽出（0-index, jは含まない）
+    modality: text
+    weight: 5
+    pass_threshold: 0.85
+    system_prompt: |
+      抽出結果だけを出力。説明禁止。
+      ルール: 0-index、範囲は [i, j)（jは含まない）。
+    variants:
+      - { prompt: "s=abcdef i=0 j=3", evaluation: { type: exact_match, expected: "abc" } }
+      - { prompt: "s=abcdef i=3 j=6", evaluation: { type: exact_match, expected: "def" } }
+      - { prompt: "s=abcdef i=1 j=5", evaluation: { type: exact_match, expected: "bcde" } }
+      - { prompt: "s=123456789 i=2 j=7", evaluation: { type: exact_match, expected: "34567" } }
+      - { prompt: "s=OpenAI i=0 j=4", evaluation: { type: exact_match, expected: "Open" } }
+      - { prompt: "s=OpenAI i=4 j=6", evaluation: { type: exact_match, expected: "AI" } }
+
+  - id: aext_csv_column
+    name: CSV列抽出
+    description: CSV 1行から指定列（1-index）を抽出
+    modality: text
+    weight: 5
+    pass_threshold: 0.9
+    system_prompt: |
+      CSVはカンマ区切り、クォート無し。指定列(1-index)の値だけを出力。説明禁止。
+    variants:
+      - { prompt: "CSV: a,b,c ; col=2", evaluation: { type: exact_match, expected: "b" } }
+      - { prompt: "CSV: 10,20,30,40 ; col=4", evaluation: { type: exact_match, expected: "40" } }
+      - { prompt: "CSV: alice,tokyo,007 ; col=1", evaluation: { type: exact_match, expected: "alice" } }
+      - { prompt: "CSV: x_y,z-w,q ; col=2", evaluation: { type: exact_match, expected: "z-w" } }

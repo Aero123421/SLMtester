@@ -1,0 +1,203 @@
+# ============================================
+# カテゴリ: 自動評価（大量・文字列）
+# ============================================
+# - 文字列処理（出力は結果のみ）
+# - ルール明示で曖昧性を排除
+# ============================================
+
+category:
+  id: auto_string_bulk
+  name: 自動評価（大量・文字列）
+  description: reverse/uppercase/replace などを大量に
+
+cases:
+  - id: abulk_reverse_60
+    name: 逆順（60問）
+    description: 文字列を逆順にして出力
+    modality: text
+    weight: 5
+    pass_threshold: 0.9
+    system_prompt: |
+      逆順にした結果だけを出力。説明や引用符は禁止。
+    variants:
+      - { prompt: "REVERSE: y417z8z1x", evaluation: { type: exact_match, expected: "x1z8z714y" } }
+      - { prompt: "REVERSE: bf79e15_yb", evaluation: { type: exact_match, expected: "by_51e97fb" } }
+      - { prompt: "REVERSE: 8d9b", evaluation: { type: exact_match, expected: "b9d8" } }
+      - { prompt: "REVERSE: e3182", evaluation: { type: exact_match, expected: "2813e" } }
+      - { prompt: "REVERSE: _y54", evaluation: { type: exact_match, expected: "45y_" } }
+      - { prompt: "REVERSE: _03fy1_e2", evaluation: { type: exact_match, expected: "2e_1yf30_" } }
+      - { prompt: "REVERSE: x0x1e18", evaluation: { type: exact_match, expected: "81e1x0x" } }
+      - { prompt: "REVERSE: 4c7yx8zf3z", evaluation: { type: exact_match, expected: "z3fz8xy7c4" } }
+      - { prompt: "REVERSE: 2ye4x4", evaluation: { type: exact_match, expected: "4x4ey2" } }
+      - { prompt: "REVERSE: 4x5f", evaluation: { type: exact_match, expected: "f5x4" } }
+      - { prompt: "REVERSE: baa__5z4ez", evaluation: { type: exact_match, expected: "ze4z5__aab" } }
+      - { prompt: "REVERSE: f91e79", evaluation: { type: exact_match, expected: "97e19f" } }
+      - { prompt: "REVERSE: 0_06_22z", evaluation: { type: exact_match, expected: "z22_60_0" } }
+      - { prompt: "REVERSE: _z_", evaluation: { type: exact_match, expected: "_z_" } }
+      - { prompt: "REVERSE: 7z6__e_x", evaluation: { type: exact_match, expected: "x_e__6z7" } }
+      - { prompt: "REVERSE: ee8cydy19", evaluation: { type: exact_match, expected: "91ydyc8ee" } }
+      - { prompt: "REVERSE: 492f_x0a", evaluation: { type: exact_match, expected: "a0x_f294" } }
+      - { prompt: "REVERSE: 2z6b2yc", evaluation: { type: exact_match, expected: "cy2b6z2" } }
+      - { prompt: "REVERSE: z0eyz", evaluation: { type: exact_match, expected: "zye0z" } }
+      - { prompt: "REVERSE: xc98c0b", evaluation: { type: exact_match, expected: "b0c89cx" } }
+      - { prompt: "REVERSE: 4d_3b7", evaluation: { type: exact_match, expected: "7b3_d4" } }
+      - { prompt: "REVERSE: e5bfby2fx", evaluation: { type: exact_match, expected: "xf2ybfb5e" } }
+      - { prompt: "REVERSE: 50e", evaluation: { type: exact_match, expected: "e05" } }
+      - { prompt: "REVERSE: 4z81d", evaluation: { type: exact_match, expected: "d18z4" } }
+      - { prompt: "REVERSE: f67f7e9212", evaluation: { type: exact_match, expected: "2129e7f76f" } }
+      - { prompt: "REVERSE: zc0", evaluation: { type: exact_match, expected: "0cz" } }
+      - { prompt: "REVERSE: cdxc419c1", evaluation: { type: exact_match, expected: "1c914cxdc" } }
+      - { prompt: "REVERSE: 5d5731", evaluation: { type: exact_match, expected: "1375d5" } }
+      - { prompt: "REVERSE: 3ycb6", evaluation: { type: exact_match, expected: "6bcy3" } }
+      - { prompt: "REVERSE: fbz", evaluation: { type: exact_match, expected: "zbf" } }
+      - { prompt: "REVERSE: xba69", evaluation: { type: exact_match, expected: "96abx" } }
+      - { prompt: "REVERSE: 1_9_8xe", evaluation: { type: exact_match, expected: "ex8_9_1" } }
+      - { prompt: "REVERSE: eadyf", evaluation: { type: exact_match, expected: "fydae" } }
+      - { prompt: "REVERSE: 7_6c", evaluation: { type: exact_match, expected: "c6_7" } }
+      - { prompt: "REVERSE: yf4c33", evaluation: { type: exact_match, expected: "33c4fy" } }
+      - { prompt: "REVERSE: xe1a9f", evaluation: { type: exact_match, expected: "f9a1ex" } }
+      - { prompt: "REVERSE: xz_3f_47", evaluation: { type: exact_match, expected: "74_f3_zx" } }
+      - { prompt: "REVERSE: 3daz08de6", evaluation: { type: exact_match, expected: "6ed80zad3" } }
+      - { prompt: "REVERSE: 01edac3xd", evaluation: { type: exact_match, expected: "dx3cade10" } }
+      - { prompt: "REVERSE: b90x", evaluation: { type: exact_match, expected: "x09b" } }
+      - { prompt: "REVERSE: zxdaye2cd5", evaluation: { type: exact_match, expected: "5dc2eyadxz" } }
+      - { prompt: "REVERSE: 6a2", evaluation: { type: exact_match, expected: "2a6" } }
+      - { prompt: "REVERSE: 19z8ef9", evaluation: { type: exact_match, expected: "9fe8z91" } }
+      - { prompt: "REVERSE: bc5fz0ffd", evaluation: { type: exact_match, expected: "dff0zf5cb" } }
+      - { prompt: "REVERSE: 7c0fz88", evaluation: { type: exact_match, expected: "88zf0c7" } }
+      - { prompt: "REVERSE: 2865ay", evaluation: { type: exact_match, expected: "ya5682" } }
+      - { prompt: "REVERSE: 9x1dz1a", evaluation: { type: exact_match, expected: "a1zd1x9" } }
+      - { prompt: "REVERSE: bd2", evaluation: { type: exact_match, expected: "2db" } }
+      - { prompt: "REVERSE: 2569188", evaluation: { type: exact_match, expected: "8819652" } }
+      - { prompt: "REVERSE: z0e98yec", evaluation: { type: exact_match, expected: "cey89e0z" } }
+      - { prompt: "REVERSE: d28a", evaluation: { type: exact_match, expected: "a82d" } }
+      - { prompt: "REVERSE: 62_58zyb", evaluation: { type: exact_match, expected: "byz85_26" } }
+      - { prompt: "REVERSE: 6_0bd1833", evaluation: { type: exact_match, expected: "3381db0_6" } }
+      - { prompt: "REVERSE: 087b8", evaluation: { type: exact_match, expected: "8b780" } }
+      - { prompt: "REVERSE: y837x", evaluation: { type: exact_match, expected: "x738y" } }
+      - { prompt: "REVERSE: y52e6c", evaluation: { type: exact_match, expected: "c6e25y" } }
+      - { prompt: "REVERSE: 3xb270x_4", evaluation: { type: exact_match, expected: "4_x072bx3" } }
+      - { prompt: "REVERSE: 90z8a", evaluation: { type: exact_match, expected: "a8z09" } }
+      - { prompt: "REVERSE: a20by", evaluation: { type: exact_match, expected: "yb02a" } }
+      - { prompt: "REVERSE: x5y2aa584", evaluation: { type: exact_match, expected: "485aa2y5x" } }
+
+  - id: abulk_upper_60
+    name: 大文字化（60問）
+    description: ASCII英字を大文字へ
+    modality: text
+    weight: 4
+    pass_threshold: 0.9
+    system_prompt: |
+      変換後の文字列だけを出力。説明や引用符は禁止。
+    variants:
+      - { prompt: "UPPERCASE: tahocy1y", evaluation: { type: exact_match, expected: "TAHOCY1Y" } }
+      - { prompt: "UPPERCASE: uf6ru4fkmb", evaluation: { type: exact_match, expected: "UF6RU4FKMB" } }
+      - { prompt: "UPPERCASE: gh9rq9qw4rd", evaluation: { type: exact_match, expected: "GH9RQ9QW4RD" } }
+      - { prompt: "UPPERCASE: xa49lhg", evaluation: { type: exact_match, expected: "XA49LHG" } }
+      - { prompt: "UPPERCASE: 13fey", evaluation: { type: exact_match, expected: "13FEY" } }
+      - { prompt: "UPPERCASE: miw98e0f1rs", evaluation: { type: exact_match, expected: "MIW98E0F1RS" } }
+      - { prompt: "UPPERCASE: n5ur", evaluation: { type: exact_match, expected: "N5UR" } }
+      - { prompt: "UPPERCASE: 0om2yv8he", evaluation: { type: exact_match, expected: "0OM2YV8HE" } }
+      - { prompt: "UPPERCASE: rhly7e", evaluation: { type: exact_match, expected: "RHLY7E" } }
+      - { prompt: "UPPERCASE: 5wx7kjh", evaluation: { type: exact_match, expected: "5WX7KJH" } }
+      - { prompt: "UPPERCASE: i2fk", evaluation: { type: exact_match, expected: "I2FK" } }
+      - { prompt: "UPPERCASE: 3xe4", evaluation: { type: exact_match, expected: "3XE4" } }
+      - { prompt: "UPPERCASE: hgz", evaluation: { type: exact_match, expected: "HGZ" } }
+      - { prompt: "UPPERCASE: cpv_ieryqd", evaluation: { type: exact_match, expected: "CPV_IERYQD" } }
+      - { prompt: "UPPERCASE: gfmm7q", evaluation: { type: exact_match, expected: "GFMM7Q" } }
+      - { prompt: "UPPERCASE: zldbjto5jv", evaluation: { type: exact_match, expected: "ZLDBJTO5JV" } }
+      - { prompt: "UPPERCASE: lg556438bq31", evaluation: { type: exact_match, expected: "LG556438BQ31" } }
+      - { prompt: "UPPERCASE: e6xh4fdh", evaluation: { type: exact_match, expected: "E6XH4FDH" } }
+      - { prompt: "UPPERCASE: wq_x8cq7", evaluation: { type: exact_match, expected: "WQ_X8CQ7" } }
+      - { prompt: "UPPERCASE: iegqg", evaluation: { type: exact_match, expected: "IEGQG" } }
+      - { prompt: "UPPERCASE: q2h3w9d1di", evaluation: { type: exact_match, expected: "Q2H3W9D1DI" } }
+      - { prompt: "UPPERCASE: c3ud_h", evaluation: { type: exact_match, expected: "C3UD_H" } }
+      - { prompt: "UPPERCASE: inoab76d5", evaluation: { type: exact_match, expected: "INOAB76D5" } }
+      - { prompt: "UPPERCASE: 6a1mfv2dhzjv", evaluation: { type: exact_match, expected: "6A1MFV2DHZJV" } }
+      - { prompt: "UPPERCASE: puk6v", evaluation: { type: exact_match, expected: "PUK6V" } }
+      - { prompt: "UPPERCASE: 8uu108h", evaluation: { type: exact_match, expected: "8UU108H" } }
+      - { prompt: "UPPERCASE: qa13j6vvy8_s", evaluation: { type: exact_match, expected: "QA13J6VVY8_S" } }
+      - { prompt: "UPPERCASE: x6cuadn8q9bi", evaluation: { type: exact_match, expected: "X6CUADN8Q9BI" } }
+      - { prompt: "UPPERCASE: j6uqpelh", evaluation: { type: exact_match, expected: "J6UQPELH" } }
+      - { prompt: "UPPERCASE: jsq", evaluation: { type: exact_match, expected: "JSQ" } }
+      - { prompt: "UPPERCASE: si019752aq", evaluation: { type: exact_match, expected: "SI019752AQ" } }
+      - { prompt: "UPPERCASE: tga4a", evaluation: { type: exact_match, expected: "TGA4A" } }
+      - { prompt: "UPPERCASE: 2e4", evaluation: { type: exact_match, expected: "2E4" } }
+      - { prompt: "UPPERCASE: 0w_2f4hx0_", evaluation: { type: exact_match, expected: "0W_2F4HX0_" } }
+      - { prompt: "UPPERCASE: yu7iokyadg", evaluation: { type: exact_match, expected: "YU7IOKYADG" } }
+      - { prompt: "UPPERCASE: y5_1jvjgy", evaluation: { type: exact_match, expected: "Y5_1JVJGY" } }
+      - { prompt: "UPPERCASE: v9r2j0agkx_", evaluation: { type: exact_match, expected: "V9R2J0AGKX_" } }
+      - { prompt: "UPPERCASE: zef", evaluation: { type: exact_match, expected: "ZEF" } }
+      - { prompt: "UPPERCASE: ph3_z50lmie", evaluation: { type: exact_match, expected: "PH3_Z50LMIE" } }
+      - { prompt: "UPPERCASE: c1zeo9", evaluation: { type: exact_match, expected: "C1ZEO9" } }
+      - { prompt: "UPPERCASE: ltrfaufeit", evaluation: { type: exact_match, expected: "LTRFAUFEIT" } }
+      - { prompt: "UPPERCASE: skde0", evaluation: { type: exact_match, expected: "SKDE0" } }
+      - { prompt: "UPPERCASE: dh3", evaluation: { type: exact_match, expected: "DH3" } }
+      - { prompt: "UPPERCASE: 9u6", evaluation: { type: exact_match, expected: "9U6" } }
+      - { prompt: "UPPERCASE: 5m7pf2gvkn1", evaluation: { type: exact_match, expected: "5M7PF2GVKN1" } }
+      - { prompt: "UPPERCASE: hs7op_m4", evaluation: { type: exact_match, expected: "HS7OP_M4" } }
+      - { prompt: "UPPERCASE: 1bkh4", evaluation: { type: exact_match, expected: "1BKH4" } }
+      - { prompt: "UPPERCASE: 9al9u2qeccdy", evaluation: { type: exact_match, expected: "9AL9U2QECCDY" } }
+      - { prompt: "UPPERCASE: 1_ajzth2hd3", evaluation: { type: exact_match, expected: "1_AJZTH2HD3" } }
+      - { prompt: "UPPERCASE: l7iihmc", evaluation: { type: exact_match, expected: "L7IIHMC" } }
+      - { prompt: "UPPERCASE: nvn7fetr7ugl", evaluation: { type: exact_match, expected: "NVN7FETR7UGL" } }
+      - { prompt: "UPPERCASE: fr8lnem1f20", evaluation: { type: exact_match, expected: "FR8LNEM1F20" } }
+      - { prompt: "UPPERCASE: 60i7beahk7", evaluation: { type: exact_match, expected: "60I7BEAHK7" } }
+      - { prompt: "UPPERCASE: c55bhu2b", evaluation: { type: exact_match, expected: "C55BHU2B" } }
+      - { prompt: "UPPERCASE: 9xjqv", evaluation: { type: exact_match, expected: "9XJQV" } }
+      - { prompt: "UPPERCASE: hdrdssy", evaluation: { type: exact_match, expected: "HDRDSSY" } }
+      - { prompt: "UPPERCASE: qce4hf9qvpfv", evaluation: { type: exact_match, expected: "QCE4HF9QVPFV" } }
+      - { prompt: "UPPERCASE: 94ig", evaluation: { type: exact_match, expected: "94IG" } }
+      - { prompt: "UPPERCASE: sin", evaluation: { type: exact_match, expected: "SIN" } }
+      - { prompt: "UPPERCASE: si62o1tc", evaluation: { type: exact_match, expected: "SI62O1TC" } }
+
+  - id: abulk_replace_vowels_40
+    name: 置換（母音→* 40問）
+    description: a,e,i,o,u を * に置換（小文字のみ）
+    modality: text
+    weight: 5
+    pass_threshold: 0.85
+    system_prompt: |
+      ルール: 文字列内の a,e,i,o,u をすべて * に置換。
+      結果だけを出力。説明禁止。
+    variants:
+      - { prompt: "REPLACE VOWELS: jqnuzlgigetb", evaluation: { type: exact_match, expected: "jqn*zlg*g*tb" } }
+      - { prompt: "REPLACE VOWELS: lbyarms", evaluation: { type: exact_match, expected: "lby*rms" } }
+      - { prompt: "REPLACE VOWELS: ufbttwnqkum", evaluation: { type: exact_match, expected: "*fbttwnqk*m" } }
+      - { prompt: "REPLACE VOWELS: wlaoiwnvzg", evaluation: { type: exact_match, expected: "wl***wnvzg" } }
+      - { prompt: "REPLACE VOWELS: tmcesm", evaluation: { type: exact_match, expected: "tmc*sm" } }
+      - { prompt: "REPLACE VOWELS: hbsabyyxyefrsu", evaluation: { type: exact_match, expected: "hbs*byyxy*frs*" } }
+      - { prompt: "REPLACE VOWELS: ztmesihnjedkq", evaluation: { type: exact_match, expected: "ztm*s*hnj*dkq" } }
+      - { prompt: "REPLACE VOWELS: ufgnanxp", evaluation: { type: exact_match, expected: "*fgn*nxp" } }
+      - { prompt: "REPLACE VOWELS: rfbtmpwxd", evaluation: { type: exact_match, expected: "rfbtmpwxd" } }
+      - { prompt: "REPLACE VOWELS: soliaubht", evaluation: { type: exact_match, expected: "s*l***bht" } }
+      - { prompt: "REPLACE VOWELS: abvhnxrcbelb", evaluation: { type: exact_match, expected: "*bvhnxrcb*lb" } }
+      - { prompt: "REPLACE VOWELS: fyvijpnuhpbs", evaluation: { type: exact_match, expected: "fyv*jpn*hpbs" } }
+      - { prompt: "REPLACE VOWELS: cqljjxbvld", evaluation: { type: exact_match, expected: "cqljjxbvld" } }
+      - { prompt: "REPLACE VOWELS: pcalwcj", evaluation: { type: exact_match, expected: "pc*lwcj" } }
+      - { prompt: "REPLACE VOWELS: vvhkci", evaluation: { type: exact_match, expected: "vvhkc*" } }
+      - { prompt: "REPLACE VOWELS: cijfmsrkqkzl", evaluation: { type: exact_match, expected: "c*jfmsrkqkzl" } }
+      - { prompt: "REPLACE VOWELS: adlkppkuvpw", evaluation: { type: exact_match, expected: "*dlkppk*vpw" } }
+      - { prompt: "REPLACE VOWELS: vzfvwvdmyuwep", evaluation: { type: exact_match, expected: "vzfvwvdmy*w*p" } }
+      - { prompt: "REPLACE VOWELS: lmhrdo", evaluation: { type: exact_match, expected: "lmhrd*" } }
+      - { prompt: "REPLACE VOWELS: vdmsjzihv", evaluation: { type: exact_match, expected: "vdmsjz*hv" } }
+      - { prompt: "REPLACE VOWELS: onivofnu", evaluation: { type: exact_match, expected: "*n*v*fn*" } }
+      - { prompt: "REPLACE VOWELS: hvcxgtnfgudiv", evaluation: { type: exact_match, expected: "hvcxgtnfg*d*v" } }
+      - { prompt: "REPLACE VOWELS: onjunb", evaluation: { type: exact_match, expected: "*nj*nb" } }
+      - { prompt: "REPLACE VOWELS: zxqrwpxnybrjgc", evaluation: { type: exact_match, expected: "zxqrwpxnybrjgc" } }
+      - { prompt: "REPLACE VOWELS: acmomjvrvllxkv", evaluation: { type: exact_match, expected: "*cm*mjvrvllxkv" } }
+      - { prompt: "REPLACE VOWELS: jnahksqapxne", evaluation: { type: exact_match, expected: "jn*hksq*pxn*" } }
+      - { prompt: "REPLACE VOWELS: gzutlgvhryh", evaluation: { type: exact_match, expected: "gz*tlgvhryh" } }
+      - { prompt: "REPLACE VOWELS: nphvv", evaluation: { type: exact_match, expected: "nphvv" } }
+      - { prompt: "REPLACE VOWELS: yibywl", evaluation: { type: exact_match, expected: "y*bywl" } }
+      - { prompt: "REPLACE VOWELS: iufvcizxf", evaluation: { type: exact_match, expected: "**fvc*zxf" } }
+      - { prompt: "REPLACE VOWELS: vinux", evaluation: { type: exact_match, expected: "v*n*x" } }
+      - { prompt: "REPLACE VOWELS: lvlrksytvbesy", evaluation: { type: exact_match, expected: "lvlrksytvb*sy" } }
+      - { prompt: "REPLACE VOWELS: cpluswjpauv", evaluation: { type: exact_match, expected: "cpl*swjp**v" } }
+      - { prompt: "REPLACE VOWELS: pjcidhschtc", evaluation: { type: exact_match, expected: "pjc*dhschtc" } }
+      - { prompt: "REPLACE VOWELS: gwbjk", evaluation: { type: exact_match, expected: "gwbjk" } }
+      - { prompt: "REPLACE VOWELS: okgbo", evaluation: { type: exact_match, expected: "*kgb*" } }
+      - { prompt: "REPLACE VOWELS: yetudlj", evaluation: { type: exact_match, expected: "y*t*dlj" } }
+      - { prompt: "REPLACE VOWELS: edayvulndt", evaluation: { type: exact_match, expected: "*d*yv*lndt" } }
+      - { prompt: "REPLACE VOWELS: mzhjtovrgiyr", evaluation: { type: exact_match, expected: "mzhjt*vrg*yr" } }
+      - { prompt: "REPLACE VOWELS: tuzkqrctju", evaluation: { type: exact_match, expected: "t*zkqrctj*" } }

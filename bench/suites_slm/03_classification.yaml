@@ -1,0 +1,132 @@
+# ============================================
+# カテゴリ: 分類 (Classification)
+# ============================================
+# ラベル分類（単一語）で採点可能性を確保
+# ============================================
+
+category:
+  id: classification
+  name: 分類
+  description: 入力を指定ラベルに分類し、ラベルのみを返せるか
+
+cases:
+  - id: cls_sentiment_3
+    name: 感情分類（3値）
+    description: POS/NEG/NEU のいずれか1語のみ
+    modality: text
+    weight: 4
+    pass_threshold: 0.8
+    system_prompt: |
+      回答は POS / NEG / NEU のどれか1語のみ。
+    variants:
+      - prompt: "文: 最高だった！"
+        evaluation: { type: regex_fullmatch, pattern: "POS" }
+      - prompt: "文: 最悪だ。"
+        evaluation: { type: regex_fullmatch, pattern: "NEG" }
+      - prompt: "文: 今日は水曜日です。"
+        evaluation: { type: regex_fullmatch, pattern: "NEU" }
+      - prompt: "文: すごく助かった、ありがとう。"
+        evaluation: { type: regex_fullmatch, pattern: "POS" }
+      - prompt: "文: もう二度と使わない。"
+        evaluation: { type: regex_fullmatch, pattern: "NEG" }
+      - prompt: "文: メモを保存しました。"
+        evaluation: { type: regex_fullmatch, pattern: "NEU" }
+      - prompt: "文: 素晴らしい出来です。"
+        evaluation: { type: regex_fullmatch, pattern: "POS" }
+      - prompt: "文: がっかりした。"
+        evaluation: { type: regex_fullmatch, pattern: "NEG" }
+      - prompt: "文: 価格は300円です。"
+        evaluation: { type: regex_fullmatch, pattern: "NEU" }
+      - prompt: "文: 最高！また買う。"
+        evaluation: { type: regex_fullmatch, pattern: "POS" }
+
+  - id: cls_intent
+    name: 意図分類
+    description: 質問/依頼/主張 を分類してラベルのみを返す
+    modality: text
+    weight: 4
+    pass_threshold: 0.8
+    system_prompt: |
+      回答は QUESTION / REQUEST / STATEMENT のどれか1語のみ。
+    variants:
+      - prompt: "入力: 明日の天気は？"
+        evaluation: { type: regex_fullmatch, pattern: "QUESTION" }
+      - prompt: "入力: これを要約して。"
+        evaluation: { type: regex_fullmatch, pattern: "REQUEST" }
+      - prompt: "入力: 私はコーヒーが好きだ。"
+        evaluation: { type: regex_fullmatch, pattern: "STATEMENT" }
+      - prompt: "入力: どうやって直せばいい？"
+        evaluation: { type: regex_fullmatch, pattern: "QUESTION" }
+      - prompt: "入力: 設定を変更してください。"
+        evaluation: { type: regex_fullmatch, pattern: "REQUEST" }
+      - prompt: "入力: 今日は寒い。"
+        evaluation: { type: regex_fullmatch, pattern: "STATEMENT" }
+      - prompt: "入力: どれが正解？"
+        evaluation: { type: regex_fullmatch, pattern: "QUESTION" }
+      - prompt: "入力: 表にして出して。"
+        evaluation: { type: regex_fullmatch, pattern: "REQUEST" }
+      - prompt: "入力: これはテストです。"
+        evaluation: { type: regex_fullmatch, pattern: "STATEMENT" }
+      - prompt: "入力: 何が違うの？"
+        evaluation: { type: regex_fullmatch, pattern: "QUESTION" }
+
+  - id: cls_spam
+    name: スパム判定
+    description: SPAM/HAM のどちらか
+    modality: text
+    weight: 3
+    pass_threshold: 0.8
+    system_prompt: |
+      回答は SPAM または HAM の1語のみ。
+    variants:
+      - prompt: "文: 今すぐクリック！限定オファー！"
+        evaluation: { type: regex_fullmatch, pattern: "SPAM" }
+      - prompt: "文: 会議は15:00開始です。"
+        evaluation: { type: regex_fullmatch, pattern: "HAM" }
+      - prompt: "文: 無料で当たる！登録はこちら！"
+        evaluation: { type: regex_fullmatch, pattern: "SPAM" }
+      - prompt: "文: ありがとうございます。資料を送ります。"
+        evaluation: { type: regex_fullmatch, pattern: "HAM" }
+      - prompt: "文: 今だけ！100万円プレゼント！"
+        evaluation: { type: regex_fullmatch, pattern: "SPAM" }
+      - prompt: "文: 明日の予定を共有します。"
+        evaluation: { type: regex_fullmatch, pattern: "HAM" }
+      - prompt: "文: あなたが選ばれました！"
+        evaluation: { type: regex_fullmatch, pattern: "SPAM" }
+      - prompt: "文: 添付ファイルを確認してください。"
+        evaluation: { type: regex_fullmatch, pattern: "HAM" }
+      - prompt: "文: クリックして賞品を受け取る"
+        evaluation: { type: regex_fullmatch, pattern: "SPAM" }
+      - prompt: "文: 受領しました。"
+        evaluation: { type: regex_fullmatch, pattern: "HAM" }
+
+  - id: cls_contradiction
+    name: 矛盾判定（2値）
+    description: 与えられた2文が矛盾なら CONTRADICT、矛盾しないなら OK
+    modality: text
+    weight: 5
+    pass_threshold: 0.8
+    system_prompt: |
+      回答は CONTRADICT または OK の1語のみ。
+    variants:
+      - prompt: "文1: 太郎は犬を飼っている。 文2: 太郎は犬を飼っていない。"
+        evaluation: { type: regex_fullmatch, pattern: "CONTRADICT" }
+      - prompt: "文1: この箱は赤い。 文2: この箱は赤い。"
+        evaluation: { type: regex_fullmatch, pattern: "OK" }
+      - prompt: "文1: 花子は学生だ。 文2: 花子は社会人だ。"
+        evaluation: { type: regex_fullmatch, pattern: "CONTRADICT" }
+      - prompt: "文1: 今日は雨だ。 文2: 今日は雨かもしれない。"
+        evaluation: { type: regex_fullmatch, pattern: "OK" }
+      - prompt: "文1: AはBより大きい。 文2: BはAより大きい。"
+        evaluation: { type: regex_fullmatch, pattern: "CONTRADICT" }
+      - prompt: "文1: 彼は日本に住んでいる。 文2: 彼は東京に住んでいる。"
+        evaluation: { type: regex_fullmatch, pattern: "OK" }
+      - prompt: "文1: すべての猫は動物だ。 文2: ミケは猫だ。"
+        evaluation: { type: regex_fullmatch, pattern: "OK" }
+      - prompt: "文1: これは四角形だ。 文2: これは丸だ。"
+        evaluation: { type: regex_fullmatch, pattern: "CONTRADICT" }
+      - prompt: "文1: 彼は20歳以上だ。 文2: 彼は20歳だ。"
+        evaluation: { type: regex_fullmatch, pattern: "OK" }
+      - prompt: "文1: その数は偶数だ。 文2: その数は奇数だ。"
+        evaluation: { type: regex_fullmatch, pattern: "CONTRADICT" }
+

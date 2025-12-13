@@ -1,0 +1,74 @@
+# ============================================
+# カテゴリ: 自動評価（リスト操作）
+# ============================================
+# - 並び替え/最大最小/合計など（出力形式を固定）
+# ============================================
+
+category:
+  id: auto_list_ops
+  name: 自動評価（リスト操作）
+  description: ソート、最大最小、合計（結果のみ）
+
+cases:
+  - id: alist_sort_asc
+    name: ソート（昇順）
+    description: カンマ区切りの整数を昇順で出力（カンマ区切り、空白は任意）
+    modality: text
+    weight: 5
+    pass_threshold: 0.9
+    system_prompt: |
+      昇順に並べ替え、カンマ区切りで出力。説明は禁止。
+      例: 3,1,2 -> 1,2,3
+    variants:
+      - { prompt: "SORT: 3,1,2", evaluation: { type: regex_fullmatch, pattern: "1,\\s*2,\\s*3" } }
+      - { prompt: "SORT: 10,5,7", evaluation: { type: regex_fullmatch, pattern: "5,\\s*7,\\s*10" } }
+      - { prompt: "SORT: -1,2,0", evaluation: { type: regex_fullmatch, pattern: "-1,\\s*0,\\s*2" } }
+      - { prompt: "SORT: 9,9,1", evaluation: { type: regex_fullmatch, pattern: "1,\\s*9,\\s*9" } }
+      - { prompt: "SORT: 100,50,75,25", evaluation: { type: regex_fullmatch, pattern: "25,\\s*50,\\s*75,\\s*100" } }
+      - { prompt: "SORT: 4,3,2,1,0", evaluation: { type: regex_fullmatch, pattern: "0,\\s*1,\\s*2,\\s*3,\\s*4" } }
+
+  - id: alist_sum
+    name: 合計
+    description: 与えられた整数リストの合計（数字のみ）
+    modality: text
+    weight: 4
+    pass_threshold: 0.95
+    system_prompt: |
+      合計の数字のみ出力。説明禁止。
+    variants:
+      - { prompt: "SUM: 1,2,3,4", evaluation: { type: numeric, expected: 10 } }
+      - { prompt: "SUM: 10,20,30", evaluation: { type: numeric, expected: 60 } }
+      - { prompt: "SUM: -1,1,-2,2", evaluation: { type: numeric, expected: 0 } }
+      - { prompt: "SUM: 100,50,-25", evaluation: { type: numeric, expected: 125 } }
+      - { prompt: "SUM: 0,0,0", evaluation: { type: numeric, expected: 0 } }
+      - { prompt: "SUM: 7", evaluation: { type: numeric, expected: 7 } }
+
+  - id: alist_min_max
+    name: 最小と最大
+    description: "指定形式で出力: min,max（数字のみ、カンマ区切り）"
+    modality: text
+    weight: 5
+    pass_threshold: 0.9
+    system_prompt: |
+      形式: min,max（数字のみ）。説明禁止。
+    variants:
+      - { prompt: "MINMAX: 3,1,2", evaluation: { type: regex_fullmatch, pattern: "1,\\s*3" } }
+      - { prompt: "MINMAX: -1,2,0", evaluation: { type: regex_fullmatch, pattern: "-1,\\s*2" } }
+      - { prompt: "MINMAX: 9,9,9", evaluation: { type: regex_fullmatch, pattern: "9,\\s*9" } }
+      - { prompt: "MINMAX: 100,50,75,25", evaluation: { type: regex_fullmatch, pattern: "25,\\s*100" } }
+      - { prompt: "MINMAX: 0,-10,10", evaluation: { type: regex_fullmatch, pattern: "-10,\\s*10" } }
+
+  - id: alist_count_condition
+    name: 条件カウント
+    description: 条件を満たす要素数（数字のみ）
+    modality: text
+    weight: 5
+    pass_threshold: 0.9
+    system_prompt: |
+      数字のみを回答。説明禁止。
+    variants:
+      - { prompt: "COUNT EVEN: 1,2,3,4,5,6", evaluation: { type: numeric, expected: 3 } }
+      - { prompt: "COUNT NEGATIVE: -1,0,2,-3", evaluation: { type: numeric, expected: 2 } }
+      - { prompt: "COUNT >=10: 5,10,15,9,11", evaluation: { type: numeric, expected: 3 } }
+      - { prompt: "COUNT MULTIPLE OF 3: 3,6,7,9,10,12", evaluation: { type: numeric, expected: 4 } }
+      - { prompt: "COUNT ODD: 2,4,6,8", evaluation: { type: numeric, expected: 0 } }

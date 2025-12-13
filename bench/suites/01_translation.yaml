@@ -1,0 +1,193 @@
+# ============================================
+# カテゴリ: 翻訳能力 (Translation)
+# ============================================
+# 英日・日英翻訳能力、慣用表現の理解、
+# 専門用語の正確な翻訳能力を評価
+# 各テストは10問のバリエーションで構成
+# ============================================
+
+category:
+  id: translation
+  name: 翻訳能力
+  description: 英日・日英翻訳、慣用表現、専門用語の翻訳精度を評価
+
+cases:
+  # ========================================
+  # テスト1: 英日翻訳（慣用句・10問）
+  # ========================================
+  - id: trans_en2ja_idiom
+    name: 英日翻訳（慣用句）
+    description: 英語の慣用表現を自然な日本語に翻訳できるか（10問中8問正解で合格）
+    modality: text
+    weight: 4
+    pass_threshold: 0.8
+    system_prompt: |
+      あなたは英日翻訳の専門家です。
+      以下のルールに従って翻訳してください：
+      - 自然な日本語に翻訳する
+      - 慣用表現は意味を優先して訳す
+      - 翻訳結果のみを出力し、説明は不要
+    variants:
+      - prompt: "It's raining cats and dogs outside."
+        evaluation:
+          type: contains_any
+          keywords: ["土砂降り", "大雨", "激しい雨", "ひどい雨", "豪雨"]
+      - prompt: "He's feeling under the weather today."
+        evaluation:
+          type: contains_any
+          keywords: ["体調", "具合", "気分", "調子"]
+      - prompt: "Let's call it a day."
+        evaluation:
+          type: contains_any
+          keywords: ["終わり", "切り上げ", "おしまい", "やめ"]
+      - prompt: "She let the cat out of the bag."
+        evaluation:
+          type: contains_any
+          keywords: ["秘密", "ばらし", "漏らし", "明かし"]
+      - prompt: "It's a piece of cake."
+        evaluation:
+          type: contains_any
+          keywords: ["簡単", "楽勝", "朝飯前", "容易"]
+      - prompt: "Break a leg!"
+        evaluation:
+          type: contains_any
+          keywords: ["頑張", "幸運", "成功", "うまくいく"]
+      - prompt: "He's barking up the wrong tree."
+        evaluation:
+          type: contains_any
+          keywords: ["見当違い", "的外れ", "間違", "勘違い"]
+      - prompt: "Don't beat around the bush."
+        evaluation:
+          type: contains_any
+          keywords: ["回りくどい", "単刀直入", "はっきり", "遠回し"]
+      - prompt: "She's burning the midnight oil."
+        evaluation:
+          type: contains_any
+          keywords: ["夜更かし", "徹夜", "夜遅く", "深夜"]
+      - prompt: "Actions speak louder than words."
+        evaluation:
+          type: contains_any
+          keywords: ["行動", "言葉より", "実行", "不如"]
+
+  # ========================================
+  # テスト2: 日英翻訳（敬語・10問）
+  # ========================================
+  - id: trans_ja2en_keigo
+    name: 日英翻訳（敬語）
+    description: 日本語の敬語表現を適切な英語のビジネス表現に翻訳できるか
+    modality: text
+    weight: 4
+    pass_threshold: 0.8
+    system_prompt: |
+      You are a professional Japanese-to-English translator.
+      Rules:
+      - Translate the Japanese text into natural English
+      - Preserve the polite/formal tone appropriately
+      - Output ONLY the translation, no explanations
+    variants:
+      - prompt: "お忙しいところ恐れ入りますが、ご確認いただけますでしょうか。"
+        evaluation:
+          type: contains_any
+          keyword_sets:
+            - ["sorry", "check"]
+            - ["sorry", "confirm"]
+            - ["apologize", "check"]
+            - ["apologize", "confirm"]
+            - ["busy", "review"]
+      - prompt: "お手数をおかけしますが、よろしくお願いいたします。"
+        evaluation:
+          type: contains_any
+          keywords: ["trouble", "appreciate", "thank", "inconvenience"]
+      - prompt: "ご検討いただければ幸いです。"
+        evaluation:
+          type: contains_any
+          keywords: ["consider", "appreciate", "grateful", "review"]
+      - prompt: "お世話になっております。"
+        evaluation:
+          type: contains_any
+          keywords: ["thank", "hope", "writing", "appreciate"]
+      - prompt: "ご不明な点がございましたら、お気軽にお問い合わせください。"
+        evaluation:
+          type: contains_any
+          keywords: ["question", "hesitate", "contact", "ask"]
+      - prompt: "お忙しい中、お時間をいただきありがとうございます。"
+        evaluation:
+          type: contains_any
+          keywords: ["thank", "time", "busy", "appreciate"]
+      - prompt: "ご迷惑をおかけして申し訳ございません。"
+        evaluation:
+          type: contains_any
+          keywords: ["sorry", "apologize", "inconvenience"]
+      - prompt: "ご理解いただけますと幸いです。"
+        evaluation:
+          type: contains_any
+          keywords: ["understand", "appreciate", "grateful"]
+      - prompt: "今後ともよろしくお願いいたします。"
+        evaluation:
+          type: contains_any
+          keywords: ["forward", "continue", "future", "support"]
+      - prompt: "ご多忙の折、恐縮ですが、ご対応いただけますでしょうか。"
+        evaluation:
+          type: contains_any
+          keywords: ["busy", "assist", "help", "handle"]
+
+  # ========================================
+  # テスト3: 技術文書翻訳（10問）
+  # ========================================
+  - id: trans_technical
+    name: 技術文書翻訳
+    description: 技術用語を含む文を正確に翻訳できるか
+    modality: text
+    weight: 5
+    pass_threshold: 0.8
+    system_prompt: |
+      技術文書の翻訳者として、以下の英文を日本語に翻訳してください。
+      ルール：
+      - 専門用語は一般的なカタカナ表記を使用
+      - "API" → "API"（そのまま）
+      - "latency" → "レイテンシ"
+      - 翻訳結果のみを出力
+    variants:
+      - prompt: "The API response latency must be under 100 milliseconds."
+        evaluation:
+          type: contains_any
+          keyword_sets:
+            - ["API", "レイテンシ", "100"]
+            - ["API", "遅延", "100"]
+            - ["API", "応答時間", "100"]
+      - prompt: "The database query timed out after 30 seconds."
+        evaluation:
+          type: contains_any
+          keywords: ["データベース", "タイムアウト", "30"]
+      - prompt: "Please check the server logs for debugging."
+        evaluation:
+          type: contains_any
+          keywords: ["サーバー", "ログ", "デバッグ"]
+      - prompt: "The cache hit ratio is approximately 95%."
+        evaluation:
+          type: contains_any
+          keywords: ["キャッシュ", "ヒット", "95"]
+      - prompt: "Enable two-factor authentication for enhanced security."
+        evaluation:
+          type: contains_any
+          keywords: ["二要素認証", "セキュリティ"]
+      - prompt: "The load balancer distributes traffic across multiple servers."
+        evaluation:
+          type: contains_any
+          keywords: ["ロードバランサ", "負荷", "分散", "サーバー"]
+      - prompt: "Implement rate limiting to prevent DDoS attacks."
+        evaluation:
+          type: contains_any
+          keywords: ["レート", "制限", "DDoS"]
+      - prompt: "The microservice architecture improves scalability."
+        evaluation:
+          type: contains_any
+          keywords: ["マイクロサービス", "スケーラビリティ", "拡張性"]
+      - prompt: "SSL/TLS encryption secures data in transit."
+        evaluation:
+          type: contains_any
+          keywords: ["SSL", "TLS", "暗号化", "データ"]
+      - prompt: "Deploy the containerized application using Kubernetes."
+        evaluation:
+          type: contains_any
+          keywords: ["コンテナ", "Kubernetes", "デプロイ"]

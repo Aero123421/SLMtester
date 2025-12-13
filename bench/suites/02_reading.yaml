@@ -1,0 +1,233 @@
+# ============================================
+# カテゴリ: 読解・推論 (Reading & Inference)
+# ============================================
+# 文章からの情報抽出、自然言語推論（NLI）、
+# 感情分析などの読解能力を評価
+# 各テストは10問のバリエーションで構成
+# ============================================
+
+category:
+  id: reading
+  name: 読解・推論
+  description: 文章読解、情報抽出、自然言語推論（NLI）、感情分析を評価
+
+cases:
+  # ========================================
+  # テスト1: 情報抽出（10問）
+  # ========================================
+  - id: read_extraction
+    name: 情報抽出
+    description: 文章から特定の事実を正確に抽出できるか
+    modality: text
+    weight: 3
+    pass_threshold: 0.8
+    system_prompt: |
+      あなたは情報抽出の専門家です。
+      文章から質問された情報を正確に抽出してください。
+      回答は簡潔に、求められた形式で答えてください。
+    variants:
+      - prompt: |
+          【文章】田中健太（28歳）は横浜市在住のデータサイエンティストである。
+          【質問】田中さんの年齢は？（数字のみ）
+        evaluation:
+          type: numeric
+          expected: 28
+      - prompt: |
+          【文章】2024年3月15日、東京タワーで開催されたイベントには約5000人が参加した。
+          【質問】イベントの参加者数は？（数字のみ）
+        evaluation:
+          type: numeric
+          expected: 5000
+      - prompt: |
+          【文章】富士山の標高は3776メートルで、日本で最も高い山である。
+          【質問】富士山の標高は何メートル？（数字のみ）
+        evaluation:
+          type: numeric
+          expected: 3776
+      - prompt: |
+          【文章】新幹線「のぞみ」は東京から新大阪まで約2時間30分で到着する。最高速度は時速285kmである。
+          【質問】最高速度は時速何km？（数字のみ）
+        evaluation:
+          type: numeric
+          expected: 285
+      - prompt: |
+          【文章】日本の国土面積は約378,000平方キロメートルで、世界で61番目に大きい。
+          【質問】日本は世界で何番目に大きい？（数字のみ）
+        evaluation:
+          type: numeric
+          expected: 61
+      - prompt: |
+          【文章】会議は午前10時30分から午後3時まで開催される予定です。
+          【質問】会議の開始時刻は？（数字のみ、例：10）
+        evaluation:
+          type: contains_any
+          keywords: ["10", "10:30", "10時30分"]
+      - prompt: |
+          【文章】このレストランの営業時間は11:00〜22:00で、定休日は毎週水曜日です。
+          【質問】定休日は何曜日？
+        evaluation:
+          type: contains_any
+          keywords: ["水曜", "水", "Wednesday"]
+      - prompt: |
+          【文章】東京オリンピック2020は2021年7月23日から8月8日まで開催された。
+          【質問】開会式は何月何日？（例：7月1日）
+        evaluation:
+          type: contains_any
+          keywords: ["7月23日", "7/23"]
+      - prompt: |
+          【文章】アップル社のCEOはティム・クックで、本社はカリフォルニア州クパチーノにある。
+          【質問】アップル社の本社はどこ？
+        evaluation:
+          type: contains_any
+          keywords: ["クパチーノ", "カリフォルニア", "Cupertino"]
+      - prompt: |
+          【文章】この製品の価格は税込み9,800円で、送料は全国一律500円です。
+          【質問】製品の価格はいくら？（数字のみ）
+        evaluation:
+          type: numeric
+          expected: 9800
+
+  # ========================================
+  # テスト2: NLI（自然言語推論・10問）
+  # ========================================
+  - id: read_nli
+    name: 自然言語推論（NLI）
+    description: 二つの文の論理関係（含意・矛盾・中立）を正しく判定できるか
+    modality: text
+    weight: 5
+    pass_threshold: 0.8
+    system_prompt: |
+      自然言語推論タスクを行います。
+      前提文と仮説文の関係を判定してください。
+      
+      回答は以下の3つから1つだけ選んでください：
+      - 含意（前提が真なら仮説も必ず真）
+      - 矛盾（前提が真なら仮説は必ず偽）
+      - 中立（どちらとも言えない）
+    variants:
+      - prompt: |
+          前提：すべての学生がテストに合格した。
+          仮説：少なくとも1人の学生がテストに合格した。
+          関係は？
+        evaluation:
+          type: contains_any
+          keywords: ["含意", "entailment"]
+      - prompt: |
+          前提：彼女は一日中家にいた。
+          仮説：彼女は午後に買い物に出かけた。
+          関係は？
+        evaluation:
+          type: contains_any
+          keywords: ["矛盾", "contradiction"]
+      - prompt: |
+          前提：太郎は東京に住んでいる。
+          仮説：太郎は会社員である。
+          関係は？
+        evaluation:
+          type: contains_any
+          keywords: ["中立", "neutral"]
+      - prompt: |
+          前提：すべての猫は哺乳類である。
+          仮説：一部の哺乳類は猫である。
+          関係は？
+        evaluation:
+          type: contains_any
+          keywords: ["含意", "entailment"]
+      - prompt: |
+          前提：彼は独身である。
+          仮説：彼には妻がいる。
+          関係は？
+        evaluation:
+          type: contains_any
+          keywords: ["矛盾", "contradiction"]
+      - prompt: |
+          前提：電車が10分遅れている。
+          仮説：乗客は困っている。
+          関係は？
+        evaluation:
+          type: contains_any
+          keywords: ["中立", "neutral"]
+      - prompt: |
+          前提：彼女はフランス語を話せる。
+          仮説：彼女は外国語を話せる。
+          関係は？
+        evaluation:
+          type: contains_any
+          keywords: ["含意", "entailment"]
+      - prompt: |
+          前提：今日は晴れている。
+          仮説：今日は雨が降っている。
+          関係は？
+        evaluation:
+          type: contains_any
+          keywords: ["矛盾", "contradiction"]
+      - prompt: |
+          前提：彼は医者である。
+          仮説：彼は大学を卒業している。
+          関係は？
+        evaluation:
+          type: contains_any
+          keywords: ["含意", "entailment"]
+      - prompt: |
+          前提：このレストランは人気がある。
+          仮説：このレストランは美味しい。
+          関係は？
+        evaluation:
+          type: contains_any
+          keywords: ["中立", "neutral"]
+
+  # ========================================
+  # テスト3: 感情分析（10問）
+  # ========================================
+  - id: read_sentiment
+    name: 感情分析
+    description: テキストの感情（ポジティブ/ネガティブ/中立）を正しく分類できるか
+    modality: text
+    weight: 3
+    pass_threshold: 0.8
+    system_prompt: |
+      感情分析タスクです。
+      テキストの感情を分類してください。
+      
+      回答は「positive」「negative」「neutral」のいずれか1語のみ。
+    variants:
+      - prompt: "期待外れでした。価格に見合わない品質で、二度と買いません。"
+        evaluation:
+          type: contains_any
+          keywords: ["negative", "ネガティブ"]
+      - prompt: "素晴らしい製品です！期待以上の性能で大満足しています。"
+        evaluation:
+          type: contains_any
+          keywords: ["positive", "ポジティブ"]
+      - prompt: "普通です。特に良くも悪くもありません。"
+        evaluation:
+          type: contains_any
+          keywords: ["neutral", "中立"]
+      - prompt: "最悪のサービスでした。二度と利用しません。"
+        evaluation:
+          type: contains_any
+          keywords: ["negative", "ネガティブ"]
+      - prompt: "感動しました！これを待っていました！"
+        evaluation:
+          type: contains_any
+          keywords: ["positive", "ポジティブ"]
+      - prompt: "まあまあです。可もなく不可もなく。"
+        evaluation:
+          type: contains_any
+          keywords: ["neutral", "中立"]
+      - prompt: "残念ながら期待に応えられませんでした。返品を検討しています。"
+        evaluation:
+          type: contains_any
+          keywords: ["negative", "ネガティブ"]
+      - prompt: "本当に買ってよかった！友人にもおすすめしたい！"
+        evaluation:
+          type: contains_any
+          keywords: ["positive", "ポジティブ"]
+      - prompt: "特筆すべき点はありませんが、普通に使えます。"
+        evaluation:
+          type: contains_any
+          keywords: ["neutral", "中立"]
+      - prompt: "ひどい品質でした。お金を無駄にしました。"
+        evaluation:
+          type: contains_any
+          keywords: ["negative", "ネガティブ"]

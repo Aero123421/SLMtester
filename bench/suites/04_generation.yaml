@@ -1,0 +1,204 @@
+# ============================================
+# カテゴリ: 表現力・生成 (Generation)
+# ============================================
+# 敬語変換、要約、定義説明など
+# テキスト生成能力を評価
+# 各テストは10問のバリエーションで構成
+# ============================================
+
+category:
+  id: generation
+  name: 表現力・生成
+  description: 敬語変換、要約、説明生成などのテキスト生成を評価
+
+cases:
+  # ========================================
+  # テスト1: 敬語変換（10問）
+  # ========================================
+  - id: gen_keigo
+    name: 敬語変換
+    description: 常体を適切な敬語表現に変換できるか
+    modality: text
+    weight: 4
+    pass_threshold: 0.8
+    system_prompt: |
+      以下の文を丁寧な敬語に変換してください。
+      ビジネスで使用できる適切な敬語表現を使ってください。
+      変換結果のみを出力してください。
+    variants:
+      - prompt: "明日行く"
+        evaluation:
+          type: contains_any
+          keywords: ["参ります", "伺います", "行きます"]
+      - prompt: "分かった"
+        evaluation:
+          type: contains_any
+          keywords: ["承知しました", "かしこまりました", "了解いたしました"]
+      - prompt: "見せて"
+        evaluation:
+          type: contains_any
+          keywords: ["拝見させて", "見せていただけ", "ご覧に"]
+      - prompt: "教えて"
+        evaluation:
+          type: contains_any
+          keywords: ["教えていただけ", "お教え", "ご教示"]
+      - prompt: "食べる"
+        evaluation:
+          type: contains_any
+          keywords: ["いただきます", "召し上がります", "頂戴いたします"]
+      - prompt: "知ってる？"
+        evaluation:
+          type: contains_any
+          keywords: ["ご存知", "ご存じ"]
+      - prompt: "待って"
+        evaluation:
+          type: contains_any
+          keywords: ["お待ち", "少々お待ち"]
+      - prompt: "もらった"
+        evaluation:
+          type: contains_any
+          keywords: ["いただきました", "頂戴いたしました", "頂きました"]
+      - prompt: "言う"
+        evaluation:
+          type: contains_any
+          keywords: ["申します", "おっしゃる", "申し上げます"]
+      - prompt: "する"
+        evaluation:
+          type: contains_any
+          keywords: ["いたします", "なさいます", "させていただきます"]
+
+  # ========================================
+  # テスト2: 要約生成（10問）
+  # ========================================
+  - id: gen_summary
+    name: 制約付き要約
+    description: 文字数制限を守って正確に要約できるか
+    modality: text
+    weight: 5
+    pass_threshold: 0.8
+    system_prompt: |
+      以下の文章を50文字以内で要約してください。
+      重要なポイントを漏らさず、簡潔にまとめてください。
+    variants:
+      - prompt: |
+          人工知能（AI）は、コンピューターが人間のような知的作業を行えるようにする技術です。
+          機械学習やディープラーニングなどの手法により、画像認識、自然言語処理、
+          意思決定支援など様々な分野で活用されています。
+        evaluation:
+          type: contains_any
+          keywords: ["AI", "人工知能", "機械学習", "知的"]
+      - prompt: |
+          地球温暖化は、温室効果ガスの増加により地球の平均気温が上昇する現象です。
+          海面上昇、異常気象の増加、生態系の変化など、多くの問題を引き起こしています。
+          対策として、再生可能エネルギーの利用拡大が求められています。
+        evaluation:
+          type: contains_any
+          keywords: ["温暖化", "温室効果", "気温", "エネルギー"]
+      - prompt: |
+          リモートワークは、オフィス以外の場所で仕事をする働き方です。
+          通勤時間の削減、ワークライフバランスの向上などのメリットがありますが、
+          コミュニケーション不足やセキュリティリスクなどの課題もあります。
+        evaluation:
+          type: contains_any
+          keywords: ["リモート", "在宅", "テレワーク", "働き方"]
+      - prompt: |
+          ブロックチェーンは、分散型台帳技術の一種です。
+          改ざんが困難で透明性が高いため、暗号通貨や契約管理、
+          サプライチェーン管理など様々な分野で活用されています。
+        evaluation:
+          type: contains_any
+          keywords: ["ブロックチェーン", "分散", "台帳", "暗号"]
+      - prompt: |
+          睡眠は、身体と脳の疲労を回復させる重要な生理現象です。
+          成人は一般的に7〜9時間の睡眠が推奨されており、
+          睡眠不足は免疫力低下や集中力低下の原因となります。
+        evaluation:
+          type: contains_any
+          keywords: ["睡眠", "疲労", "回復", "時間"]
+      - prompt: |
+          プログラミングは、コンピューターに指示を与えるための言語を使ってソフトウェアを作成することです。
+          Python、Java、JavaScriptなど多くの言語があり、それぞれ得意な分野が異なります。
+        evaluation:
+          type: contains_any
+          keywords: ["プログラミング", "言語", "ソフトウェア", "コンピュータ"]
+      - prompt: |
+          ヨガは、古代インドで生まれた心身を整える修行法です。
+          呼吸法とポーズを組み合わせることで、柔軟性の向上、ストレス軽減、
+          精神の安定など様々な効果が期待できます。
+        evaluation:
+          type: contains_any
+          keywords: ["ヨガ", "インド", "呼吸", "ストレス"]
+      - prompt: |
+          電気自動車（EV）は、ガソリンではなく電気で走る車です。
+          CO2排出量が少なく環境に優しいですが、充電インフラの整備や
+          バッテリー性能の向上が今後の課題となっています。
+        evaluation:
+          type: contains_any
+          keywords: ["電気自動車", "EV", "環境", "CO2", "電気"]
+      - prompt: |
+          量子コンピューターは、量子力学の原理を利用した次世代のコンピューターです。
+          従来のコンピューターでは解けない複雑な問題を高速に解くことができると期待されています。
+        evaluation:
+          type: contains_any
+          keywords: ["量子", "コンピュータ", "高速", "複雑"]
+      - prompt: |
+          iPS細胞は、人工的に作られた多能性幹細胞です。
+          再生医療や創薬研究への応用が期待されており、
+          山中伸弥教授がノーベル賞を受賞しました。
+        evaluation:
+          type: contains_any
+          keywords: ["iPS", "幹細胞", "再生医療", "山中"]
+
+  # ========================================
+  # テスト3: 定義説明（10問）
+  # ========================================
+  - id: gen_definition
+    name: 定義説明
+    description: 抽象的な概念を分かりやすく説明できるか
+    modality: text
+    weight: 4
+    pass_threshold: 0.8
+    system_prompt: |
+      以下の用語を小学生にも分かるように、簡単な言葉で説明してください。
+      2〜3文で簡潔に説明してください。
+    variants:
+      - prompt: "「正義」とは何ですか？"
+        evaluation:
+          type: contains_any
+          keywords: ["正しい", "公平", "ルール", "守る", "悪い"]
+      - prompt: "「民主主義」とは何ですか？"
+        evaluation:
+          type: contains_any
+          keywords: ["みんな", "決める", "選挙", "投票", "国民"]
+      - prompt: "「経済」とは何ですか？"
+        evaluation:
+          type: contains_any
+          keywords: ["お金", "物", "売買", "モノ", "サービス"]
+      - prompt: "「哲学」とは何ですか？"
+        evaluation:
+          type: contains_any
+          keywords: ["考える", "なぜ", "意味", "本質", "疑問"]
+      - prompt: "「科学」とは何ですか？"
+        evaluation:
+          type: contains_any
+          keywords: ["調べる", "実験", "観察", "なぜ", "法則"]
+      - prompt: "「芸術」とは何ですか？"
+        evaluation:
+          type: contains_any
+          keywords: ["美しい", "表現", "絵", "音楽", "感動"]
+      - prompt: "「インターネット」とは何ですか？"
+        evaluation:
+          type: contains_any
+          keywords: ["つながる", "世界", "コンピュータ", "情報", "ネットワーク"]
+      - prompt: "「プログラミング」とは何ですか？"
+        evaluation:
+          type: contains_any
+          keywords: ["命令", "コンピュータ", "動かす", "指示", "作る"]
+      - prompt: "「環境問題」とは何ですか？"
+        evaluation:
+          type: contains_any
+          keywords: ["地球", "自然", "汚染", "温暖化", "守る"]
+      - prompt: "「人権」とは何ですか？"
+        evaluation:
+          type: contains_any
+          keywords: ["人間", "権利", "平等", "自由", "尊重"]

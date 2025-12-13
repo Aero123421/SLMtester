@@ -1,0 +1,6 @@
+openai>=1.0.0
+pyyaml
+fastapi
+uvicorn
+python-multipart
+httpx

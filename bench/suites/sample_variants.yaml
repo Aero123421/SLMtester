@@ -1,0 +1,107 @@
+# バリエーションテストのサンプル形式
+# このファイルは新しいテスト形式のサンプルです
+
+category:
+  id: translation
+  name: 翻訳テスト
+  description: 複数バリエーションでの翻訳精度テスト
+
+cases:
+  # === 新形式: variants を使った複数バリエーションテスト ===
+  - id: ja_en_greetings
+    name: 日英挨拶翻訳
+    description: 日本語の挨拶を英語に翻訳する能力をテスト
+    pass_threshold: 0.8  # 80%以上で合格
+    
+    # variantsがある場合、全て実行してpass_thresholdで総合判定
+    variants:
+      - prompt: "「おはようございます」を英語に翻訳してください"
+        evaluation:
+          type: normalized_contains  # 正規化して部分一致
+          expected: "Good morning"
+          alternatives:
+            - "good morning"
+            
+      - prompt: "「ありがとうございます」を英語で言うと？"
+        evaluation:
+          type: fuzzy_match  # 曖昧一致
+          expected: "Thank you"
+          threshold: 0.7
+          alternatives:
+            - "Thanks"
+            - "Thank you very much"
+            
+      - prompt: "英訳せよ：「お疲れ様です」"
+        evaluation:
+          type: semantic_match  # LLMによる意味判定（最も正確）
+          expected: "Good work"
+          alternatives:
+            - "Thank you for your hard work"
+            - "You must be tired"
+            
+      - prompt: "「さようなら」→ 英語"
+        evaluation:
+          type: contains_any
+          keywords:
+            - "Goodbye"
+            - "Bye"
+            - "See you"
+            - "Farewell"
+            
+      - prompt: "「いただきます」を英語に翻訳してください。日本特有の表現なので近い意味で訳してください。"
+        evaluation:
+          type: semantic_match
+          expected: "Let's eat"
+          alternatives:
+            - "I will receive this meal"
+            - "Thank you for the food"
+            
+      - prompt: "「ごちそうさまでした」を英訳"
+        evaluation:
+          type: semantic_match
+          expected: "Thank you for the meal"
+          alternatives:
+            - "That was delicious"
+            - "I enjoyed the meal"
+            
+      - prompt: "「すみません」を英語で"
+        evaluation:
+          type: contains_any
+          keywords:
+            - "Sorry"
+            - "Excuse me"
+            - "Pardon"
+            
+      - prompt: "日本語「こんにちは」を英語に"
+        evaluation:
+          type: normalized_contains
+          expected: "Hello"
+          alternatives:
+            - "Hi"
+            - "Good afternoon"
+            
+      - prompt: "「おやすみなさい」→英語"
+        evaluation:
+          type: normalized_contains
+          expected: "Good night"
+          
+      - prompt: "「いってきます」を英語で表現してください"
+        evaluation:
+          type: semantic_match
+          expected: "I'm off"
+          alternatives:
+            - "I'm leaving"
+            - "See you later"
+            - "I'll be back"
+
+  # === 旧形式との互換性: variants がない場合は従来通り ===
+  - id: simple_math
+    name: 簡単な計算
+    description: 基本的な四則演算
+    request:
+      messages:
+        - role: user
+          content: "123 + 456 = ?"
+    eval:
+      type: numeric
+      expected: 579

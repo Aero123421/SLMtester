@@ -1,0 +1,327 @@
+# ============================================
+# カテゴリ: コード理解 (Code)
+# ============================================
+# プログラムの読解、バグ発見、出力予測など
+# コーディング能力を評価
+# 各テストは10問のバリエーションで構成
+# ============================================
+
+category:
+  id: code
+  name: コード理解
+  description: プログラムの読解、デバッグ、出力予測などを評価
+
+cases:
+  # ========================================
+  # テスト1: コード出力予測（10問）
+  # ========================================
+  - id: code_output
+    name: コード出力予測
+    description: 与えられたコードの出力を正確に予測できるか
+    modality: text
+    weight: 4
+    pass_threshold: 0.8
+    system_prompt: |
+      以下のコードの出力を予測してください。
+      出力結果のみを回答してください（説明不要）。
+    variants:
+      - prompt: |
+          ```python
+          x = 5
+          y = 3
+          print(x + y)
+          ```
+        evaluation:
+          type: numeric
+          expected: 8
+      - prompt: |
+          ```python
+          for i in range(3):
+              print(i, end=" ")
+          ```
+        evaluation:
+          type: contains_any
+          keywords: ["0 1 2", "0, 1, 2"]
+      - prompt: |
+          ```python
+          s = "hello"
+          print(len(s))
+          ```
+        evaluation:
+          type: numeric
+          expected: 5
+      - prompt: |
+          ```python
+          x = [1, 2, 3]
+          x.append(4)
+          print(len(x))
+          ```
+        evaluation:
+          type: numeric
+          expected: 4
+      - prompt: |
+          ```python
+          print("Hello"[0])
+          ```
+        evaluation:
+          type: exact_match
+          expected: "H"
+      - prompt: |
+          ```python
+          x = 10
+          if x > 5:
+              print("A")
+          else:
+              print("B")
+          ```
+        evaluation:
+          type: exact_match
+          expected: "A"
+      - prompt: |
+          ```python
+          sum = 0
+          for i in [1, 2, 3, 4]:
+              sum += i
+          print(sum)
+          ```
+        evaluation:
+          type: numeric
+          expected: 10
+      - prompt: |
+          ```python
+          x = "python"
+          print(x.upper())
+          ```
+        evaluation:
+          type: exact_match
+          expected: "PYTHON"
+      - prompt: |
+          ```python
+          a = [1, 2, 3]
+          b = a[::-1]
+          print(b)
+          ```
+        evaluation:
+          type: contains_any
+          keywords: ["[3, 2, 1]", "[3,2,1]"]
+      - prompt: |
+          ```python
+          x = 7 % 3
+          print(x)
+          ```
+        evaluation:
+          type: numeric
+          expected: 1
+
+  # ========================================
+  # テスト2: バグ発見（10問）
+  # ========================================
+  - id: code_debug
+    name: バグ発見
+    description: コードの中のバグを発見できるか
+    modality: text
+    weight: 5
+    pass_threshold: 0.8
+    system_prompt: |
+      以下のコードにはバグがあります。
+      問題のある行番号または問題点を1行で指摘してください。
+    variants:
+      - prompt: |
+          ```python
+          # 1から10の合計を計算するコード
+          total = 0
+          for i in range(10):
+              total += i
+          print(total)  # 期待: 55
+          ```
+        evaluation:
+          type: contains_any
+          keywords: ["range(11)", "range(1, 11)", "1から始まる", "0から始まる"]
+      - prompt: |
+          ```python
+          def greet(name):
+              return "Hello, " + Name
+          
+          print(greet("World"))
+          ```
+        evaluation:
+          type: contains_any
+          keywords: ["Name", "name", "大文字", "変数名"]
+      - prompt: |
+          ```python
+          x = [1, 2, 3]
+          print(x[3])
+          ```
+        evaluation:
+          type: contains_any
+          keywords: ["インデックス", "index", "範囲外", "out of range", "[2]"]
+      - prompt: |
+          ```python
+          def add(a, b):
+              result = a + b
+          
+          print(add(3, 5))  # 期待: 8
+          ```
+        evaluation:
+          type: contains_any
+          keywords: ["return", "None", "戻り値"]
+      - prompt: |
+          ```python
+          count = 0
+          while count < 5:
+              print(count)
+          ```
+        evaluation:
+          type: contains_any
+          keywords: ["無限ループ", "インクリメント", "count +=", "count = count + 1"]
+      - prompt: |
+          ```python
+          numbers = [1, 2, 3, 4, 5]
+          for i in range(len(numbers)):
+              numbers.append(i)
+          ```
+        evaluation:
+          type: contains_any
+          keywords: ["無限", "ループ", "append", "要素追加"]
+      - prompt: |
+          ```python
+          x = "10"
+          y = 5
+          print(x + y)
+          ```
+        evaluation:
+          type: contains_any
+          keywords: ["型", "type", "文字列", "int", "str"]
+      - prompt: |
+          ```python
+          data = {"a": 1, "b": 2}
+          print(data["c"])
+          ```
+        evaluation:
+          type: contains_any
+          keywords: ["KeyError", "キー", "存在しない", "c"]
+      - prompt: |
+          ```python
+          def multiply(a, b=2):
+              return a * b
+          
+          print(multiply(b=3))
+          ```
+        evaluation:
+          type: contains_any
+          keywords: ["引数", "a", "必須", "missing"]
+      - prompt: |
+          ```python
+          x = 5
+          if x = 5:
+              print("Five")
+          ```
+        evaluation:
+          type: contains_any
+          keywords: ["==", "代入", "比較", "演算子"]
+
+  # ========================================
+  # テスト3: コード補完（10問）
+  # ========================================
+  - id: code_complete
+    name: コード補完
+    description: コードの空欄に適切なコードを補完できるか
+    modality: text
+    weight: 4
+    pass_threshold: 0.8
+    system_prompt: |
+      コードの「???」の部分に入るべきコードを答えてください。
+      コードのみを回答してください。
+    variants:
+      - prompt: |
+          リストの要素数を取得するには？
+          ```python
+          x = [1, 2, 3, 4, 5]
+          count = ???
+          ```
+        evaluation:
+          type: contains_any
+          keywords: ["len(x)", "len("]
+      - prompt: |
+          文字列を大文字に変換するには？
+          ```python
+          s = "hello"
+          upper_s = ???
+          ```
+        evaluation:
+          type: contains_any
+          keywords: ["upper()", ".upper()"]
+      - prompt: |
+          リストに要素を追加するには？
+          ```python
+          x = [1, 2, 3]
+          ???
+          # xは[1, 2, 3, 4]になる
+          ```
+        evaluation:
+          type: contains_any
+          keywords: ["append(4)", "append( 4 )"]
+      - prompt: |
+          辞書から値を取得するには？
+          ```python
+          d = {"name": "Alice", "age": 30}
+          name = ???
+          ```
+        evaluation:
+          type: contains_any
+          keywords: ['d["name"]', "d['name']", 'd.get("name")', "d.get('name')"]
+      - prompt: |
+          0から4までの範囲でループするには？
+          ```python
+          for i in ???:
+              print(i)
+          ```
+        evaluation:
+          type: contains_any
+          keywords: ["range(5)", "range(0, 5)"]
+      - prompt: |
+          条件分岐で「xが10より大きい場合」を表現するには？
+          ```python
+          if ???:
+              print("大きい")
+          ```
+        evaluation:
+          type: contains_any
+          keywords: ["x > 10", "x>10", "10 < x"]
+      - prompt: |
+          関数から値を返すには？
+          ```python
+          def double(x):
+              ??? x * 2
+          ```
+        evaluation:
+          type: exact_match
+          expected: "return"
+      - prompt: |
+          リストの先頭要素を取得するには？
+          ```python
+          x = [10, 20, 30]
+          first = ???
+          ```
+        evaluation:
+          type: contains_any
+          keywords: ["x[0]", "x[ 0 ]"]
+      - prompt: |
+          空のリストを作成するには？
+          ```python
+          x = ???
+          ```
+        evaluation:
+          type: contains_any
+          keywords: ["[]", "list()"]
+      - prompt: |
+          2つの文字列を結合するには？
+          ```python
+          a = "Hello"
+          b = "World"
+          c = ???
+          # cは"HelloWorld"になる
+          ```
+        evaluation:
+          type: contains_any
+          keywords: ["a + b", "a+b"]

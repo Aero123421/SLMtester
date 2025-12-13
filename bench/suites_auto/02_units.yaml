@@ -1,0 +1,87 @@
+# ============================================
+# カテゴリ: 自動評価（単位変換）
+# ============================================
+# - ルール（換算）をプロンプト内に明示し、外部知識依存を避ける
+# - 出力は数字のみ（単位禁止）
+# ============================================
+
+category:
+  id: auto_units
+  name: 自動評価（単位変換）
+  description: 長さ/重さ/時間/データ量など（換算ルール明示）
+
+cases:
+  - id: aunit_metric_length
+    name: メートル法（長さ）
+    description: km/m/cm/mm（ルール明示）
+    modality: text
+    weight: 4
+    pass_threshold: 0.95
+    system_prompt: |
+      ルール: 1km=1000m, 1m=100cm, 1cm=10mm
+      数字のみを回答（単位や説明は禁止）。
+    variants:
+      - { prompt: "1.5km は何m？", evaluation: { type: numeric, expected: 1500 } }
+      - { prompt: "2500m は何km？", evaluation: { type: numeric, expected: 2.5, tolerance: 0.0001 } }
+      - { prompt: "3m は何cm？", evaluation: { type: numeric, expected: 300 } }
+      - { prompt: "120cm は何m？", evaluation: { type: numeric, expected: 1.2, tolerance: 0.0001 } }
+      - { prompt: "7cm は何mm？", evaluation: { type: numeric, expected: 70 } }
+      - { prompt: "1250mm は何cm？", evaluation: { type: numeric, expected: 125, tolerance: 0.0001 } }
+      - { prompt: "0.04km は何m？", evaluation: { type: numeric, expected: 40 } }
+      - { prompt: "0.5m は何mm？", evaluation: { type: numeric, expected: 500 } }
+
+  - id: aunit_time
+    name: 時間
+    description: 秒/分/時間/日（ルール明示）
+    modality: text
+    weight: 4
+    pass_threshold: 0.95
+    system_prompt: |
+      ルール: 1分=60秒, 1時間=60分, 1日=24時間
+      数字のみを回答（単位や説明は禁止）。
+    variants:
+      - { prompt: "120分は何時間？", evaluation: { type: numeric, expected: 2 } }
+      - { prompt: "90秒は何分？", evaluation: { type: numeric, expected: 1.5, tolerance: 0.0001 } }
+      - { prompt: "2時間30分は何分？", evaluation: { type: numeric, expected: 150 } }
+      - { prompt: "1日(24時間)は何分？", evaluation: { type: numeric, expected: 1440 } }
+      - { prompt: "3600秒は何時間？", evaluation: { type: numeric, expected: 1 } }
+      - { prompt: "3日 は何時間？", evaluation: { type: numeric, expected: 72 } }
+      - { prompt: "45分は何秒？", evaluation: { type: numeric, expected: 2700 } }
+      - { prompt: "0.5時間は何分？", evaluation: { type: numeric, expected: 30 } }
+
+  - id: aunit_weight_volume
+    name: 重さ・体積
+    description: g/kg と mL/L（ルール明示）
+    modality: text
+    weight: 4
+    pass_threshold: 0.95
+    system_prompt: |
+      ルール: 1kg=1000g, 1L=1000mL
+      数字のみを回答（単位や説明は禁止）。
+    variants:
+      - { prompt: "3000g は何kg？", evaluation: { type: numeric, expected: 3 } }
+      - { prompt: "0.75kg は何g？", evaluation: { type: numeric, expected: 750 } }
+      - { prompt: "3.5L は何mL？", evaluation: { type: numeric, expected: 3500 } }
+      - { prompt: "500mL は何L？", evaluation: { type: numeric, expected: 0.5, tolerance: 0.0001 } }
+      - { prompt: "1.2kg は何g？", evaluation: { type: numeric, expected: 1200 } }
+      - { prompt: "250g は何kg？", evaluation: { type: numeric, expected: 0.25, tolerance: 0.0001 } }
+      - { prompt: "2L は何mL？", evaluation: { type: numeric, expected: 2000 } }
+      - { prompt: "750mL は何L？", evaluation: { type: numeric, expected: 0.75, tolerance: 0.0001 } }
+
+  - id: aunit_data_size
+    name: データ量
+    description: B/KB/MB（2進ではなく10進、ルール明示）
+    modality: text
+    weight: 4
+    pass_threshold: 0.95
+    system_prompt: |
+      ルール: 1KB=1000B, 1MB=1000KB
+      数字のみを回答（単位や説明は禁止）。
+    variants:
+      - { prompt: "1500B は何KB？", evaluation: { type: numeric, expected: 1.5, tolerance: 0.0001 } }
+      - { prompt: "2.5KB は何B？", evaluation: { type: numeric, expected: 2500 } }
+      - { prompt: "1MB は何KB？", evaluation: { type: numeric, expected: 1000 } }
+      - { prompt: "0.2MB は何B？", evaluation: { type: numeric, expected: 200000 } }
+      - { prompt: "123456B は何KB？", evaluation: { type: numeric, expected: 123.456, tolerance: 0.0001 } }
+      - { prompt: "10KB は何B？", evaluation: { type: numeric, expected: 10000 } }
+

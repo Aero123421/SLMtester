@@ -1,0 +1,116 @@
+# ============================================
+# カテゴリ: 自動評価（文字列変換）
+# ============================================
+# - 出力は「指定された文字列だけ」
+# - ルールを明示し、変換結果が一意になるようにする
+# ============================================
+
+category:
+  id: auto_string_ops
+  name: 自動評価（文字列変換）
+  description: 大小文字変換、反転、置換、トリムなど（結果だけ出力）
+
+cases:
+  - id: astr_uppercase
+    name: 大文字化
+    description: ASCII英字のみを大文字へ
+    modality: text
+    weight: 4
+    pass_threshold: 0.95
+    system_prompt: |
+      変換後の文字列だけを出力。説明や引用符は禁止。
+    variants:
+      - { prompt: "UPPERCASE: abc", evaluation: { type: exact_match, expected: "ABC" } }
+      - { prompt: "UPPERCASE: Hello", evaluation: { type: exact_match, expected: "HELLO" } }
+      - { prompt: "UPPERCASE: aBcDeF", evaluation: { type: exact_match, expected: "ABCDEF" } }
+      - { prompt: "UPPERCASE: z9y", evaluation: { type: exact_match, expected: "Z9Y" } }
+      - { prompt: "UPPERCASE: x_y", evaluation: { type: exact_match, expected: "X_Y" } }
+      - { prompt: "UPPERCASE: MiXeD123", evaluation: { type: exact_match, expected: "MIXED123" } }
+      - { prompt: "UPPERCASE: openAI", evaluation: { type: exact_match, expected: "OPENAI" } }
+      - { prompt: "UPPERCASE: json", evaluation: { type: exact_match, expected: "JSON" } }
+      - { prompt: "UPPERCASE: http", evaluation: { type: exact_match, expected: "HTTP" } }
+      - { prompt: "UPPERCASE: cpu", evaluation: { type: exact_match, expected: "CPU" } }
+
+  - id: astr_lowercase
+    name: 小文字化
+    description: ASCII英字のみを小文字へ
+    modality: text
+    weight: 4
+    pass_threshold: 0.95
+    system_prompt: |
+      変換後の文字列だけを出力。説明や引用符は禁止。
+    variants:
+      - { prompt: "lowercase: ABC", evaluation: { type: exact_match, expected: "abc" } }
+      - { prompt: "lowercase: Hello", evaluation: { type: exact_match, expected: "hello" } }
+      - { prompt: "lowercase: MiXeD123", evaluation: { type: exact_match, expected: "mixed123" } }
+      - { prompt: "lowercase: Z9Y", evaluation: { type: exact_match, expected: "z9y" } }
+      - { prompt: "lowercase: X_Y", evaluation: { type: exact_match, expected: "x_y" } }
+      - { prompt: "lowercase: JSON", evaluation: { type: exact_match, expected: "json" } }
+      - { prompt: "lowercase: HTTP", evaluation: { type: exact_match, expected: "http" } }
+      - { prompt: "lowercase: CPU", evaluation: { type: exact_match, expected: "cpu" } }
+
+  - id: astr_reverse
+    name: 逆順
+    description: 文字列を逆順にする
+    modality: text
+    weight: 5
+    pass_threshold: 0.9
+    system_prompt: |
+      逆順にした結果だけを出力。説明や引用符は禁止。
+    variants:
+      - { prompt: "REVERSE: abc", evaluation: { type: exact_match, expected: "cba" } }
+      - { prompt: "REVERSE: abcd", evaluation: { type: exact_match, expected: "dcba" } }
+      - { prompt: "REVERSE: 12345", evaluation: { type: exact_match, expected: "54321" } }
+      - { prompt: "REVERSE: a1b2c3", evaluation: { type: exact_match, expected: "3c2b1a" } }
+      - { prompt: "REVERSE: x_y", evaluation: { type: exact_match, expected: "y_x" } }
+      - { prompt: "REVERSE: racecar", evaluation: { type: exact_match, expected: "racecar" } }
+      - { prompt: "REVERSE: OpenAI", evaluation: { type: exact_match, expected: "IAnepO" } }
+      - { prompt: "REVERSE: 0", evaluation: { type: exact_match, expected: "0" } }
+
+  - id: astr_replace
+    name: 置換
+    description: 指定の置換ルールを適用
+    modality: text
+    weight: 5
+    pass_threshold: 0.9
+    system_prompt: |
+      指示された置換を行い、結果だけを出力。説明や引用符は禁止。
+    variants:
+      - { prompt: "REPLACE: text=\"banana\" rule=replace all \"a\"->\"o\"", evaluation: { type: exact_match, expected: "bonono" } }
+      - { prompt: "REPLACE: text=\"aaaa\" rule=replace all \"a\"->\"b\"", evaluation: { type: exact_match, expected: "bbbb" } }
+      - { prompt: "REPLACE: text=\"foo_bar\" rule=replace all \"_\"->\"-\"", evaluation: { type: exact_match, expected: "foo-bar" } }
+      - { prompt: "REPLACE: text=\"2025/12/13\" rule=replace all \"/\"->\"-\"", evaluation: { type: exact_match, expected: "2025-12-13" } }
+      - { prompt: "REPLACE: text=\"mississippi\" rule=replace all \"ss\"->\"S\"", evaluation: { type: exact_match, expected: "miSiSippi" } }
+      - { prompt: "REPLACE: text=\"abcabc\" rule=replace all \"abc\"->\"x\"", evaluation: { type: exact_match, expected: "xx" } }
+
+  - id: astr_trim_spaces
+    name: 前後の空白削除
+    description: 両端の半角スペースだけ削除（内部は保持）
+    modality: text
+    weight: 5
+    pass_threshold: 0.9
+    system_prompt: |
+      前後の半角スペースだけを削除し、結果だけを出力。説明や引用符は禁止。
+    variants:
+      - { prompt: "TRIM: \"  hello  \"", evaluation: { type: exact_match, expected: "hello" } }
+      - { prompt: "TRIM: \"   a b   \"", evaluation: { type: exact_match, expected: "a b" } }
+      - { prompt: "TRIM: \"x\"", evaluation: { type: exact_match, expected: "x" } }
+      - { prompt: "TRIM: \"   \"（空文字になる）", evaluation: { type: exact_match, expected: "" } }
+      - { prompt: "TRIM: \"  123  \"", evaluation: { type: exact_match, expected: "123" } }
+
+  - id: astr_count_char
+    name: 文字数カウント
+    description: 文字列中の指定文字の出現回数（数字のみ）
+    modality: text
+    weight: 5
+    pass_threshold: 0.9
+    system_prompt: |
+      数字のみを出力。説明は禁止。
+    variants:
+      - { prompt: "COUNT: text=\"banana\" char=\"a\"", evaluation: { type: numeric, expected: 3 } }
+      - { prompt: "COUNT: text=\"mississippi\" char=\"s\"", evaluation: { type: numeric, expected: 4 } }
+      - { prompt: "COUNT: text=\"aaaa\" char=\"a\"", evaluation: { type: numeric, expected: 4 } }
+      - { prompt: "COUNT: text=\"abcabcabc\" char=\"b\"", evaluation: { type: numeric, expected: 3 } }
+      - { prompt: "COUNT: text=\"\" char=\"x\"", evaluation: { type: numeric, expected: 0 } }
+      - { prompt: "COUNT: text=\"a_b_c\" char=\"_\"", evaluation: { type: numeric, expected: 2 } }
+

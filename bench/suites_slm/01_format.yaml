@@ -1,0 +1,117 @@
+# ============================================
+# カテゴリ: 形式順守 (Format)
+# ============================================
+# JSON/箇条書き/表/単一語回答など
+# 出力の採点可能性を最優先
+# ============================================
+
+category:
+  id: format
+  name: 形式順守
+  description: 指定フォーマット（JSON、行形式、単一ラベルなど）を厳密に守れるか
+
+cases:
+  - id: fmt_json_object
+    name: JSON（オブジェクト）
+    description: JSONオブジェクトのみを返せるか（余計な文章禁止）
+    modality: text
+    weight: 5
+    pass_threshold: 0.8
+    system_prompt: |
+      出力は必ずJSONのみ。説明文、前置き、コードブロックは禁止。
+    variants:
+      - prompt: '次の値をJSONで返して: name="田中", age=30, city="東京"'
+        evaluation: { type: json_parse, must_have_keys: ["name","age","city"] }
+      - prompt: '次の値をJSONで返して: ok=true, count=3, note="短い"'
+        evaluation: { type: json_parse, must_have_keys: ["ok","count","note"] }
+      - prompt: '次の値をJSONで返して: items=["a","b"], total=2'
+        evaluation: { type: json_parse, must_have_keys: ["items","total"] }
+      - prompt: '次の値をJSONで返して: error=null, code=0'
+        evaluation: { type: json_parse, must_have_keys: ["error","code"] }
+      - prompt: '次の値をJSONで返して: title="要約", lines=3'
+        evaluation: { type: json_parse, must_have_keys: ["title","lines"] }
+      - prompt: '次の値をJSONで返して: a=1, b=2, sum=3'
+        evaluation: { type: json_parse, must_have_keys: ["a","b","sum"] }
+      - prompt: '次の値をJSONで返して: lang="ja", score=0.75'
+        evaluation: { type: json_parse, must_have_keys: ["lang","score"] }
+      - prompt: '次の値をJSONで返して: id="x-1", active=false'
+        evaluation: { type: json_parse, must_have_keys: ["id","active"] }
+
+  - id: fmt_single_label
+    name: 単一ラベル
+    description: 指定ラベル（1語）のみを返せるか
+    modality: text
+    weight: 4
+    pass_threshold: 0.9
+    system_prompt: |
+      回答は指定されたラベル1語のみ。句読点や説明は禁止。
+    variants:
+      - prompt: '次の文の言語が日本語なら「JA」、英語なら「EN」だけ答えて: "Hello"'
+        evaluation: { type: regex_fullmatch, pattern: "EN" }
+      - prompt: '次の文の言語が日本語なら「JA」、英語なら「EN」だけ答えて: "ありがとう"'
+        evaluation: { type: regex_fullmatch, pattern: "JA" }
+      - prompt: '次の値が偶数なら「EVEN」、奇数なら「ODD」だけ答えて: 11'
+        evaluation: { type: regex_fullmatch, pattern: "ODD" }
+      - prompt: '次の値が偶数なら「EVEN」、奇数なら「ODD」だけ答えて: 24'
+        evaluation: { type: regex_fullmatch, pattern: "EVEN" }
+      - prompt: '次の文字列が空なら「EMPTY」、空でないなら「NONEMPTY」だけ答えて: ""'
+        evaluation: { type: regex_fullmatch, pattern: "EMPTY" }
+      - prompt: '次の文字列が空なら「EMPTY」、空でないなら「NONEMPTY」だけ答えて: "x"'
+        evaluation: { type: regex_fullmatch, pattern: "NONEMPTY" }
+      - prompt: '次が正しければ「TRUE」、誤りなら「FALSE」だけ答えて: 2+2=4'
+        evaluation: { type: regex_fullmatch, pattern: "TRUE" }
+      - prompt: '次が正しければ「TRUE」、誤りなら「FALSE」だけ答えて: 3+3=5'
+        evaluation: { type: regex_fullmatch, pattern: "FALSE" }
+
+  - id: fmt_number_only
+    name: 数字のみ
+    description: 数字のみ（単独）で出力できるか
+    modality: text
+    weight: 4
+    pass_threshold: 0.9
+    system_prompt: |
+      回答は数字のみ（符号と小数点は可）。単位や説明は禁止。
+    variants:
+      - prompt: "7*8 の答えは？"
+        evaluation: { type: regex_fullmatch, pattern: "56" }
+      - prompt: "1000/4 の答えは？"
+        evaluation: { type: regex_fullmatch, pattern: "250" }
+      - prompt: "9-12 の答えは？"
+        evaluation: { type: regex_fullmatch, pattern: "-3" }
+      - prompt: "0.5+0.25 の答えは？"
+        evaluation: { type: regex_fullmatch, pattern: "0\\.75" }
+      - prompt: "10 の 15% は？（数字のみ）"
+        evaluation: { type: regex_fullmatch, pattern: "1\\.5" }
+      - prompt: "3 の2乗は？"
+        evaluation: { type: regex_fullmatch, pattern: "9" }
+      - prompt: "√81 は？（数字のみ）"
+        evaluation: { type: regex_fullmatch, pattern: "9" }
+      - prompt: "12 を 3 で割ると？"
+        evaluation: { type: regex_fullmatch, pattern: "4" }
+
+  - id: fmt_two_line_key_value
+    name: 2行固定（key=value）
+    description: 指定した2行構造を守れるか
+    modality: text
+    weight: 3
+    pass_threshold: 0.8
+    system_prompt: |
+      必ず2行で出力。各行は key=value の形式。余計な空行や説明は禁止。
+    variants:
+      - prompt: 'keyは "lang" と "level"。lang=ja、level=beginner を出力して。'
+        evaluation: { type: regex_fullmatch, pattern: "lang=ja\\nlevel=beginner" }
+      - prompt: 'keyは "os" と "arch"。os=windows、arch=x64 を出力して。'
+        evaluation: { type: regex_fullmatch, pattern: "os=windows\\narch=x64" }
+      - prompt: 'keyは "a" と "b"。a=1、b=2 を出力して。'
+        evaluation: { type: regex_fullmatch, pattern: "a=1\\nb=2" }
+      - prompt: 'keyは "mode" と "debug"。mode=prod、debug=false を出力して。'
+        evaluation: { type: regex_fullmatch, pattern: "mode=prod\\ndebug=false" }
+      - prompt: 'keyは "x" と "y"。x=0、y=0 を出力して。'
+        evaluation: { type: regex_fullmatch, pattern: "x=0\\ny=0" }
+      - prompt: 'keyは "name" と "city"。name=佐藤、city=大阪 を出力して。'
+        evaluation: { type: regex_fullmatch, pattern: "name=佐藤\\ncity=大阪" }
+      - prompt: 'keyは "ok" と "count"。ok=true、count=3 を出力して。'
+        evaluation: { type: regex_fullmatch, pattern: "ok=true\\ncount=3" }
+      - prompt: 'keyは "color" と "size"。color=red、size=M を出力して。'
+        evaluation: { type: regex_fullmatch, pattern: "color=red\\nsize=M" }
+

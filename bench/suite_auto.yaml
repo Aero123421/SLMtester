@@ -1,0 +1,35 @@
+# ============================================
+# 自動評価特化（厳密出力）ベンチマーク スイート v1
+# ============================================
+# ねらい:
+# - 回答が「ほぼ一意」に決まり、機械的に正誤判定しやすいテストだけを集約
+# - 数字のみ/単語のみ/固定ラベル/厳密JSONなど、出力が単純な形式に寄せる
+# - 外部知識に依存しない（プロンプト内でルールを明示）ものを中心にする
+# ============================================
+
+meta:
+  base_url: "http://localhost:1234/v1"
+  runs: 1
+  warmup: 0
+  timeout_sec: 90
+  default_params:
+    temperature: 0
+    max_tokens: 256
+    stream: true
+
+models:
+  include: ["*"]
+  exclude: []
+
+includes:
+  - suites_auto/01_numeric.yaml
+  - suites_auto/02_units.yaml
+  - suites_auto/03_translation_word.yaml
+  - suites_auto/04_string_ops.yaml
+  - suites_auto/05_list_ops.yaml
+  - suites_auto/06_labels.yaml
+  - suites_auto/07_extraction.yaml
+  - suites_auto/08_format.yaml
+  - suites_auto/09_bulk_numeric.yaml
+  - suites_auto/10_bulk_dictionary.yaml
+  - suites_auto/11_bulk_string_ops.yaml

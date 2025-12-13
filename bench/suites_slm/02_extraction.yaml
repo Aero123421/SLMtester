@@ -1,0 +1,133 @@
+# ============================================
+# カテゴリ: 抽出 (Extraction)
+# ============================================
+# 入力文からのキー情報抽出（JSON化）
+# 外部知識に依存しない確実な採点を重視
+# ============================================
+
+category:
+  id: extraction
+  name: 抽出
+  description: 文中の情報を正確に抽出し、指定フォーマット（主にJSON）で返せるか
+
+cases:
+  - id: ext_kv_from_text
+    name: キー情報抽出（基本）
+    description: 短文からname/age/cityなどをJSON抽出
+    modality: text
+    weight: 4
+    pass_threshold: 0.8
+    system_prompt: |
+      抽出した情報をJSONで返してください（JSON以外の文章は不要）。
+    variants:
+      - prompt: '文: "田中(30)は東京在住。" key: name, age, city を抽出して'
+        evaluation: { type: json_parse, must_have_keys: ["name","age","city"] }
+      - prompt: '文: "佐藤 25歳 / 名古屋" key: name, age, city を抽出して'
+        evaluation: { type: json_parse, must_have_keys: ["name","age","city"] }
+      - prompt: '文: "鈴木(41) 大阪" key: name, age, city を抽出して'
+        evaluation: { type: json_parse, must_have_keys: ["name","age","city"] }
+      - prompt: '文: "山田は18歳で福岡に住む。" key: name, age, city を抽出して'
+        evaluation: { type: json_parse, must_have_keys: ["name","age","city"] }
+      - prompt: '文: "高橋: 33, 札幌" key: name, age, city を抽出して'
+        evaluation: { type: json_parse, must_have_keys: ["name","age","city"] }
+      - prompt: '文: "伊藤(29)・京都" key: name, age, city を抽出して'
+        evaluation: { type: json_parse, must_have_keys: ["name","age","city"] }
+      - prompt: '文: "渡辺 52歳, 横浜" key: name, age, city を抽出して'
+        evaluation: { type: json_parse, must_have_keys: ["name","age","city"] }
+      - prompt: '文: "小林(20)は神戸に住んでいる。" key: name, age, city を抽出して'
+        evaluation: { type: json_parse, must_have_keys: ["name","age","city"] }
+      - prompt: '文: "加藤 37 / 広島" key: name, age, city を抽出して'
+        evaluation: { type: json_parse, must_have_keys: ["name","age","city"] }
+      - prompt: '文: "吉田(44) 仙台" key: name, age, city を抽出して'
+        evaluation: { type: json_parse, must_have_keys: ["name","age","city"] }
+
+  - id: ext_list_from_text
+    name: リスト抽出（列挙）
+    description: 文中の要素を配列として抽出
+    modality: text
+    weight: 4
+    pass_threshold: 0.8
+    system_prompt: |
+      指定されたキーを含むJSONで返してください。値が複数ある場合は配列にしてください。
+    variants:
+      - prompt: '文: "買うもの: りんご、みかん、バナナ" key: items'
+        evaluation: { type: json_parse, must_have_keys: ["items"] }
+      - prompt: '文: "参加者: A,B,C" key: names'
+        evaluation: { type: json_parse, must_have_keys: ["names"] }
+      - prompt: '文: "todo=掃除/洗濯/買い物" key: tasks'
+        evaluation: { type: json_parse, must_have_keys: ["tasks"] }
+      - prompt: '文: "色: red, green, blue" key: colors'
+        evaluation: { type: json_parse, must_have_keys: ["colors"] }
+      - prompt: '文: "曜日: 月 火 水" key: days'
+        evaluation: { type: json_parse, must_have_keys: ["days"] }
+      - prompt: '文: "都市: 東京・大阪・名古屋" key: cities'
+        evaluation: { type: json_parse, must_have_keys: ["cities"] }
+      - prompt: '文: "数字: 1,2,3,4" key: nums'
+        evaluation: { type: json_parse, must_have_keys: ["nums"] }
+      - prompt: '文: "タグ: #a #b #c" key: tags'
+        evaluation: { type: json_parse, must_have_keys: ["tags"] }
+      - prompt: '文: "好き: 犬/猫" key: likes'
+        evaluation: { type: json_parse, must_have_keys: ["likes"] }
+      - prompt: '文: "候補: x y z" key: candidates'
+        evaluation: { type: json_parse, must_have_keys: ["candidates"] }
+
+  - id: ext_email_phone
+    name: 連絡先抽出
+    description: メールと電話番号を抽出
+    modality: text
+    weight: 5
+    pass_threshold: 0.8
+    system_prompt: |
+      JSONで返してください。キーは email と phone。
+    variants:
+      - prompt: '文: "連絡先は test@example.com / 03-1234-5678 です"'
+        evaluation: { type: json_parse, must_have_keys: ["email","phone"] }
+      - prompt: '文: "mail=a@b.co.jp, tel=090-1111-2222"'
+        evaluation: { type: json_parse, must_have_keys: ["email","phone"] }
+      - prompt: '文: "Email: user+tag@domain.com Phone: 080-9999-0000"'
+        evaluation: { type: json_parse, must_have_keys: ["email","phone"] }
+      - prompt: '文: "問合せ: support@corp.jp / 050-0000-1234"'
+        evaluation: { type: json_parse, must_have_keys: ["email","phone"] }
+      - prompt: '文: "連絡: x@y.z / 070-1234-0000"'
+        evaluation: { type: json_parse, must_have_keys: ["email","phone"] }
+      - prompt: '文: "mail: foo.bar@site.net, phone: 0120-111-222"'
+        evaluation: { type: json_parse, must_have_keys: ["email","phone"] }
+      - prompt: '文: "E-mail=dev@local.lan, TEL=03-0000-0000"'
+        evaluation: { type: json_parse, must_have_keys: ["email","phone"] }
+      - prompt: '文: "info@abc.io  と  090-0000-0001"'
+        evaluation: { type: json_parse, must_have_keys: ["email","phone"] }
+      - prompt: '文: "mail: zzz@zzz.zz / tel: 080-1234-5678"'
+        evaluation: { type: json_parse, must_have_keys: ["email","phone"] }
+      - prompt: '文: "連絡先: hello@world.com / 03-9999-8888"'
+        evaluation: { type: json_parse, must_have_keys: ["email","phone"] }
+
+  - id: ext_datetime
+    name: 日時抽出
+    description: 文中の日付/時刻をJSON抽出
+    modality: text
+    weight: 4
+    pass_threshold: 0.8
+    system_prompt: |
+      JSONで返してください。キーは date と time（なければ null）。
+    variants:
+      - prompt: '文: "会議は2025-12-20 14:30に開始"'
+        evaluation: { type: json_parse, must_have_keys: ["date","time"] }
+      - prompt: '文: "2025/01/05の9:00に集合"'
+        evaluation: { type: json_parse, must_have_keys: ["date","time"] }
+      - prompt: '文: "締切: 2024-08-01"'
+        evaluation: { type: json_parse, must_have_keys: ["date","time"] }
+      - prompt: '文: "明日10:15に電話"（明日の具体日付は不要、timeだけ抽出）'
+        evaluation: { type: json_parse, must_have_keys: ["date","time"] }
+      - prompt: '文: "イベントは12/24 18:00"'
+        evaluation: { type: json_parse, must_have_keys: ["date","time"] }
+      - prompt: '文: "2026-02-28 00:00"'
+        evaluation: { type: json_parse, must_have_keys: ["date","time"] }
+      - prompt: '文: "9:45 開始"'
+        evaluation: { type: json_parse, must_have_keys: ["date","time"] }
+      - prompt: '文: "2025年3月3日 16時"'
+        evaluation: { type: json_parse, must_have_keys: ["date","time"] }
+      - prompt: '文: "8/9に実施（時刻未定）"'
+        evaluation: { type: json_parse, must_have_keys: ["date","time"] }
+      - prompt: '文: "2025-12-31"'
+        evaluation: { type: json_parse, must_have_keys: ["date","time"] }
+
