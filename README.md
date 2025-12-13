@@ -13,13 +13,12 @@ LM StudioのローカルAPIサーバーに対して、品質と速度（TTFT/E2E
 
 1.  依存ライブラリのインストール:
     ```bash
-    pip install -r bench/requirements.txt
-    # テストや開発も行う場合は追加で:
-    pip install -r bench/requirements-dev.txt
+    pip install -r bench/requirements.txt -r bench/requirements-dev.txt
     ```
+    (利用のみの場合は `bench/requirements.txt` だけでも構いません)
 2.  テスト用アセットの生成（初回のみ）:
     ```bash
-    python setup_assets.py
+    PYTHONPATH=. python setup_assets.py
     ```
     (プロジェクトルートで実行してください。テスト用の画像やサンプルスイートを配置します)
 
