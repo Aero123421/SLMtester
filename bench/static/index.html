@@ -12,21 +12,33 @@
 <body>
     <div class="app-container">
         <header>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="global-progress-bar"></div>
+            </div>
             <div class="header-left">
                 <button id="sidebar-toggle" class="icon-btn icon-only" title="サイドバー切替" aria-label="サイドバー切替">
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                    </svg>
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18" /></svg>
                 </button>
-                <div class="logo">LLM Benchmark <span>/ ローカル評価ツール</span></div>
+                <div class="logo">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    LLM Benchmark <span>/ ローカル評価ツール</span>
+                </div>
             </div>
             <div class="header-actions">
                 <button id="theme-toggle" class="icon-btn icon-only" title="テーマ切替" aria-label="テーマ切替">
-                    <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M21 14.5A8.5 8.5 0 0 1 9.5 3a6.5 6.5 0 1 0 11.5 11.5Z" fill="currentColor" />
+                    <svg class="icon-moon icon" viewBox="0 0 24 24">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
-                    <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12Zm0-16v2M12 20v2M4 12H2M22 12h-2M5 5 3.6 3.6M20.4 20.4 19 19M19 5l1.4-1.4M3.6 20.4 5 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    <svg class="icon-sun icon" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
                 </button>
                 <div class="connection-status" id="connection-status">
@@ -42,7 +54,12 @@
                     <form id="bench-form">
                         <!-- 1. パラメータ設定 -->
                         <details class="config-group">
-                            <summary class="config-summary">⚙️ パラメータ設定</summary>
+                            <summary class="config-summary">
+                                <div class="config-summary-title">
+                                    <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                                    パラメータ設定
+                                </div>
+                            </summary>
                             <div class="config-content">
                                 <div class="split-group">
                                     <div class="form-group">
@@ -59,94 +76,111 @@
                                     </div>
                                 </div>
 
-                                <hr style="border: 0; border-top: 1px dashed var(--border); margin: 0 0 16px 0;">
-
-                                <!-- LLMジャッジ設定 -->
                                 <div class="form-group">
                                     <label class="checkbox-label">
                                         <input type="checkbox" id="use_llm_judge">
-                                        <span>LLMジャッジを使用（semantic_match評価時）</span>
+                                        <span>LLMジャッジを使用</span>
                                     </label>
-                                    <div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">
-                                        別のLLMが回答の正誤を判定します。より正確ですが遅くなります。
+                                    <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px; margin-left: 28px;">
+                                        別のLLMが回答の正誤を判定（正確だが低速）
                                     </div>
                                 </div>
                                 <div class="form-group" id="judge-model-group" style="display: none;">
                                     <label for="judge_model">ジャッジモデル</label>
-                                    <select id="judge_model">
-                                        <option value="">（テスト対象と同じモデル）</option>
-                                    </select>
+                                    <div class="select-wrapper">
+                                        <select id="judge_model">
+                                            <option value="">（テスト対象と同じモデル）</option>
+                                        </select>
+                                    </div>
                                 </div>
 
-                                <hr style="border: 0; border-top: 1px dashed var(--border); margin: 0 0 16px 0;">
+                                <hr style="border: 0; border-top: 1px solid var(--border); margin: 20px 0;">
 
                                 <div class="form-group">
                                     <label for="base_url">API エンドポイント</label>
                                     <div class="input-with-button">
                                         <input type="text" id="base_url" value="http://localhost:1234/v1">
-                                        <button type="button" id="refresh-models-btn" class="icon-btn"
-                                            title="更新" aria-label="更新">
-                                            <svg viewBox="0 0 24 24" aria-hidden="true">
-                                                <path d="M20 12a8 8 0 1 1-2.34-5.66" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                                                <path d="M20 4v6h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                                            </svg>
+                                        <button type="button" id="refresh-models-btn" class="icon-btn" title="更新" aria-label="更新">
+                                            <svg class="icon" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
                                         </button>
                                     </div>
-                                    <div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">
-                                        ※変更後は更新ボタンを押してください</div>
                                 </div>
                             </div>
                         </details>
 
                         <!-- 2. モデル選択 -->
                         <details class="config-group" id="details-models" open>
-                            <summary class="config-summary">🤖 モデル選択</summary>
+                            <summary class="config-summary">
+                                <div class="config-summary-title">
+                                    <svg class="icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                                    モデル選択
+                                </div>
+                            </summary>
                             <div class="config-content">
                                 <div class="search-box">
-                                    <span class="search-icon">🔍</span>
+                                    <span class="search-icon">
+                                        <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                    </span>
                                     <input type="text" class="search-input" id="search-models" placeholder="モデル名で検索...">
                                 </div>
                                 <div class="model-list" id="model-list">
-                                    <div class="model-loading">読み込み中...</div>
+                                    <div class="model-loading">
+                                        <svg class="icon spinner" viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
+                                        読み込み中...
+                                    </div>
                                 </div>
                                 <div class="model-actions">
                                     <button type="button" id="select-all-btn" class="small-btn">全選択</button>
                                     <button type="button" id="deselect-all-btn" class="small-btn">全解除</button>
                                 </div>
-                                <div style="font-size: 10px; color: var(--text-muted); margin-top: 8px;">
-                                    ※GPUメモリ節約のため、複数選択しても「1モデルずつ」ロード→実行→アンロードします（同時ロードはしません）
+                                <div style="font-size: 11px; color: var(--text-muted); margin-top: 12px; line-height: 1.4;">
+                                    ※ 選択したモデルは1つずつ順次実行されます。
                                 </div>
                             </div>
                         </details>
 
                         <!-- 3. テストスイート -->
                         <details class="config-group" id="details-suites" open>
-                            <summary class="config-summary">🧪 テストスイート</summary>
-                            <div class="config-content">
-                                <div class="search-box">
-                                    <span class="search-icon">🔍</span>
-                                    <input type="text" class="search-input" id="search-suites"
-                                        placeholder="カテゴリ・テスト名で検索...">
+                            <summary class="config-summary">
+                                <div class="config-summary-title">
+                                    <svg class="icon" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke-width="0"/><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path><line x1="16" y1="8" x2="2" y2="22"></line><line x1="17.5" y1="15" x2="9" y2="15"></line></svg>
+                                    テストスイート
                                 </div>
+                            </summary>
+                            <div class="config-content">
                                 <div class="form-group">
-                                    <label for="suite_path">スイート</label>
-                                    <select id="suite_path">
-                                        <option value="bench/suite_slm.yaml" selected>SLM最適化（推奨）</option>
-                                        <option value="bench/suite_auto.yaml">自動評価（厳密出力・大量）</option>
-                                        <option value="bench/suite.yaml">従来スイート（レガシー）</option>
-                                    </select>
+                                    <label for="suite_path">スイート定義</label>
+                                    <div class="select-wrapper">
+                                        <select id="suite_path">
+                                            <option value="bench/suite_slm.yaml" selected>SLM最適化（推奨）</option>
+                                            <option value="bench/suite_auto.yaml">自動評価（厳密出力・大量）</option>
+                                            <option value="bench/suite.yaml">従来スイート（レガシー）</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="search-box">
+                                    <span class="search-icon">
+                                        <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                    </span>
+                                    <input type="text" class="search-input" id="search-suites"
+                                        placeholder="テストケースを検索...">
                                 </div>
                                 <div class="suite-info" id="suite-info">
-                                    <div class="suite-loading">テスト読み込み中...</div>
+                                    <div class="suite-loading">
+                                        <svg class="icon spinner" viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
+                                        テスト読み込み中...
+                                    </div>
                                 </div>
                             </div>
                         </details>
 
                         <div style="padding: 16px;">
                             <button type="submit" id="start-btn" disabled>
-                                <span class="btn-text">開始</span>
+                                <svg class="icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                                <span class="btn-text">実行開始</span>
                             </button>
                             <button type="button" id="stop-btn" class="danger-btn hidden">
+                                <svg class="icon" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
                                 <span class="btn-text">中止</span>
                             </button>
                         </div>
@@ -154,13 +188,17 @@
                 </section>
 
                 <section class="logs-section">
+                    <div class="logs-header">
+                        <svg class="icon icon-xs" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                        LOGS / Output
+                    </div>
                     <div id="logs-container"></div>
                 </section>
             </aside>
 
             <section class="results-area">
                 <div class="results-header">
-                    <h2>結果</h2>
+                    <h2>結果レポート</h2>
                     <div class="header-stats">
                         <div class="stat-box" id="stat-progress">
                             <div class="stat-label">進捗</div>
@@ -171,7 +209,7 @@
                             <div class="stat-value">—</div>
                         </div>
                         <div class="stat-box" id="stat-timer">
-                            <div class="stat-label">時間</div>
+                            <div class="stat-label">経過時間</div>
                             <div class="stat-value">0:00</div>
                         </div>
                     </div>
@@ -186,8 +224,10 @@
                 <div class="tab-content active" id="tab-cards">
                     <div class="cards-grid" id="results-grid">
                         <div class="empty-state">
-                            <div class="empty-icon">○</div>
-                            <div class="empty-text">ベンチマークを開始してください</div>
+                            <div class="empty-icon">
+                                <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                            </div>
+                            <div class="empty-text">左側のパネルからモデルを選択して「実行開始」を押してください</div>
                         </div>
                     </div>
                 </div>
@@ -211,8 +251,10 @@
                 <div class="tab-content" id="tab-summary">
                     <div id="summary-content">
                         <div class="empty-state">
-                            <div class="empty-icon">○</div>
-                            <div class="empty-text">完了後にサマリーが表示されます</div>
+                            <div class="empty-icon">
+                                <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                            </div>
+                            <div class="empty-text">ベンチマーク完了後にサマリーとグラフが表示されます</div>
                         </div>
                     </div>
                 </div>
@@ -223,10 +265,12 @@
             <div class="modal">
                 <div class="modal-header">
                     <h3 id="modal-title">詳細</h3>
-                    <button class="modal-close" id="modal-close">×</button>
+                    <button class="modal-close" id="modal-close">
+                        <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
                 </div>
                 <div class="modal-body">
-                    <pre id="modal-content"></pre>
+                    <div id="modal-content"></div>
                 </div>
             </div>
         </div>

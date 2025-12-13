@@ -1,3 +1,21 @@
+
+// Icons as SVG strings for reuse
+const ICONS = {
+    settings: '<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>',
+    robot: '<svg class="icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>',
+    testTube: '<svg class="icon" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke-width="0"/><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path><line x1="16" y1="8" x2="2" y2="22"></line><line x1="17.5" y1="15" x2="9" y2="15"></line></svg>',
+    search: '<svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+    copy: '<svg class="icon" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>',
+    check: '<svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>',
+    x: '<svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>',
+    chevronRight: '<svg class="icon" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>',
+    chevronDown: '<svg class="icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>',
+    edit: '<svg class="icon" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>',
+    messageSquare: '<svg class="icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>',
+    messageCircle: '<svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>',
+    barChart: '<svg class="icon" viewBox="0 0 24 24"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>'
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     // Elements
     const form = document.getElementById('bench-form');
@@ -18,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalClose = document.getElementById('modal-close');
     const modalTitle = document.getElementById('modal-title');
     const modalContent = document.getElementById('modal-content');
+    const globalProgressBar = document.getElementById('global-progress-bar');
 
     // Stats elements
     const statProgress = document.querySelector('#stat-progress .stat-value');
@@ -32,11 +51,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let availableModels = [];
     let allResults = [];
     let expectedTotal = 0;
-    let suiteInfo = null;  // テストスイート情報
+    let suiteInfo = null;
     let currentSuiteMeta = {};
     let currentSuitePath = null;
 
-    // Chart instances (avoid leaks on re-render)
+    // Chart instances
     let chartPassRate = null;
     let chartLatency = null;
     let chartCategoryPass = null;
@@ -83,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
             html += `
                 <div class="category-item">
                     <div class="category-header" data-cat="${cat.id}">
-                        <span class="category-toggle">▶</span>
+                        <span class="category-toggle">${ICONS.chevronRight}</span>
                         <span class="category-name">${cat.name}</span>
                         <span class="category-count">${cat.tests.length}</span>
                     </div>
@@ -109,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const testsEl = document.getElementById(`cat-tests-${catId}`);
                 const toggle = header.querySelector('.category-toggle');
                 testsEl.classList.toggle('hidden');
-                toggle.textContent = testsEl.classList.contains('hidden') ? '▶' : '▼';
+                toggle.innerHTML = testsEl.classList.contains('hidden') ? ICONS.chevronRight : ICONS.chevronDown;
             });
         });
     }
@@ -141,42 +160,41 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.target === modalOverlay) modalOverlay.classList.add('hidden');
         });
 
-        // ダークモード切替
+        // Theme Toggle
         const themeToggle = document.getElementById('theme-toggle');
         if (themeToggle) {
-            // 保存されたテーマを復元
             const savedTheme = localStorage.getItem('theme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
-            // ボタン内はSVGなので、textContentは変更しない
 
             themeToggle.addEventListener('click', () => {
                 const current = document.documentElement.getAttribute('data-theme');
                 const next = current === 'dark' ? 'light' : 'dark';
                 document.documentElement.setAttribute('data-theme', next);
                 localStorage.setItem('theme', next);
-                // ボタン内はSVGなので、textContentは変更しない
+                if (typeof Chart !== 'undefined' && (chartPassRate || chartLatency || chartCategoryPass)) {
+                    renderSummary(); // Re-render charts for theme colors
+                }
             });
         }
 
-        // サイドバー切替
+        // Sidebar Toggle
         const sidebarToggle = document.getElementById('sidebar-toggle');
         const sidebar = document.querySelector('.sidebar');
         if (sidebarToggle && sidebar) {
             sidebarToggle.addEventListener('click', () => {
                 sidebar.classList.toggle('collapsed');
-                // グラフのリサイズをトリガー
                 setTimeout(() => {
                     window.dispatchEvent(new Event('resize'));
                 }, 300);
             });
         }
 
-        // テーブルソート機能
+        // Table sorting
         document.querySelectorAll('.sortable').forEach(th => {
             th.addEventListener('click', () => handleSort(th));
         });
 
-        // 検索ボックス機能
+        // Search models
         const searchModels = document.getElementById('search-models');
         if (searchModels) {
             searchModels.addEventListener('input', (e) => {
@@ -188,20 +206,18 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
+        // Search suites
         const searchSuites = document.getElementById('search-suites');
         if (searchSuites) {
             searchSuites.addEventListener('input', (e) => {
                 const term = e.target.value.toLowerCase();
-
-                // カテゴリごとのフィルタリング
                 document.querySelectorAll('.category-item').forEach(group => {
                     const catName = group.querySelector('.category-name')?.textContent.toLowerCase() || '';
                     let hasVisibleTests = false;
-
-                    // テストケースのフィルタリング
                     const testsEl = group.querySelector('.category-tests');
                     const toggle = group.querySelector('.category-toggle');
                     const tests = group.querySelectorAll('.test-item');
+
                     tests.forEach(test => {
                         const testName = test.querySelector('.test-name').textContent.toLowerCase();
                         if (testName.includes(term) || catName.includes(term)) {
@@ -212,16 +228,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     });
 
-                    // カテゴリ自体の表示制御
                     if (hasVisibleTests) {
                         group.style.display = 'block';
-                        // 検索中は展開する
                         if (term.length > 0 && testsEl) {
                             testsEl.classList.remove('hidden');
-                            if (toggle) toggle.textContent = '▼';
+                            if (toggle) toggle.innerHTML = ICONS.chevronDown;
                         } else if (testsEl) {
                             testsEl.classList.add('hidden');
-                            if (toggle) toggle.textContent = '▶';
+                            if (toggle) toggle.innerHTML = ICONS.chevronRight;
                         }
                     } else {
                         group.style.display = 'none';
@@ -230,7 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // LLMジャッジ設定の連動
+        // LLM Judge toggle
         const useLlmJudge = document.getElementById('use_llm_judge');
         const judgeModelGroup = document.getElementById('judge-model-group');
         if (useLlmJudge && judgeModelGroup) {
@@ -240,14 +254,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // ソート状態
+    // Sort
     let sortColumn = null;
     let sortDirection = 'asc';
 
     function handleSort(th) {
         const column = th.dataset.sort;
-
-        // 同じ列をクリックしたら方向を反転
         if (sortColumn === column) {
             sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
         } else {
@@ -255,43 +267,21 @@ document.addEventListener('DOMContentLoaded', () => {
             sortDirection = 'asc';
         }
 
-        // ヘッダーのクラスを更新
         document.querySelectorAll('.sortable').forEach(h => {
             h.classList.remove('asc', 'desc');
         });
         th.classList.add(sortDirection);
 
-        // ソート実行
         const sorted = [...allResults].sort((a, b) => {
             let valA, valB;
-
             switch (column) {
-                case 'model':
-                    valA = a.model || '';
-                    valB = b.model || '';
-                    break;
-                case 'category':
-                    valA = a.category_name || '';
-                    valB = b.category_name || '';
-                    break;
-                case 'name':
-                    valA = a.case_name || a.case_id || '';
-                    valB = b.case_name || b.case_id || '';
-                    break;
-                case 'passed':
-                    valA = a.passed ? 1 : 0;
-                    valB = b.passed ? 1 : 0;
-                    break;
-                case 'ttft':
-                    valA = a.ttft_ms || 0;
-                    valB = b.ttft_ms || 0;
-                    break;
-                case 'e2e':
-                    valA = a.e2e_ms || 0;
-                    valB = b.e2e_ms || 0;
-                    break;
-                default:
-                    return 0;
+                case 'model': valA = a.model || ''; valB = b.model || ''; break;
+                case 'category': valA = a.category_name || ''; valB = b.category_name || ''; break;
+                case 'name': valA = a.case_name || a.case_id || ''; valB = b.case_name || b.case_id || ''; break;
+                case 'passed': valA = a.passed ? 1 : 0; valB = b.passed ? 1 : 0; break;
+                case 'ttft': valA = a.ttft_ms || 0; valB = b.ttft_ms || 0; break;
+                case 'e2e': valA = a.e2e_ms || 0; valB = b.e2e_ms || 0; break;
+                default: return 0;
             }
 
             if (typeof valA === 'string') {
@@ -302,7 +292,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // テーブルを再描画
         resultsTableBody.innerHTML = '';
         sorted.forEach((r, i) => {
             const originalIndex = allResults.indexOf(r);
@@ -367,12 +356,10 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         }).join('');
 
-        // Add change listeners for checkboxes
         modelList.querySelectorAll('input[type="checkbox"]').forEach(cb => {
             cb.addEventListener('change', updateStartButton);
         });
 
-        // ジャッジモデルのセレクトボックスを更新
         const judgeSelect = document.getElementById('judge_model');
         if (judgeSelect) {
             const currentValue = judgeSelect.value;
@@ -402,8 +389,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateStartButton() {
         const selected = getSelectedModels();
         startBtn.disabled = selected.length === 0;
-        startBtn.querySelector('.btn-text').textContent =
-            selected.length > 0 ? `ベンチマーク開始 (${selected.length} モデル)` : 'モデルを選択してください';
+        const btnText = startBtn.querySelector('.btn-text');
+        btnText.textContent = selected.length > 0 ? `ベンチマーク開始 (${selected.length} モデル)` : 'モデルを選択してください';
     }
 
     async function handleStart(e) {
@@ -415,7 +402,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Reset UI
         allResults = [];
         resultsGrid.innerHTML = '';
         resultsTableBody.innerHTML = '';
@@ -426,6 +412,7 @@ document.addEventListener('DOMContentLoaded', () => {
         statProgress.textContent = '0 / ?';
         statPassRate.textContent = '-';
         statTimer.textContent = '00:00';
+        globalProgressBar.style.width = '0%';
 
         const config = {
             base_url: baseUrlInput.value,
@@ -484,14 +471,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if (data && data.suite_meta) currentSuiteMeta = data.suite_meta;
             if (data && data.suite_path) currentSuitePath = data.suite_path;
-            // Process new logs
+
             data.logs.forEach((log, i) => {
                 if (i >= logsContainer.children.length) {
                     addLogElement(log.type, log.msg);
                 }
             });
 
-            // Process new results
             const startIndex = allResults.length;
             const newResults = data.results.slice(startIndex);
             newResults.forEach((r, i) => {
@@ -501,13 +487,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 addResultRow(r, idx);
             });
 
-            // Update stats
             updateStats();
 
             if (data.status === 'done' || data.status === 'failed' || data.status === 'cancelled') {
                 stopPolling();
                 if (data.status === 'done') {
                     addLog('success', 'ベンチマーク完了');
+                    globalProgressBar.style.width = '100%';
                 } else if (data.status === 'cancelled') {
                     addLog('warn', 'ベンチマークをキャンセルしました');
                 } else {
@@ -532,7 +518,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function resetUI() {
         startBtn.classList.remove('hidden');
         stopBtn.classList.add('hidden');
-        // currentJobIdはリセットしない（手動判定変更のため必要）
     }
 
     function addLog(type, msg) {
@@ -548,7 +533,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function addResultCard(res, resultIndex) {
-        // Remove empty state if present
         const emptyState = resultsGrid.querySelector('.empty-state');
         if (emptyState) emptyState.remove();
 
@@ -558,8 +542,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let statusClass, statusText;
         if (res.status === 'skipped') { statusClass = 'skip'; statusText = 'スキップ'; }
         else if (res.status === 'error') { statusClass = 'error'; statusText = 'エラー'; }
-        else if (res.passed) { statusClass = 'pass'; statusText = '合格'; }
-        else { statusClass = 'fail'; statusText = '不合格'; }
+        else if (res.passed) { statusClass = 'pass'; statusText = 'PASS'; }
+        else { statusClass = 'fail'; statusText = 'FAIL'; }
 
         const shortModel = res.model.length > 25 ? res.model.substring(0, 22) + '...' : res.model;
         const ttft = res.ttft_ms ? res.ttft_ms.toFixed(0) : '-';
@@ -569,7 +553,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const categoryName = res.category_name || '';
         const description = res.case_description || '';
 
-        // Variantsテストの場合は合格率を表示
         const isVariant = res.is_variant_test;
         const variantBadge = isVariant
             ? `<span class="variant-badge">${res.variant_pass_count}/${res.variant_total_count}</span>`
@@ -614,8 +597,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let statusClass, statusText;
         if (res.status === 'skipped') { statusClass = 'skip'; statusText = 'スキップ'; }
         else if (res.status === 'error') { statusClass = 'error'; statusText = 'エラー'; }
-        else if (res.passed) { statusClass = 'pass'; statusText = '合格'; }
-        else { statusClass = 'fail'; statusText = '不合格'; }
+        else if (res.passed) { statusClass = 'pass'; statusText = 'PASS'; }
+        else { statusClass = 'fail'; statusText = 'FAIL'; }
 
         const caseName = res.case_name || res.case_id;
         const categoryName = res.category_name || '';
@@ -644,10 +627,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         modalTitle.textContent = `[${categoryName}] ${caseName}`;
 
-        // モーダルコンテンツをHTML形式で構築
         let htmlContent = '<div class="modal-sections">';
 
-        // テスト情報セクション
+        // Info
         htmlContent += '<div class="modal-section">';
         htmlContent += '<h4>📋 テスト情報</h4>';
         if (description) {
@@ -659,30 +641,31 @@ document.addEventListener('DOMContentLoaded', () => {
         htmlContent += `<div class="modal-row"><span class="modal-label">モデル:</span><span class="modal-value">${escapeHtml(res.model)}</span></div>`;
         htmlContent += '</div>';
 
-        // プロンプトセクション（コピーボタン付き）
+        // Prompt
         if (testPrompt) {
             htmlContent += '<div class="modal-section">';
             htmlContent += '<div style="display:flex;justify-content:space-between;align-items:center;">';
-            htmlContent += '<h4>💬 テストプロンプト</h4>';
-            htmlContent += `<button class="copy-btn" data-copy="prompt" aria-label="プロンプトをコピー">📋 コピー</button>`;
+            htmlContent += `<h4>${ICONS.messageSquare} テストプロンプト</h4>`;
+            htmlContent += `<button class="copy-btn" data-copy="prompt" aria-label="プロンプトをコピー">${ICONS.copy} コピー</button>`;
             htmlContent += '</div>';
             htmlContent += `<pre class="modal-prompt" id="modal-prompt-text">${escapeHtml(testPrompt)}</pre>`;
             htmlContent += '</div>';
         }
 
-        // 評価結果セクション
+        // Result
         htmlContent += '<div class="modal-section">';
-        htmlContent += '<h4>📊 評価結果</h4>';
+        htmlContent += `<h4>${ICONS.barChart} 評価結果</h4>`;
         const passedClass = res.passed ? 'pass' : 'fail';
-        const passedText = res.passed ? '✓ 合格' : '✗ 不合格';
+        const passedText = res.passed ? 'PASS' : 'FAIL';
+        const passedIcon = res.passed ? ICONS.check : ICONS.x;
         const overrideNote = humanOverride !== null ? ' (手動変更済)' : '';
-        htmlContent += `<div class="modal-row"><span class="modal-label">判定:</span><span class="modal-value ${passedClass}">${passedText}${overrideNote}</span></div>`;
+        htmlContent += `<div class="modal-row"><span class="modal-label">判定:</span><span class="modal-value ${passedClass}">${passedIcon} ${passedText}${overrideNote}</span></div>`;
         if (evalReason) {
             htmlContent += `<div class="modal-row"><span class="modal-label">評価理由:</span><span class="modal-value">${escapeHtml(evalReason)}</span></div>`;
         }
         htmlContent += '</div>';
 
-        // Variants詳細がある場合
+        // Variants
         if (res.is_variant_test && res.variant_details) {
             htmlContent += '<div class="modal-section">';
             htmlContent += '<h4>📋 バリエーション詳細結果</h4>';
@@ -693,7 +676,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             res.variant_details.forEach(v => {
                 const rowClass = v.status === 'error' ? 'variant-row-error' : (v.passed ? 'variant-row-pass' : 'variant-row-fail');
-                const vStatus = v.status === 'error' ? 'エラー' : (v.passed ? '✓' : '✗');
+                const vStatus = v.status === 'error' ? 'ERR' : (v.passed ? ICONS.check : ICONS.x);
                 const vPrompt = v.prompt.length > 50 ? v.prompt.substring(0, 50) + '...' : v.prompt;
                 const vResponse = v.response.length > 50 ? v.response.substring(0, 50) + '...' : v.response;
 
@@ -709,23 +692,23 @@ document.addEventListener('DOMContentLoaded', () => {
             htmlContent += '</tbody></table>';
             htmlContent += '</div></div>';
         } else {
-            // 通常のレスポンスセクション（コピーボタン付き）
+            // Response
             htmlContent += '<div class="modal-section">';
             htmlContent += '<div style="display:flex;justify-content:space-between;align-items:center;">';
-            htmlContent += '<h4>💭 モデルのレスポンス</h4>';
-            htmlContent += `<button class="copy-btn" data-copy="response" aria-label="レスポンスをコピー">📋 コピー</button>`;
+            htmlContent += `<h4>${ICONS.messageCircle} モデルのレスポンス</h4>`;
+            htmlContent += `<button class="copy-btn" data-copy="response" aria-label="レスポンスをコピー">${ICONS.copy} コピー</button>`;
             htmlContent += '</div>';
             htmlContent += `<pre class="modal-response" id="modal-response-text">${escapeHtml(res.full_response || res.reason || '(レスポンスなし)')}</pre>`;
             htmlContent += '</div>';
         }
 
-        // 手動判定変更ボタン（インデックスがあり、ジョブIDがある場合のみ表示）
+        // Override
         if (typeof resultIndex === 'number' && currentJobId) {
             htmlContent += '<div class="modal-section modal-actions">';
-            htmlContent += '<h4>✏️ 手動で判定を変更</h4>';
+            htmlContent += `<h4>${ICONS.edit} 手動で判定を変更</h4>`;
             htmlContent += '<div class="override-buttons">';
-            htmlContent += `<button class="override-btn pass-btn" data-index="${resultIndex}" data-passed="true" ${res.passed ? 'disabled' : ''}>✓ 合格にする</button>`;
-            htmlContent += `<button class="override-btn fail-btn" data-index="${resultIndex}" data-passed="false" ${!res.passed ? 'disabled' : ''}>✗ 不合格にする</button>`;
+            htmlContent += `<button class="override-btn pass-btn" data-index="${resultIndex}" data-passed="true" ${res.passed ? 'disabled' : ''}>${ICONS.check} 合格にする</button>`;
+            htmlContent += `<button class="override-btn fail-btn" data-index="${resultIndex}" data-passed="false" ${!res.passed ? 'disabled' : ''}>${ICONS.x} 不合格にする</button>`;
             htmlContent += '</div>';
             htmlContent += '</div>';
         }
@@ -734,7 +717,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         modalContent.innerHTML = htmlContent;
 
-        // 判定変更ボタンのイベントリスナー
+        // Listeners
         modalContent.querySelectorAll('.override-btn').forEach(btn => {
             btn.addEventListener('click', async () => {
                 const index = parseInt(btn.dataset.index);
@@ -743,7 +726,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // コピーボタンのイベントリスナー
         modalContent.querySelectorAll('.copy-btn').forEach(btn => {
             btn.addEventListener('click', async () => {
                 const target = btn.dataset.copy;
@@ -759,7 +741,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     btn.textContent = '✓ コピー済';
                     btn.classList.add('copied');
                     setTimeout(() => {
-                        btn.textContent = '📋 コピー';
+                        btn.innerHTML = `${ICONS.copy} コピー`;
                         btn.classList.remove('copied');
                     }, 2000);
                 } catch (err) {
@@ -785,16 +767,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (data.success) {
                 addLog('info', data.message);
-                // ローカルデータも更新
                 if (allResults[resultIndex]) {
                     allResults[resultIndex].passed = newPassed;
                     allResults[resultIndex].human_override = newPassed;
                 }
-                // 統計を再計算
                 updateStats();
-                // モーダルを閉じる
                 modalOverlay.classList.add('hidden');
-                // カードとテーブルを更新
                 refreshResultsDisplay();
             } else {
                 addLog('error', data.error || '変更に失敗しました');
@@ -805,13 +783,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateStats() {
-        const total = expectedTotal || allResults.length;
-        statProgress.textContent = `${allResults.length} / ${total}`;
+        const total = expectedTotal || (allResults.length + 1);
+        // Note: expectedTotal comes from server, if 0 fallback to count.
+        // Calculate progress bar width
+        let pct = 0;
+        if (expectedTotal > 0) {
+            pct = Math.min(100, Math.round((allResults.length / expectedTotal) * 100));
+        }
+        statProgress.textContent = `${allResults.length} / ${expectedTotal || '?'}`;
+        globalProgressBar.style.width = `${pct}%`;
+
         renderHeaderPassRates();
     }
 
     function refreshResultsDisplay() {
-        // 結果グリッドとテーブルを再描画
         resultsGrid.innerHTML = '';
         resultsTableBody.innerHTML = '';
         allResults.forEach((r, i) => {
@@ -823,7 +808,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderSummary() {
         const container = document.getElementById('summary-content');
 
-        // Group by model
         const byModel = {};
         allResults.forEach(r => {
             if (!byModel[r.model]) byModel[r.model] = [];
@@ -841,12 +825,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let html = '';
 
-        // グラフコンテナ
         if (modelNames.length > 0 && typeof Chart !== 'undefined') {
             html += '<div class="summary-charts">';
             html += '<div class="chart-container chart-container-wide"><h4>カテゴリ別 合格率</h4><canvas id="chart-category-pass" class="chart-canvas"></canvas></div>';
-            html += '<div class="chart-container"><h4>📊 合格率比較</h4><canvas id="chart-pass-rate" class="chart-canvas"></canvas></div>';
-            html += '<div class="chart-container"><h4>⏱️ 速度比較（平均レイテンシ）</h4><canvas id="chart-latency" class="chart-canvas"></canvas></div>';
+            html += `<div class="chart-container"><h4>${ICONS.barChart} 合格率比較</h4><canvas id="chart-pass-rate" class="chart-canvas"></canvas></div>`;
+            html += '<div class="chart-container"><h4>速度比較（平均レイテンシ）</h4><canvas id="chart-latency" class="chart-canvas"></canvas></div>';
             html += '</div>';
         }
 
@@ -868,7 +851,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const overallPassed = catTotalAndRatioPass(catStats, passCriteria);
             const overallClass = overallPassed ? 'good' : 'bad';
 
-            // グラフ用データ収集
             passRates.push(rate);
             avgTtfts.push(typeof avgTtft === 'number' ? avgTtft : 0);
             avgE2es.push(typeof avgE2e === 'number' ? avgE2e : 0);
@@ -911,20 +893,18 @@ document.addEventListener('DOMContentLoaded', () => {
         html += '</div>';
         container.innerHTML = html;
 
-        // Chart.jsでグラフを描画
         if (modelNames.length > 0 && typeof Chart !== 'undefined') {
             const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
             const textColor = isDark ? '#eaeaea' : '#111111';
             const gridColor = isDark ? '#334155' : '#e0e0e0';
 
             Chart.defaults.color = textColor;
+            Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
 
-            // destroy old charts (re-render safe)
             if (chartPassRate) { chartPassRate.destroy(); chartPassRate = null; }
             if (chartLatency) { chartLatency.destroy(); chartLatency = null; }
             if (chartCategoryPass) { chartCategoryPass.destroy(); chartCategoryPass = null; }
 
-            // 合格率チャート
             const passRateCtx = document.getElementById('chart-pass-rate');
             if (passRateCtx) {
                 chartPassRate = new Chart(passRateCtx, {
@@ -934,16 +914,16 @@ document.addEventListener('DOMContentLoaded', () => {
                         datasets: [{
                             label: '合格率 (%)',
                             data: passRates,
-                            backgroundColor: passRates.map(r => r >= 70 ? 'rgba(34, 197, 94, 0.7)' : r >= 40 ? 'rgba(245, 158, 11, 0.7)' : 'rgba(220, 38, 38, 0.7)'),
-                            borderColor: passRates.map(r => r >= 70 ? '#22c55e' : r >= 40 ? '#f59e0b' : '#dc2626'),
-                            borderWidth: 1
+                            backgroundColor: passRates.map(r => r >= 70 ? 'rgba(34, 197, 94, 0.8)' : r >= 40 ? 'rgba(245, 158, 11, 0.8)' : 'rgba(239, 68, 68, 0.8)'),
+                            borderRadius: 4,
+                            borderSkipped: false
                         }]
                     },
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
                         scales: {
-                            y: { beginAtZero: true, max: 100, grid: { color: gridColor } },
+                            y: { beginAtZero: true, max: 100, grid: { color: gridColor, borderDash: [2, 4] } },
                             x: { grid: { display: false } }
                         },
                         plugins: { legend: { display: false } }
@@ -951,7 +931,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
 
-            // レイテンシチャート
             const latencyCtx = document.getElementById('chart-latency');
             if (latencyCtx) {
                 chartLatency = new Chart(latencyCtx, {
@@ -962,16 +941,14 @@ document.addEventListener('DOMContentLoaded', () => {
                             {
                                 label: 'TTFT (ms)',
                                 data: avgTtfts,
-                                backgroundColor: 'rgba(59, 130, 246, 0.7)',
-                                borderColor: '#3b82f6',
-                                borderWidth: 1
+                                backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                                borderRadius: 4
                             },
                             {
                                 label: 'E2E (ms)',
                                 data: avgE2es,
-                                backgroundColor: 'rgba(168, 85, 247, 0.7)',
-                                borderColor: '#a855f7',
-                                borderWidth: 1
+                                backgroundColor: 'rgba(168, 85, 247, 0.8)',
+                                borderRadius: 4
                             }
                         ]
                     },
@@ -979,25 +956,22 @@ document.addEventListener('DOMContentLoaded', () => {
                         responsive: true,
                         maintainAspectRatio: false,
                         scales: {
-                            y: { beginAtZero: true, grid: { color: gridColor } },
+                            y: { beginAtZero: true, grid: { color: gridColor, borderDash: [2, 4] } },
                             x: { grid: { display: false } }
                         }
                     }
                 });
             }
 
-            // カテゴリ別 合格率チャート（モデル×カテゴリ）
             const categoryCtx = document.getElementById('chart-category-pass');
             if (categoryCtx) {
                 const palette = [
-                    'rgba(34, 197, 94, 0.65)',
-                    'rgba(59, 130, 246, 0.65)',
-                    'rgba(168, 85, 247, 0.65)',
-                    'rgba(245, 158, 11, 0.65)',
-                    'rgba(239, 68, 68, 0.65)',
-                    'rgba(14, 165, 233, 0.65)',
-                    'rgba(163, 230, 53, 0.65)',
-                    'rgba(236, 72, 153, 0.65)',
+                    'rgba(34, 197, 94, 0.8)',
+                    'rgba(59, 130, 246, 0.8)',
+                    'rgba(168, 85, 247, 0.8)',
+                    'rgba(245, 158, 11, 0.8)',
+                    'rgba(239, 68, 68, 0.8)',
+                    'rgba(14, 165, 233, 0.8)',
                 ];
 
                 const labels = categoryOrder.map(c => c.name);
@@ -1010,8 +984,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             return row && row.valid > 0 ? row.rate : null;
                         }),
                         backgroundColor: palette[idx % palette.length],
-                        borderColor: palette[idx % palette.length].replace('0.65', '1.0'),
-                        borderWidth: 1
+                        borderRadius: 4,
+                        barPercentage: 0.8
                     };
                 });
 
@@ -1035,6 +1009,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // ... (helper functions remain mostly the same) ...
     function escapeHtml(text) {
         const div = document.createElement('div');
         div.textContent = text;
@@ -1188,7 +1163,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return `
             <details class="summary-details">
-                <summary>${header} / ${catStats.passedCategories}/${catStats.totalCategories} (${ratioPct}%)</summary>
+                <summary>${ICONS.chevronRight} ${header} / ${catStats.passedCategories}/${catStats.totalCategories} (${ratioPct}%)</summary>
                 <div class="summary-table-wrap">
                     <table class="summary-table" aria-label="${escapeHtml(model)} categories">
                         <thead>
