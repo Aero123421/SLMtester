@@ -70,6 +70,7 @@ python -m bench.main --suite bench/suite.yaml --models ".*"
 ```
 bench/
 ├── suite.yaml          # メインスイート（カテゴリファイルをinclude）
+├── suite_slm.yaml      # SLM最適化スイート
 ├── suite_auto.yaml     # 自動評価特化（厳密出力・大量）スイート
 ├── suites/             # カテゴリ別テストファイル
 │   ├── 01_translation.yaml   # 翻訳能力
