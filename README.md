@@ -15,7 +15,7 @@ LM StudioのローカルAPIサーバーに対して、品質と速度（TTFT/E2E
     ```bash
     pip install -r bench/requirements.txt -r bench/requirements-dev.txt
     ```
-    (利用のみの場合は `bench/requirements.txt` だけでも構いません)
+    (テスト/CIを実行する場合の例です。ツール利用のみなら `bench/requirements.txt` だけでも構いません)
 2.  テスト用アセットの生成（初回のみ）:
     ```bash
     PYTHONPATH=. python setup_assets.py
