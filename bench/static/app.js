@@ -345,14 +345,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const isLoaded = m.state === 'loaded';
 
             return `
-                <div class="model-item">
+                <label class="model-item">
                     <input type="checkbox" name="model" value="${m.id}">
                     <span class="model-name" title="${m.id}">${m.id}</span>
                     <div class="model-badges">
                         ${isLoaded ? '<span class="model-badge loaded">ON</span>' : ''}
                         ${badges.join('')}
                     </div>
-                </div>
+                </label>
             `;
         }).join('');
 
