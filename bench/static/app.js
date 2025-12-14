@@ -561,6 +561,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const ttftLabel = isVariant ? 'Avg TTFT' : 'TTFT';
         const e2eLabel = isVariant ? 'Avg E2E' : 'E2E';
 
+        // A11y: Make card interactive
+        card.setAttribute('role', 'button');
+        card.setAttribute('tabindex', '0');
+        const statusLabel = res.passed ? '合格' : (res.status === 'skipped' ? 'スキップ' : (res.status === 'error' ? 'エラー' : '不合格'));
+        const cardLabel = `モデル: ${res.model}、テスト: ${caseName}、結果: ${statusLabel}`;
+        card.setAttribute('aria-label', cardLabel);
+
         card.innerHTML = `
             <div class="card-header">
                 <div>
@@ -588,6 +595,12 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
 
         card.addEventListener('click', () => showDetail(res, resultIndex));
+        card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                showDetail(res, resultIndex);
+            }
+        });
         resultsGrid.appendChild(card);
     }
 
