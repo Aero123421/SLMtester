@@ -192,6 +192,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Table sorting
         document.querySelectorAll('.sortable').forEach(th => {
             th.addEventListener('click', () => handleSort(th));
+            th.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleSort(th);
+                }
+            });
         });
 
         // Search models
@@ -269,8 +275,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.querySelectorAll('.sortable').forEach(h => {
             h.classList.remove('asc', 'desc');
+            h.setAttribute('aria-sort', 'none');
         });
         th.classList.add(sortDirection);
+        th.setAttribute('aria-sort', sortDirection === 'asc' ? 'ascending' : 'descending');
 
         const sorted = [...allResults].sort((a, b) => {
             let valA, valB;
