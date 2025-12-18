@@ -54,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let suiteInfo = null;
     let currentSuiteMeta = {};
     let currentSuitePath = null;
+    let lastFocusedElement = null;
 
     // Chart instances
     let chartPassRate = null;
@@ -155,9 +156,19 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        modalClose.addEventListener('click', () => modalOverlay.classList.add('hidden'));
+        modalClose.addEventListener('click', closeModal);
         modalOverlay.addEventListener('click', (e) => {
-            if (e.target === modalOverlay) modalOverlay.classList.add('hidden');
+            if (e.target === modalOverlay) closeModal();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (modalOverlay.classList.contains('hidden')) return;
+
+            if (e.key === 'Escape') {
+                closeModal();
+            } else if (e.key === 'Tab') {
+                trapFocus(e);
+            }
         });
 
         // Theme Toggle
@@ -630,6 +641,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showDetail(res, resultIndex) {
+        lastFocusedElement = document.activeElement;
         const caseName = res.case_name || res.case_id;
         const categoryName = res.category_name || '';
         const description = res.case_description || '';
@@ -764,6 +776,45 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         modalOverlay.classList.remove('hidden');
+        // Focus management: move focus to the modal close button or first interactive element
+        // setTimeout ensures the DOM is updated and transition starts
+        setTimeout(() => {
+            if (modalClose) modalClose.focus();
+        }, 50);
+    }
+
+    function closeModal() {
+        modalOverlay.classList.add('hidden');
+        if (lastFocusedElement) {
+            lastFocusedElement.focus();
+        }
+    }
+
+    function trapFocus(e) {
+        const modal = document.querySelector('.modal');
+        const focusableElements = modal.querySelectorAll(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+
+        if (focusableElements.length === 0) {
+            e.preventDefault();
+            return;
+        }
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (e.shiftKey) { // Shift + Tab
+            if (document.activeElement === firstElement) {
+                lastElement.focus();
+                e.preventDefault();
+            }
+        } else { // Tab
+            if (document.activeElement === lastElement) {
+                firstElement.focus();
+                e.preventDefault();
+            }
+        }
     }
 
     async function overrideResult(resultIndex, newPassed) {
