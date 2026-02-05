@@ -69,6 +69,19 @@ document.addEventListener('DOMContentLoaded', () => {
             loadSuiteInfo()
         ]);
         setupEventListeners();
+
+        // Initial check for clear buttons (in case of browser restoration)
+        const searchModels = document.getElementById('search-models');
+        const clearSearchModels = document.getElementById('clear-search-models');
+        if (searchModels && clearSearchModels && searchModels.value) {
+            clearSearchModels.classList.remove('hidden');
+        }
+
+        const searchSuites = document.getElementById('search-suites');
+        const clearSearchSuites = document.getElementById('clear-search-suites');
+        if (searchSuites && clearSearchSuites && searchSuites.value) {
+            clearSearchSuites.classList.remove('hidden');
+        }
     }
 
     async function loadSuiteInfo() {
@@ -202,21 +215,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Search models
         const searchModels = document.getElementById('search-models');
+        const clearSearchModels = document.getElementById('clear-search-models');
         if (searchModels) {
             searchModels.addEventListener('input', (e) => {
                 const term = e.target.value.toLowerCase();
+                if (clearSearchModels) {
+                    clearSearchModels.classList.toggle('hidden', term === '');
+                }
                 document.querySelectorAll('.model-item').forEach(item => {
                     const name = item.querySelector('.model-name').textContent.toLowerCase();
                     item.style.display = name.includes(term) ? 'flex' : 'none';
                 });
             });
+
+            if (clearSearchModels) {
+                clearSearchModels.addEventListener('click', () => {
+                    searchModels.value = '';
+                    searchModels.dispatchEvent(new Event('input'));
+                    searchModels.focus();
+                });
+            }
         }
 
         // Search suites
         const searchSuites = document.getElementById('search-suites');
+        const clearSearchSuites = document.getElementById('clear-search-suites');
         if (searchSuites) {
             searchSuites.addEventListener('input', (e) => {
                 const term = e.target.value.toLowerCase();
+                if (clearSearchSuites) {
+                    clearSearchSuites.classList.toggle('hidden', term === '');
+                }
                 document.querySelectorAll('.category-item').forEach(group => {
                     const catName = group.querySelector('.category-name')?.textContent.toLowerCase() || '';
                     let hasVisibleTests = false;
@@ -248,6 +277,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 });
             });
+
+            if (clearSearchSuites) {
+                clearSearchSuites.addEventListener('click', () => {
+                    searchSuites.value = '';
+                    searchSuites.dispatchEvent(new Event('input'));
+                    searchSuites.focus();
+                });
+            }
         }
 
         // LLM Judge toggle
